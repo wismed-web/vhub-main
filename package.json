@@ -10,7 +10,12 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "vue": "^3.2.45"
+    "@fortawesome/fontawesome-svg-core": "^6.3.0",
+    "@fortawesome/free-solid-svg-icons": "^6.3.0",
+    "@fortawesome/vue-fontawesome": "^3.0.3",
+    "unplugin-auto-import": "^0.15.1",
+    "vue": "^3.2.45",
+    "vue3-spinner": "^0.0.16"
   },
   "devDependencies": {
     "@types/node": "^18.11.12",
