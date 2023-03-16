@@ -1,25 +1,73 @@
 <template>
-    <header>
-        <div class="wrapper">
-        </div>
+    <header v-if="display">
+        <UserBar />
     </header>
+    <main v-if="display">
+        <Loader id="page-loader" />
+        <BtnCompose />
+        <div>
 
-    <main>
-        <Loader id="page-loader"/>
+        </div>
     </main>
 </template>
 
 <script setup lang="ts">
+
+import { useCookies } from "vue3-cookies";
+import { loginUser, loginAuth, loginToken, getUname, Mode } from "@/share/share";
 import Loader from "@/components/Loader.vue"
+import BtnCompose from "@/components/BtnCompose.vue";
+import UserBar from "./components/UserBar.vue";
+
+const { cookies } = useCookies();
+const HeightOfContent = ref((window.innerHeight * 0.9).toString() + "px");
+const display = ref(false);
+
+onMounted(async () => {
+
+    // *** from cookie ***
+    // console.log(`${window.location.hostname} ---> ${cookies.keys()}`)
+
+    const token = cookies.get("token")
+    loginToken.value = token;
+    loginAuth.value = "Bearer " + token;
+
+    // console.log(token)
+
+    if (loginAuth.value.length < 128) {
+
+        alert("invalid auth info");
+        display.value = false;
+
+    } else {
+
+        // fill loginUser, already 'ping' back-end api
+        getUname(); // in this, read 'loginAuth.value'
+
+        await new Promise((f) => setTimeout(f, 500));
+        if (loginUser.value.length > 0) {
+            display.value = true;
+            // alert(loginUser.value)
+        }
+    }
+});
+
 </script>
 
 <style scoped>
-
 #page-loader {
     position: absolute;
-    top: 40%;
+    top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
+#right {
+    width: 75%;
+    height: 92%;
+    margin-left: 0%;
+    background-color: rgb(200, 200, 200);
+    overflow-y: scroll;
+    height: v-bind(HeightOfContent);
+}
 </style>

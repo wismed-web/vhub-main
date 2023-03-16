@@ -13,8 +13,11 @@
     "@fortawesome/fontawesome-svg-core": "^6.3.0",
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@fortawesome/vue-fontawesome": "^3.0.3",
+    "@unoverlays/vue": "^0.4.0",
     "unplugin-auto-import": "^0.15.1",
     "vue": "^3.2.45",
+    "vue-demi": "^0.13.11",
+    "vue3-cookies": "^1.0.6",
     "vue3-spinner": "^0.0.16"
   },
   "devDependencies": {
