@@ -2,16 +2,61 @@
     <div id="modal" v-if="visible">
         <img id="img-area" src="/favicon.ico" alt="avatar" @click="setAvatar()">
         <div class="row1">
-            <label class="lbl-col1" for="val-user">user &nbsp;</label><input type="text" id="val-user" v-bind:value="loginUser" disabled />
-            <label class="lbl-col2" for="val-name">name </label><input type="text" id="val-name" v-bind:value="loginSelfInfo.name" />
+            <label class="lbl-col1" for="val-user">user &nbsp;</label><input type="text" id="val-user" v-model="loginUser" disabled />
+            <label class="lbl-col2" for="val-name">name </label><input type="text" id="val-name" v-model="loginSelfInfo.name" />
         </div>
-        <div class="row2">
-            <label class="lbl-col1" for="val-email">email </label><input type="text" id="val-email" v-bind:value="loginSelfInfo.email" disabled />
-            <label class="lbl-col2" for="val-role">role </label><input type="text" id="val-role" v-bind:value="loginSelfInfo.role" />
+        <div class="row">
+            <label class="lbl-col1" for="val-email">email </label><input type="text" id="val-email" v-model="loginSelfInfo.email" disabled />
+            <label class="lbl-col2" for="val-dob">dob &nbsp;</label><input type="text" id="val-dob" v-model="loginSelfInfo.dob" />
         </div>
-        <!-- addr bio certified city country dob email employer expire gender level official personalid personaltype phone regtime title  -->
-        <button id="btn-confirm" @click="confirm()">confirm</button>
-        <button id="btn-cancel" @click="cancel()">cancel</button>
+        <div class="row">
+            <label class="lbl-col1" for="val-phone">phone </label><input type="text" id="val-phone" v-model="loginSelfInfo.phone" />
+            <label class="lbl-col2" for="val-gender">gender </label>
+            <select name="gender" id="val-gender" v-model="loginSelfInfo.gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+        </div>
+        <div class="row">
+            <label class="lbl-col1" for="val-city">city </label><input type="text" id="val-city" v-model="loginSelfInfo.city" />
+            <label class="lbl-col2" for="val-country">country </label><input type="text" id="val-country" v-model="loginSelfInfo.country" />
+            <label class="lbl-col3" for="val-addr">address </label><input type="text" id="val-addr" v-model="loginSelfInfo.addr" />
+        </div>
+        <div class="row">
+            <label class="lbl-col1" for="val-bio">bio &nbsp;</label><input type="text" id="val-bio" v-model="loginSelfInfo.bio" />
+
+        </div>
+        <div class="row">
+            <label class="lbl-col1" for="val-certified">certified </label><input type="text" id="val-certified" v-model="loginSelfInfo.certified" disabled />
+            <label class="lbl-col2" for="val-role">role </label><input type="text" id="val-role" v-model="loginSelfInfo.role" disabled />
+            <!-- <label class="lbl-col5" for="val-"> &nbsp;</label><input type="text" id="val-" v-model="loginSelfInfo." /> -->
+        </div>
+
+        <div class="row">
+            <label class="lbl-col1" for="val-bio">bio &nbsp;</label><input type="text" id="val-bio" v-model="loginSelfInfo.bio" />
+
+        </div>
+
+        <div class="row">
+            <label class="lbl-col1" for="val-bio">bio &nbsp;</label><input type="text" id="val-bio" v-model="loginSelfInfo.bio" />
+
+            <!-- <label class="lbl-col4" for="val-"> &nbsp;</label><input type="text" id="val-" v-model="loginSelfInfo." />
+            <label class="lbl-col5" for="val-"> &nbsp;</label><input type="text" id="val-" v-model="loginSelfInfo." /> -->
+
+        </div>
+
+        <div class="row">
+            <label class="lbl-col1" for="val-bio">bio &nbsp;</label><input type="text" id="val-bio" v-model="loginSelfInfo.bio" />
+
+            <!-- <label class="lbl-col4" for="val-"> &nbsp;</label><input type="text" id="val-" v-model="loginSelfInfo." />
+            <label class="lbl-col5" for="val-"> &nbsp;</label><input type="text" id="val-" v-model="loginSelfInfo." /> -->
+
+        </div>
+
+        <!-- employer expire level official personalid personaltype regtime title -->
+
+        <button id="btn-confirm" @click="confirm('confirm')">confirm</button>
+        <button id="btn-cancel" @click="cancel('cancel')">cancel</button>
     </div>
 </template>
 
@@ -25,9 +70,8 @@ const setAvatar = async () => {
 };
 
 const props = defineProps({
-    // If you want to use it as a component in template,
-    // you need to define visible in props
-    visible: Boolean
+    // visible: Boolean
+    title: String
 })
 
 // Define the events used in the component(optional)
@@ -43,8 +87,6 @@ const { visible, confirm, cancel } = useOverlayMeta({
 
 ///////////////////////////////////////////////////////
 
-// for invoker confirm using
-
 // *** style variables ***
 
 // for buttons
@@ -57,7 +99,7 @@ let bottomRow1 = '10px'
 <style scoped>
 #modal {
     position: fixed;
-    top: 50%;
+    top: 45%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 50%;
@@ -67,9 +109,11 @@ let bottomRow1 = '10px'
     border-radius: 10px;
 }
 
+/* image */
+
 #img-area {
-    float: left;
-    margin-left: 2%;
+    float: right;
+    margin-right: 2%;
     margin-top: 2%;
     width: 10%;
     background-color: rgb(219, 196, 243);
@@ -79,7 +123,10 @@ let bottomRow1 = '10px'
     cursor: pointer;
 }
 
-.row1, .row2 {
+/* row */
+
+.row1,
+.row {
     color: red;
     font-family: 'Courier New', Courier, monospace;
     font-size: large;
@@ -90,16 +137,28 @@ let bottomRow1 = '10px'
     margin-top: 5%;
 }
 
-.row2 {
-    margin-top: 1%;
+.row {
+    margin-top: 2%;
 }
 
+/* col */
+
 .lbl-col1 {
-    margin-left: 10%;
+    margin-left: 5%;
 }
 
 .lbl-col2 {
     margin-left: 8%;
+}
+
+.lbl-col3 {
+    margin-left: 5%;
+}
+
+/* value */
+
+#val-addr {
+    width: 10%;
 }
 
 /* button */

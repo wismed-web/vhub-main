@@ -14,7 +14,7 @@ const self = async () => {
     return (await getUserList(loginUser.value, ''))[0]
 }
 
-export const getUname = async () => {
+export const fillSelf = async () => {
     const rt = (await fetchNoBody(
         "api/user/auth/uname",
         "GET",
@@ -77,10 +77,14 @@ export const getUserOnline = async () => {
 //     return onlines.includes(uname)
 // }
 
-export const setUser = async (uname: string, data: any) => {
-    const fields = 'Active,SysRole'
+export const putUser = async (uname: string, data: any) => {
+    const fields = 'Name,DOB,Phone,City,Active,SysRole' // => struct field name;
     const mForm = new Map<string, any>([
         ["uname", uname],
+        ["Name", data.name],
+        ["DOB", data.dob],
+        ["Phone", data.phone],
+        ["City", data.city],
         ["SysRole", data.admin ? "admin" : ""],
         ["Active", data.active]
     ]);

@@ -14,7 +14,7 @@
 <script setup lang="ts">
 
 import { useCookies } from "vue3-cookies";
-import { loginUser, loginAuth, loginToken, getUname, Mode } from "@/share/share";
+import { loginUser, loginAuth, loginToken, fillSelf, Mode } from "@/share/share";
 import Loader from "@/components/Loader.vue"
 import BtnCompose from "@/components/BtnCompose.vue";
 import UserBar from "./components/UserBar.vue";
@@ -42,7 +42,7 @@ onMounted(async () => {
     } else {
 
         // fill loginUser, already 'ping' back-end api
-        getUname(); // in this, read 'loginAuth.value'
+        fillSelf(); // in this, read 'loginAuth.value'
 
         await new Promise((f) => setTimeout(f, 500));
         if (loginUser.value.length > 0) {

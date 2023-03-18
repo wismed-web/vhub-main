@@ -1,42 +1,48 @@
 <template>
     <div class="user-bar">
-        <img src="/favicon.ico" alt="avatar" class="img-area" @click="setUser()">
+        <img src="/favicon.ico" alt="avatar" class="img-area" @click="popupUserModal()">
         <div class="name-area">
             <p>@{{ loginUser }}</p>
             <p>{{ loginSelfInfo.name }}</p>
         </div>
-        <UserBarModal v-bind:visible="showModal"  @confirm="confirm" @cancel="cancel" />
     </div>
 </template>
 
 <script setup lang="ts">
 
+import { useOverlayMeta, renderOverlay } from '@unoverlays/vue'
 import { useCookies } from "vue3-cookies";
 import { Domain, IP_CMS } from "@/share/ip";
-import { loginUser, loginToken, loginAuth, loginSelfInfo } from "@/share/share"
+import { loginUser, loginToken, loginAuth, loginSelfInfo, putUser, fillSelf } from "@/share/share"
 import UserBarModal from "@/components/UserBarModal.vue"
 
-const { cookies } = useCookies();
-const showModal = ref(false)
-
-const setUser = async () => {
+const popupUserModal = async () => {
 
     // *** 'kind', now in cookie ***
     // cookies.set("kind", `${selKind.value}`, "1d", "/", "." + Domain, false, "Lax");
     // cookies.set("name", ``, "1d", "/", "." + Domain, false, "Lax");
     // location.replace(`${IP_CMS}`)
 
-    showModal.value = true;
+    await fillSelf()
 
+    try {
+        switch (String(await renderOverlay(UserBarModal, { props: { title: 'userModal' }, }))) {
+            case 'confirm':
+                await putUser(loginUser.value, loginSelfInfo.value)
+                break
+        }
+    } catch (e) {
+        switch (e) {
+            case 'cancel':
+                break
+        }
+    }
+
+    await fillSelf()
 };
 
-const confirm = async (result: any) => {
-    showModal.value = false;
-}
+watchEffect(async () => { })
 
-const cancel = async () => {
-    showModal.value = false
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
