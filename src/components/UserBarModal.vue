@@ -70,7 +70,7 @@ const setAvatar = async () => {
 };
 
 const props = defineProps({
-    // visible: Boolean
+    // visible: Boolean,
     title: String
 })
 

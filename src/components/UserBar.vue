@@ -16,6 +16,9 @@ import { Domain, IP_CMS } from "@/share/ip";
 import { loginUser, loginToken, loginAuth, loginSelfInfo, putUser, fillSelf } from "@/share/share"
 import UserBarModal from "@/components/UserBarModal.vue"
 
+// flag for single modal
+const showModal = ref(false)
+
 const popupUserModal = async () => {
 
     // *** 'kind', now in cookie ***
@@ -23,6 +26,11 @@ const popupUserModal = async () => {
     // cookies.set("name", ``, "1d", "/", "." + Domain, false, "Lax");
     // location.replace(`${IP_CMS}`)
 
+    if (showModal.value) {
+        return
+    }
+
+    showModal.value = true
     await fillSelf()
 
     try {
@@ -39,6 +47,7 @@ const popupUserModal = async () => {
     }
 
     await fillSelf()
+    showModal.value = false
 };
 
 watchEffect(async () => { })
