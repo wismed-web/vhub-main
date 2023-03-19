@@ -1,14 +1,14 @@
 <template>
     <div v-if="showCropper" class="cropper-uploader">
 
-        <Cropper class="cropper" :src="img" @change="change"> </Cropper>
+        <div class="cropper-border">
+            <Cropper class="cropper" :src="img" @change="cropperChange"> </Cropper>
+        </div>
 
         <button class="btn" @click="cancel('cancel')">cancel</button>
-
-        <button class="btn" @click="open('submit')">submit</button>
-
-        <button class="btn" onclick="document.getElementById('inputId').click()">open</button>
-        <input id="inputId" type='file' style="visibility:hidden;" />
+        <button class="btn" @click="submit('submit')">submit</button>
+        <button class="btn" onclick="document.getElementById('inputId').click()">select image</button>
+        <input id="inputId" type='file' style="visibility:hidden;" accept="image/*" @change="imgChange" />
 
     </div>
 </template>
@@ -24,19 +24,23 @@ const props = defineProps({
 })
 
 // https://github.com/advanced-cropper/vue-advanced-cropper
-const img = ref("/favicon.ico")
+const img = ref("")
 
-const change = async ({ coordinates, canvas }) => {
+const cropperChange = async ({ coordinates, canvas }) => {
     console.log(coordinates, canvas)
 }
 
-const open = async ({ param: any }) => {
+const imgChange = (event) => {
+    console.log(event.target.files[0])
+    const blob = window.URL.createObjectURL(event.target.files[0])
+    img.value = blob
 }
 
 const submit = async ({ param: any }) => {
 }
 
 const cancel = async ({ param: any }) => {
+    img.value = ""
     showCropper.value = false
     showUserModal.value = true
 }
@@ -51,14 +55,22 @@ const cancel = async ({ param: any }) => {
     transform: translate(-50%, -50%);
     width: 50%;
     height: 50%;
-    background-color: rgb(220, 220, 220);
+    background-color: rgb(200, 200, 200);
     opacity: 0.99;
     border-radius: 10px;
 }
 
+.cropper-border {
+    width: 96%;
+    height: 87%;
+    margin-top: 2%;
+    margin-left: 2%;
+    background-color: rgb(100, 100, 100);;
+}
+
 .cropper {
-    position: relative;
-    margin-top: 1%;
+    width: fit-content;
+    height: fit-content;
 }
 
 .btn {
