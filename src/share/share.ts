@@ -5,6 +5,8 @@ export const loginToken = ref(""); // without 'Bearer '
 export const loginAuth = ref(""); // with 'Bearer '
 export const loginSelfInfo = ref();
 export const Mode = ref("normal"); // 'normal' or 'approval', or 'admin'
+export const showUserModal = ref(true);
+export const showCropper = ref(false);
 
 //////////////////////////////////////////////////////////////////////////////////////
 

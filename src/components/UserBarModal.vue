@@ -1,5 +1,5 @@
 <template>
-    <div id="modal" v-if="visible">
+    <div id="modal" v-if="showUserModal">
         <img id="img-area" src="/favicon.ico" alt="avatar" @click="setAvatar()">
         <div class="row1">
             <label class="lbl-col1" for="val-user">user &nbsp;</label><input type="text" id="val-user" v-model="loginUser" disabled />
@@ -41,7 +41,7 @@
             <label class="lbl-col1" for="val-bio">bio &nbsp;</label><input type="text" id="val-bio" v-model="loginSelfInfo.bio" />
 
             <!-- <label class="lbl-col4" for="val-"> &nbsp;</label><input type="text" id="val-" v-model="loginSelfInfo." />
-            <label class="lbl-col5" for="val-"> &nbsp;</label><input type="text" id="val-" v-model="loginSelfInfo." /> -->
+                    <label class="lbl-col5" for="val-"> &nbsp;</label><input type="text" id="val-" v-model="loginSelfInfo." /> -->
 
         </div>
 
@@ -49,7 +49,7 @@
             <label class="lbl-col1" for="val-bio">bio &nbsp;</label><input type="text" id="val-bio" v-model="loginSelfInfo.bio" />
 
             <!-- <label class="lbl-col4" for="val-"> &nbsp;</label><input type="text" id="val-" v-model="loginSelfInfo." />
-            <label class="lbl-col5" for="val-"> &nbsp;</label><input type="text" id="val-" v-model="loginSelfInfo." /> -->
+                    <label class="lbl-col5" for="val-"> &nbsp;</label><input type="text" id="val-" v-model="loginSelfInfo." /> -->
 
         </div>
 
@@ -58,19 +58,23 @@
         <button id="btn-confirm" @click="confirm('confirm')">confirm</button>
         <button id="btn-cancel" @click="cancel('cancel')">cancel</button>
     </div>
+
+    <CropperUploader />
+
 </template>
 
 <script setup lang="ts">
 
-import { loginUser, loginToken, loginAuth, loginSelfInfo } from "@/share/share"
+import { loginUser, loginToken, loginAuth, loginSelfInfo, showUserModal, showCropper } from "@/share/share"
 import { useOverlayMeta } from '@unoverlays/vue'
+import CropperUploader from "@/components/CropperUploader.vue";
 
 const setAvatar = async () => {
-    alert('hello')
+    showCropper.value = true
+    showUserModal.value = false
 };
 
 const props = defineProps({
-    // visible: Boolean,
     title: String
 })
 
@@ -82,7 +86,7 @@ defineEmits(['cancel', 'confirm', 'update:visible'])
 const { visible, confirm, cancel } = useOverlayMeta({
     // Animation duration to avoid premature destruction of components
     // Only use component in template and no need to define
-    animation: 1000
+    animation: 200
 })
 
 ///////////////////////////////////////////////////////
@@ -117,6 +121,7 @@ let bottomRow1 = '10px'
     margin-top: 2%;
     width: 10%;
     background-color: rgb(219, 196, 243);
+    border-radius: 100%;
 }
 
 #img-area:hover {
