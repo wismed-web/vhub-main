@@ -1,9 +1,9 @@
 <template>
     <div class="user-bar">
-        <img src="/favicon.ico" alt="avatar" class="img-area" @click="popupUserModal()">
+        <img :src="selfAvatar" alt="avatar" class="img-area" @click="popupSelfModal()">
         <div class="name-area">
             <p>@{{ loginUser }}</p>
-            <p>{{ loginSelfInfo.name }}</p>
+            <p>{{ selfInfo.name }}</p>
         </div>
     </div>
 </template>
@@ -13,30 +13,30 @@
 import { useOverlayMeta, renderOverlay } from '@unoverlays/vue'
 import { useCookies } from "vue3-cookies";
 import { Domain, IP_CMS } from "@/share/ip";
-import { loginUser, loginToken, loginAuth, loginSelfInfo, putUser, fillSelf } from "@/share/share"
+import { loginUser, loginToken, loginAuth, selfInfo, getAvatar, selfAvatar, putUser, fillSelf } from "@/share/share"
 import UserBarModal from "@/components/UserBarModal.vue"
 
 // flag for single modal
-const showModal = ref(false)
+const showingModal = ref(false)
 
-const popupUserModal = async () => {
+const popupSelfModal = async () => {
 
     // *** 'kind', now in cookie ***
     // cookies.set("kind", `${selKind.value}`, "1d", "/", "." + Domain, false, "Lax");
     // cookies.set("name", ``, "1d", "/", "." + Domain, false, "Lax");
     // location.replace(`${IP_CMS}`)
 
-    if (showModal.value) {
+    if (showingModal.value) {
         return
     }
 
-    showModal.value = true
+    showingModal.value = true
     await fillSelf()
 
     try {
         switch (String(await renderOverlay(UserBarModal, { props: { title: 'userModal' }, }))) {
             case 'confirm':
-                await putUser(loginUser.value, loginSelfInfo.value)
+                await putUser(loginUser.value, selfInfo.value)
                 break
         }
     } catch (e) {
@@ -47,8 +47,14 @@ const popupUserModal = async () => {
     }
 
     await fillSelf()
-    showModal.value = false
+    showingModal.value = false
 };
+
+onMounted(async () => {
+    await new Promise((f) => setTimeout(f, 200));
+    await getAvatar();
+    console.log(selfAvatar.value)
+})
 
 watchEffect(async () => { })
 
@@ -70,9 +76,11 @@ watchEffect(async () => { })
 
 .img-area {
     float: left;
-    margin-top: 10%;
-    margin-left: 10%;
-    color: white;
+    color: rgb(33, 31, 31);
+    width: 40%;
+    height: 100%;
+    border-radius: 20%;
+    object-fit: contain;
 }
 
 .img-area:hover {

@@ -1,55 +1,55 @@
 <template>
-    <div id="modal" v-if="showUserModal">
-        <img id="img-area" src="/favicon.ico" alt="avatar" @click="setAvatar()">
+    <div id="modal" v-if="showProfile">
+        <img id="img-area" :src="selfAvatar" alt="avatar" @click="popupSetAvatar()">
         <div class="row1">
             <label class="lbl-col1" for="val-user">user &nbsp;</label><input type="text" id="val-user" v-model="loginUser" disabled />
-            <label class="lbl-col2" for="val-name">name </label><input type="text" id="val-name" v-model="loginSelfInfo.name" />
+            <label class="lbl-col2" for="val-name">name </label><input type="text" id="val-name" v-model="selfInfo.name" />
         </div>
         <div class="row">
-            <label class="lbl-col1" for="val-email">email </label><input type="text" id="val-email" v-model="loginSelfInfo.email" disabled />
-            <label class="lbl-col2" for="val-dob">dob &nbsp;</label><input type="text" id="val-dob" v-model="loginSelfInfo.dob" />
+            <label class="lbl-col1" for="val-email">email </label><input type="text" id="val-email" v-model="selfInfo.email" disabled />
+            <label class="lbl-col2" for="val-dob">dob &nbsp;</label><input type="text" id="val-dob" v-model="selfInfo.dob" />
         </div>
         <div class="row">
-            <label class="lbl-col1" for="val-phone">phone </label><input type="text" id="val-phone" v-model="loginSelfInfo.phone" />
+            <label class="lbl-col1" for="val-phone">phone </label><input type="text" id="val-phone" v-model="selfInfo.phone" />
             <label class="lbl-col2" for="val-gender">gender </label>
-            <select name="gender" id="val-gender" v-model="loginSelfInfo.gender">
+            <select name="gender" id="val-gender" v-model="selfInfo.gender">
                 <option value="male">Male</option>
                 <option value="female">Female</option>
             </select>
         </div>
         <div class="row">
-            <label class="lbl-col1" for="val-city">city </label><input type="text" id="val-city" v-model="loginSelfInfo.city" />
-            <label class="lbl-col2" for="val-country">country </label><input type="text" id="val-country" v-model="loginSelfInfo.country" />
-            <label class="lbl-col3" for="val-addr">address </label><input type="text" id="val-addr" v-model="loginSelfInfo.addr" />
+            <label class="lbl-col1" for="val-city">city </label><input type="text" id="val-city" v-model="selfInfo.city" />
+            <label class="lbl-col2" for="val-country">country </label><input type="text" id="val-country" v-model="selfInfo.country" />
+            <label class="lbl-col3" for="val-addr">address </label><input type="text" id="val-addr" v-model="selfInfo.addr" />
         </div>
         <div class="row">
-            <label class="lbl-col1" for="val-bio">bio &nbsp;</label><input type="text" id="val-bio" v-model="loginSelfInfo.bio" />
+            <label class="lbl-col1" for="val-bio">bio &nbsp;</label><input type="text" id="val-bio" v-model="selfInfo.bio" />
 
         </div>
         <div class="row">
-            <label class="lbl-col1" for="val-certified">certified </label><input type="text" id="val-certified" v-model="loginSelfInfo.certified" disabled />
-            <label class="lbl-col2" for="val-role">role </label><input type="text" id="val-role" v-model="loginSelfInfo.role" disabled />
-            <!-- <label class="lbl-col5" for="val-"> &nbsp;</label><input type="text" id="val-" v-model="loginSelfInfo." /> -->
-        </div>
-
-        <div class="row">
-            <label class="lbl-col1" for="val-bio">bio &nbsp;</label><input type="text" id="val-bio" v-model="loginSelfInfo.bio" />
-
+            <label class="lbl-col1" for="val-certified">certified </label><input type="text" id="val-certified" v-model="selfInfo.certified" disabled />
+            <label class="lbl-col2" for="val-role">role </label><input type="text" id="val-role" v-model="selfInfo.role" disabled />
+            <!-- <label class="lbl-col5" for="val-"> &nbsp;</label><input type="text" id="val-" v-model="selfInfo." /> -->
         </div>
 
         <div class="row">
-            <label class="lbl-col1" for="val-bio">bio &nbsp;</label><input type="text" id="val-bio" v-model="loginSelfInfo.bio" />
-
-            <!-- <label class="lbl-col4" for="val-"> &nbsp;</label><input type="text" id="val-" v-model="loginSelfInfo." />
-                    <label class="lbl-col5" for="val-"> &nbsp;</label><input type="text" id="val-" v-model="loginSelfInfo." /> -->
+            <label class="lbl-col1" for="val-bio">bio &nbsp;</label><input type="text" id="val-bio" v-model="selfInfo.bio" />
 
         </div>
 
         <div class="row">
-            <label class="lbl-col1" for="val-bio">bio &nbsp;</label><input type="text" id="val-bio" v-model="loginSelfInfo.bio" />
+            <label class="lbl-col1" for="val-bio">bio &nbsp;</label><input type="text" id="val-bio" v-model="selfInfo.bio" />
 
-            <!-- <label class="lbl-col4" for="val-"> &nbsp;</label><input type="text" id="val-" v-model="loginSelfInfo." />
-                    <label class="lbl-col5" for="val-"> &nbsp;</label><input type="text" id="val-" v-model="loginSelfInfo." /> -->
+            <!-- <label class="lbl-col4" for="val-"> &nbsp;</label><input type="text" id="val-" v-model="selfInfo." />
+                    <label class="lbl-col5" for="val-"> &nbsp;</label><input type="text" id="val-" v-model="selfInfo." /> -->
+
+        </div>
+
+        <div class="row">
+            <label class="lbl-col1" for="val-bio">bio &nbsp;</label><input type="text" id="val-bio" v-model="selfInfo.bio" />
+
+            <!-- <label class="lbl-col4" for="val-"> &nbsp;</label><input type="text" id="val-" v-model="selfInfo." />
+                    <label class="lbl-col5" for="val-"> &nbsp;</label><input type="text" id="val-" v-model="selfInfo." /> -->
 
         </div>
 
@@ -59,23 +59,28 @@
         <button id="btn-cancel" @click="cancel('cancel')">cancel</button>
     </div>
 
-    <CropperUploader />
-
+    <CropperForm :visible="showCropper" title="set avatar:" btnConfirmText="set avatar" :maxCropW="800" :maxCropH="600" @cropReady="cropReady" @cropCancel="cropCancel" />
+    <Loader v-if="showPageLoader" id="page-loader" />
 </template>
 
 <script setup lang="ts">
 
-import { loginUser, loginToken, loginAuth, loginSelfInfo, showUserModal, showCropper } from "@/share/share"
+import Loader from "@/components/Loader.vue"
+import { loginUser, loginToken, loginAuth, selfInfo, selfAvatar, setAvatar, getAvatar } from "@/share/share"
 import { useOverlayMeta } from '@unoverlays/vue'
-import CropperUploader from "@/components/CropperUploader.vue";
+import CropperForm from "@/components/sub-components/CropperForm.vue";
 
-const setAvatar = async () => {
+const showProfile = ref(true);
+const showCropper = ref(false);
+const showPageLoader = ref(false);
+
+const popupSetAvatar = async () => {
+    showProfile.value = false
     showCropper.value = true
-    showUserModal.value = false
 };
 
 const props = defineProps({
-    title: String
+    title: String,
 })
 
 // Define the events used in the component(optional)
@@ -88,6 +93,22 @@ const { visible, confirm, cancel } = useOverlayMeta({
     // Only use component in template and no need to define
     animation: 200
 })
+
+///////////////////////////////////////////////////////
+
+const cropReady = async (file: string, cropArea: any) => {
+    showPageLoader.value = true
+    await setAvatar(file, cropArea.left, cropArea.top, cropArea.width, cropArea.height)
+    showCropper.value = false
+    await getAvatar()
+    showProfile.value = true
+    showPageLoader.value = false
+}
+
+const cropCancel = async () => {
+    showCropper.value = false
+    showProfile.value = true
+}
 
 ///////////////////////////////////////////////////////
 
@@ -119,9 +140,9 @@ let bottomRow1 = '10px'
     float: right;
     margin-right: 2%;
     margin-top: 2%;
-    width: 10%;
-    background-color: rgb(219, 196, 243);
-    border-radius: 100%;
+    width: 12%;
+    height: 24%;
+    object-fit: contain;
 }
 
 #img-area:hover {
@@ -180,5 +201,14 @@ let bottomRow1 = '10px'
     position: absolute;
     right: v-bind('rightColumn1');
     bottom: v-bind('bottomRow1');
+}
+
+/* loader */
+
+#page-loader {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 </style>

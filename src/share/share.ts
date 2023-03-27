@@ -3,10 +3,9 @@ import { fetchNoBody, fetchBodyForm, mEmpty } from "@/share/fetch";
 export const loginUser = ref("");
 export const loginToken = ref(""); // without 'Bearer '
 export const loginAuth = ref(""); // with 'Bearer '
-export const loginSelfInfo = ref();
+export const selfInfo = ref();
+export const selfAvatar = ref("");
 export const Mode = ref("normal"); // 'normal' or 'approval', or 'admin'
-export const showUserModal = ref(true);
-export const showCropper = ref(false);
 
 //////////////////////////////////////////////////////////////////////////////////////
 
@@ -31,8 +30,8 @@ export const fillSelf = async () => {
 
     // other login user profile
     // ***
-    loginSelfInfo.value = await self()
-    console.log(loginSelfInfo.value)
+    selfInfo.value = await self()
+    console.log(selfInfo.value)
     // ***
 
     return true;
@@ -115,5 +114,68 @@ export const putLogout = async () => {
         alert(rt[0]);
         return false;
     }
+    return true
+}
+
+export const postFormfile = async (file: any, note: string, addym: boolean, group0: string, group1: string, group2: string) => {
+    const mForm = new Map<string, any>([
+        ["file", file],
+        ["note", note],
+        ["addym", addym],
+        ["group0", group0],
+        ["group1", group1],
+        ["group2", group2],
+    ]);
+    const rt = (await fetchBodyForm(
+        `/api/file/auth/upload-formfile`,
+        `POST`,
+        mEmpty,
+        mForm,
+        loginAuth.value
+    )) as any[];
+    if (rt[1] != 200) {
+        alert(rt[0]);
+        return false;
+    }
+    //
+    // a variable to get rt[0].xxx here !!!
+    //
+    return true
+}
+
+export const setAvatar = async (avatar: any, left: number, top: number, width: number, height: number) => {
+    const mForm = new Map<string, any>([
+        ["avatar", avatar],
+        ["left", left],
+        ["top", top],
+        ["width", width],
+        ["height", height],
+    ]);
+    const rt = (await fetchBodyForm(
+        `/api/user/auth/upload-avatar`,
+        `POST`,
+        mEmpty,
+        mForm,
+        loginAuth.value
+    )) as any[];
+    if (rt[1] != 200) {
+        alert(rt[0]);
+        return false;
+    }
+    return true
+}
+
+export const getAvatar = async () => {
+    const rt = (await fetchNoBody(
+        `/api/user/auth/avatar`,
+        `GET`,
+        mEmpty,
+        loginAuth.value
+    )) as any[]
+    if (rt[1] != 200) {
+        alert(rt[0]);
+        return false;
+    }
+    selfAvatar.value = rt[0].src;
     return true
 }

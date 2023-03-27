@@ -3,11 +3,8 @@
         <UserBar />
     </header>
     <main v-if="display">
-        <Loader id="page-loader" />
         <BtnCompose />
-        <div>
-
-        </div>
+        <div> </div>
     </main>
 </template>
 
@@ -15,7 +12,6 @@
 
 import { useCookies } from "vue3-cookies";
 import { loginUser, loginAuth, loginToken, fillSelf, Mode } from "@/share/share";
-import Loader from "@/components/Loader.vue"
 import BtnCompose from "@/components/BtnCompose.vue";
 import UserBar from "./components/UserBar.vue";
 
@@ -41,13 +37,11 @@ onMounted(async () => {
 
     } else {
 
-        // fill loginUser, already 'ping' back-end api
-        fillSelf(); // in this, read 'loginAuth.value'
-
+        await new Promise((f) => setTimeout(f, 200));
+        fillSelf(); // fill loginUser, already 'ping' back-end api, in this, read 'loginAuth.value'
         await new Promise((f) => setTimeout(f, 500));
         if (loginUser.value.length > 0) {
             display.value = true;
-            // alert(loginUser.value)
         }
     }
 });
@@ -55,13 +49,6 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-#page-loader {
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
 #right {
     width: 75%;
     height: 92%;
