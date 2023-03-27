@@ -79,13 +79,16 @@ export const getUserOnline = async () => {
 // }
 
 export const putUser = async (uname: string, data: any) => {
-    const fields = 'Name,DOB,Phone,City,Active,SysRole' // => struct field name;
+    const fields = 'Name,DOB,Gender,Phone,Country,Addr,City,Active,SysRole' // => struct field name;
     const mForm = new Map<string, any>([
         ["uname", uname],
         ["Name", data.name],
         ["DOB", data.dob],
+        ["Gender", data.gender],
         ["Phone", data.phone],
+        ["Country", data.country],
         ["City", data.city],
+        ["Addr", data.addr],
         ["SysRole", data.admin ? "admin" : ""],
         ["Active", data.active]
     ]);

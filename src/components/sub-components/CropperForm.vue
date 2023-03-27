@@ -1,5 +1,5 @@
 <template>
-    <div v-if="props.visible" class="cropper-form">
+    <div class="cropper-form">
 
         <p class="title">{{ props.title }}</p>
 
@@ -23,7 +23,6 @@ import 'vue-advanced-cropper/dist/style.css';
 
 const props = defineProps({
     title: String,
-    visible: Boolean,
     maxCropW: Number,
     maxCropH: Number,
     btnConfirmText: String,
