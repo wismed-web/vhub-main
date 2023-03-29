@@ -1,3 +1,4 @@
+import { URL_SIGN } from "@/share/ip"
 import { fetchNoBody, fetchBodyForm, mEmpty } from "@/share/fetch";
 
 export const loginUser = ref("");
@@ -9,8 +10,13 @@ export const Mode = ref("normal"); // 'normal' or 'approval', or 'admin'
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-// fill loginUser
+const RedirectToSignPage = () => {
+    location.replace(`${URL_SIGN}`)
+}
 
+//////////////////////////////////////////////////////////////////////////////////////
+
+// fill loginUser
 const self = async () => {
     return (await getUserList(loginUser.value, ''))[0]
 }
@@ -79,7 +85,7 @@ export const getUserOnline = async () => {
 // }
 
 export const putUser = async (uname: string, data: any) => {
-    const fields = 'Name,DOB,Gender,Phone,Country,Addr,City,Active,SysRole' // => struct field name;
+    const fields = 'Name,DOB,Gender,Phone,Country,Addr,City,Active,SysRole,Certified,Official,Employer,Position,PersonalID,PersonalIDType,SysRole,Title,Bio,Tags' // => struct field name;
     const mForm = new Map<string, any>([
         ["uname", uname],
         ["Name", data.name],
@@ -90,7 +96,17 @@ export const putUser = async (uname: string, data: any) => {
         ["City", data.city],
         ["Addr", data.addr],
         ["SysRole", data.admin ? "admin" : ""],
-        ["Active", data.active]
+        ["Active", data.active],
+        ["Certified", data.certified],
+        ["Official", data.official],
+        ["Employer", data.employer],
+        ["Title", data.title],
+        ["Position", data.position],
+        ["PersonalID", data.personalid],
+        ["PersonalIDType", data.personalidtype],
+        ["SysRole", data.role],
+        ["Bio", data.bio],
+        ["Tags", data.tags]
     ]);
     const rt = (await fetchBodyForm(
         `api/admin/user/update/${fields}`,

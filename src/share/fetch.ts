@@ -1,6 +1,6 @@
-import { IP_API } from "@/share/ip";
+import { URL_API } from "@/share/ip";
 
-const ip = IP_API;
+const ip = URL_API;
 
 export const mEmpty = new Map<string, any>();
 

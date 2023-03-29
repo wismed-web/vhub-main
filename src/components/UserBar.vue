@@ -12,7 +12,7 @@
 
 import { useOverlayMeta, renderOverlay } from '@unoverlays/vue'
 import { useCookies } from "vue3-cookies";
-import { Domain, IP_CMS } from "@/share/ip";
+import { Domain, URL_CMS } from "@/share/ip";
 import { loginUser, loginToken, loginAuth, selfInfo, getAvatar, selfAvatar, putUser, fillSelf } from "@/share/share"
 import UserBarModal from "@/components/UserBarModal.vue"
 
@@ -24,7 +24,7 @@ const popupSelfModal = async () => {
     // *** 'kind', now in cookie ***
     // cookies.set("kind", `${selKind.value}`, "1d", "/", "." + Domain, false, "Lax");
     // cookies.set("name", ``, "1d", "/", "." + Domain, false, "Lax");
-    // location.replace(`${IP_CMS}`)
+    // location.replace(`${URL_CMS}`)
 
     if (showingModal.value) {
         return

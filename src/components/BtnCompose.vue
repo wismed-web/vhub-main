@@ -7,7 +7,7 @@
 <script setup lang="ts">
 
 import { useCookies } from "vue3-cookies";
-import { Domain, IP_CMS } from "@/share/ip";
+import { Domain, URL_CMS } from "@/share/ip";
 
 const { cookies } = useCookies();
 
@@ -16,7 +16,7 @@ const toCMS = async () => {
     // *** 'kind', now in cookie ***
     // cookies.set("kind", `${selKind.value}`, "1d", "/", "." + Domain, false, "Lax");
     // cookies.set("name", ``, "1d", "/", "." + Domain, false, "Lax");
-    location.replace(`${IP_CMS}`)
+    location.replace(`${URL_CMS}`)
 };
 </script>
 
