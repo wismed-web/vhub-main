@@ -6,12 +6,21 @@ export const loginToken = ref(""); // without 'Bearer '
 export const loginAuth = ref(""); // with 'Bearer '
 export const selfInfo = ref();
 export const selfAvatar = ref("");
-export const Mode = ref("normal"); // 'normal' or 'approval', or 'admin'
+export const Mode = ref("normal"); // 'normal' or 'admin'
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-const RedirectToSignPage = () => {
-    location.replace(`${URL_SIGN}`)
+const fetchOK = async (fetchReturn: any) => {
+    if (fetchReturn[1] != 200) {
+        if (fetchReturn[0].includes("invalid or expired jwt")) {
+            alert("session expired, redirecting to sign page")
+            location.replace(`${URL_SIGN}`)
+            return false
+        }
+        alert(fetchReturn[0])
+        return false
+    }
+    return true
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -28,17 +37,16 @@ export const fillSelf = async () => {
         mEmpty,
         loginAuth.value
     )) as any[];
-    if (rt[1] != 200) {
-        alert(rt[0]);
-        return false;
+    if (!await fetchOK(rt)) {
+        return false
     }
     loginUser.value = rt[0];
 
-    // other login user profile
-    // ***
+    // *** login user profile ***
     selfInfo.value = await self()
     console.log(selfInfo.value)
-    // ***
+
+    // loginAsAdmin.value = selfInfo.role == 'admin' ? true : false
 
     return true;
 };
@@ -58,9 +66,8 @@ export const getUserList = async (uname: string, fields: string) => {
         mParam,
         loginAuth.value
     )) as any[];
-    if (rt[1] != 200) {
-        alert(rt[0]);
-        return null;
+    if (!await fetchOK(rt)) {
+        return null
     }
     return rt[0];
 };
@@ -72,9 +79,8 @@ export const getUserOnline = async () => {
         mEmpty,
         loginAuth.value
     )) as any[];
-    if (rt[1] != 200) {
-        alert(rt[0]);
-        return null;
+    if (!await fetchOK(rt)) {
+        return null
     }
     return rt[0];
 }
@@ -115,9 +121,8 @@ export const putUser = async (uname: string, data: any) => {
         mForm,
         loginAuth.value
     )) as any[];
-    if (rt[1] != 200) {
-        alert(rt[0]);
-        return null;
+    if (!await fetchOK(rt)) {
+        return null
     }
     return rt[0];
 }
@@ -129,9 +134,8 @@ export const putLogout = async () => {
         mEmpty,
         loginAuth.value
     )) as any[];
-    if (rt[1] != 200) {
-        alert(rt[0]);
-        return false;
+    if (!await fetchOK(rt)) {
+        return false
     }
     return true
 }
@@ -152,12 +156,11 @@ export const postFormfile = async (file: any, note: string, addym: boolean, grou
         mForm,
         loginAuth.value
     )) as any[];
-    if (rt[1] != 200) {
-        alert(rt[0]);
-        return false;
+    if (!await fetchOK(rt)) {
+        return false
     }
     //
-    // a variable to get rt[0].xxx here !!!
+    // a variable such as return path, to get rt[0].xxx here !!!
     //
     return true
 }
@@ -177,9 +180,8 @@ export const setAvatar = async (avatar: any, left: number, top: number, width: n
         mForm,
         loginAuth.value
     )) as any[];
-    if (rt[1] != 200) {
-        alert(rt[0]);
-        return false;
+    if (!await fetchOK(rt)) {
+        return false
     }
     return true
 }
@@ -191,9 +193,8 @@ export const getAvatar = async () => {
         mEmpty,
         loginAuth.value
     )) as any[]
-    if (rt[1] != 200) {
-        alert(rt[0]);
-        return false;
+    if (!await fetchOK(rt)) {
+        return false
     }
     selfAvatar.value = rt[0].src;
     return true

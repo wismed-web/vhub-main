@@ -38,7 +38,7 @@ onMounted(async () => {
     } else {
 
         await new Promise((f) => setTimeout(f, 200));
-        fillSelf(); // fill loginUser, already 'ping' back-end api, in this, read 'loginAuth.value'
+        await fillSelf(); // fill loginUser, already 'ping' back-end api, in this, read 'loginAuth.value'
         await new Promise((f) => setTimeout(f, 500));
         if (loginUser.value.length > 0) {
             display.value = true;
