@@ -1,9 +1,9 @@
 <template>
     <div class="user-bar">
         <img :src="selfAvatar" alt="avatar" class="img-area" @click="popupSelfModal()">
-        <div class="name-area">
-            <p>@{{ loginUser }}</p>
+        <div class="name-area">            
             <p>{{ selfInfo.name }}</p>
+            <p>@{{ loginUser }}</p>
         </div>
     </div>
 </template>
@@ -53,7 +53,7 @@ const popupSelfModal = async () => {
 onMounted(async () => {
     await new Promise((f) => setTimeout(f, 200));
     await getAvatar();
-    console.log(selfAvatar.value)
+    // console.log(selfAvatar.value)
 })
 
 watchEffect(async () => { })
@@ -68,7 +68,7 @@ watchEffect(async () => { })
     height: 60px;
     top: 1%;
     right: 1%;
-    background-color: #eee;
+    /* background-color: #eee; */
     color: #fff;
     text-align: center;
     /* box-shadow: 2px 2px 3px #999; */

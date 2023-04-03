@@ -7,6 +7,7 @@ export const loginAuth = ref(""); // with 'Bearer '
 export const selfInfo = ref();
 export const selfAvatar = ref("");
 export const Mode = ref("normal"); // 'normal' or 'admin'
+export const PostIDGroup = ref();
 
 //////////////////////////////////////////////////////////////////////////////////////
 
@@ -45,8 +46,6 @@ export const fillSelf = async () => {
     // *** login user profile ***
     selfInfo.value = await self()
     console.log(selfInfo.value)
-
-    // loginAsAdmin.value = selfInfo.role == 'admin' ? true : false
 
     return true;
 };
@@ -198,4 +197,55 @@ export const getAvatar = async () => {
     }
     selfAvatar.value = rt[0].src;
     return true
+}
+
+export const getUserAvatar = async (uname: string) => {
+    const mQuery = new Map<string, any>([
+        ["uname", uname]
+    ])
+    const rt = (await fetchNoBody(
+        `/api/admin/user/avatar`,
+        `GET`,
+        mQuery,
+        loginAuth.value
+    )) as any[]
+    if (!await fetchOK(rt)) {
+        return null
+    }
+    return rt[0]
+}
+
+export const getPostID = async (by: string, value: string) => {
+    const mQuery = new Map<string, any>([
+        ["by", by],
+        ["value", value]
+    ])
+    const rt = (await fetchNoBody(
+        `/api/retrieve/batch-id`,
+        `GET`,
+        mQuery,
+        loginAuth.value
+    )) as any[]
+    if (!await fetchOK(rt)) {
+        return false
+    }
+    PostIDGroup.value = [...new Set(rt[0].concat(PostIDGroup.value))];
+    PostIDGroup.value = PostIDGroup.value.filter((element: any) => element !== undefined)
+    return true
+}
+
+export const getPost = async (id: string) => {
+    const mQuery = new Map<string, any>([
+        ["id", id]
+    ])
+    const rt = (await fetchNoBody(
+        `/api/retrieve/post`,
+        `GET`,
+        mQuery,
+        loginAuth.value
+    )) as any[]
+    if (!await fetchOK(rt)) {
+        return null
+    }
+    return rt[0]
 }

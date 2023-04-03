@@ -1,19 +1,26 @@
 <template>
     <header v-if="display">
+        <MainTitle />
         <UserBar />
     </header>
-    <main v-if="display">
+
+    <main v-if="display" id="container">
+        <Post v-for="id in PostIDGroup" :id="id" :title="id" />
         <BtnCompose />
-        <div> </div>
     </main>
+
+    <footer v-if="display">
+    </footer>
 </template>
 
 <script setup lang="ts">
 
 import { useCookies } from "vue3-cookies";
-import { loginUser, loginAuth, loginToken, fillSelf, Mode } from "@/share/share";
+import { loginUser, loginAuth, loginToken, fillSelf, getPostID, PostIDGroup } from "@/share/share";
+import MainTitle from "./components/MainTitle.vue";
 import BtnCompose from "@/components/BtnCompose.vue";
 import UserBar from "./components/UserBar.vue";
+import Post from "./components/Post.vue";
 
 const { cookies } = useCookies();
 const HeightOfContent = ref((window.innerHeight * 0.9).toString() + "px");
@@ -31,30 +38,38 @@ onMounted(async () => {
     // console.log(token)
 
     if (loginAuth.value.length < 128) {
-
-        alert("invalid auth info");
+        alert("invalid auth");
         display.value = false;
-
     } else {
-
-        await new Promise((f) => setTimeout(f, 200));
         await fillSelf(); // fill loginUser, already 'ping' back-end api, in this, read 'loginAuth.value'
         await new Promise((f) => setTimeout(f, 500));
         if (loginUser.value.length > 0) {
             display.value = true;
         }
+
+        ////////////////////////////////////////////
+
+        await getPostID('count', '50')
+        console.log("--->", PostIDGroup.value)
     }
 });
 
 </script>
 
 <style scoped>
-#right {
-    width: 75%;
-    height: 92%;
-    margin-left: 0%;
-    background-color: rgb(200, 200, 200);
-    overflow-y: scroll;
-    height: v-bind(HeightOfContent);
+#container {
+    width: 60%;
+    height: 100%;
+    margin: auto;
+    overflow: scroll;
+    scrollbar-width: none;
+    /* background-color: rgb(220, 220, 220); */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+#container::-webkit-scrollbar {
+    display: none;
 }
 </style>
