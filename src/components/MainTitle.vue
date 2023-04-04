@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="title"> For You </div>
+        <div class="title"> For You ... </div>
         <hr class="sep" />
     </div>
 </template>

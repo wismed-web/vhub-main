@@ -1,23 +1,18 @@
 <template>
-    <a class="float" @click="ToCMS()">
-        <font-awesome-icon icon="pen" class="floating" />
+    <a class="float" @click="MorePosts()">
+        <font-awesome-icon icon="refresh" class="floating" />
     </a>
 </template>
 
 <script setup lang="ts">
 
-import { useCookies } from "vue3-cookies";
-import { Domain, URL_CMS } from "@/share/ip";
+import { getPostID, PostIDGroup } from "@/share/share";
 
-const { cookies } = useCookies();
-
-const ToCMS = async () => {
-
-    // *** 'kind', now in cookie ***
-    // cookies.set("kind", `${selKind.value}`, "1d", "/", "." + Domain, false, "Lax");
-    // cookies.set("name", ``, "1d", "/", "." + Domain, false, "Lax");
-    location.replace(`${URL_CMS}`)
+const MorePosts = async () => {
+    await getPostID('time', 200)
+    console.log("--->", PostIDGroup.value)
 };
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -26,7 +21,7 @@ const ToCMS = async () => {
     position: fixed;
     width: 60px;
     height: 60px;
-    bottom: 40px;
+    bottom: 120px;
     right: 40px;
     background-color: #8bcef2;
     color: #fff;

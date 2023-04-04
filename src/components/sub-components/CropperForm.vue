@@ -4,7 +4,7 @@
         <p class="title">{{ props.title }}</p>
 
         <div id="cropper-border">
-            <Cropper class="cropper" :src="iSrc" :maxWidth="props.maxCropW" :maxHeight="props.maxCropH" @change="cropperChange"> </Cropper>
+            <Cropper class="cropper" :src="iSrc" :maxWidth="props.maxCropW" :minWidth="props.minCropW" :maxHeight="props.maxCropH" :minHeight="props.minCropH" @change="cropperChange"> </Cropper>
             <video :hidden="true" id="video" :src="vSrc" type="video/mp4" :onLoadedmetadata="loaded" controls></video>
         </div>
 
@@ -24,7 +24,9 @@ import 'vue-advanced-cropper/dist/style.css';
 const props = defineProps({
     title: String,
     maxCropW: Number,
+    minCropW: Number,
     maxCropH: Number,
+    minCropH: Number,
     btnConfirmText: String,
 })
 

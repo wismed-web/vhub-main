@@ -215,7 +215,39 @@ export const getUserAvatar = async (uname: string) => {
     return rt[0]
 }
 
-export const getPostID = async (by: string, value: string) => {
+export const getUserInfo = async (uname: string) => {
+    const mQuery = new Map<string, any>([
+        ["uname", uname]
+    ])
+    const rt = (await fetchNoBody(
+        `/api/admin/user/info`,
+        `GET`,
+        mQuery,
+        loginAuth.value
+    )) as any[]
+    if (!await fetchOK(rt)) {
+        return null
+    }
+    return rt[0]
+}
+
+export const getUserFieldValue = async (uname: string) => {
+    const mQuery = new Map<string, any>([
+        ["uname", uname]
+    ])
+    const rt = (await fetchNoBody(
+        `/api/admin/user/field-value/Name`,
+        `GET`,
+        mQuery,
+        loginAuth.value
+    )) as any[]
+    if (!await fetchOK(rt)) {
+        return null
+    }
+    return rt[0]
+}
+
+export const getPostID = async (by: string, value: number) => {
     const mQuery = new Map<string, any>([
         ["by", by],
         ["value", value]

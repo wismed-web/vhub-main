@@ -7,6 +7,7 @@
     <main v-if="display" id="container">
         <Post v-for="id in PostIDGroup" :id="id" :title="id" />
         <BtnCompose />
+        <BtnRefresh />
     </main>
 
     <footer v-if="display">
@@ -19,6 +20,7 @@ import { useCookies } from "vue3-cookies";
 import { loginUser, loginAuth, loginToken, fillSelf, getPostID, PostIDGroup } from "@/share/share";
 import MainTitle from "./components/MainTitle.vue";
 import BtnCompose from "@/components/BtnCompose.vue";
+import BtnRefresh from "@/components/BtnRefresh.vue";
 import UserBar from "./components/UserBar.vue";
 import Post from "./components/Post.vue";
 
@@ -49,7 +51,7 @@ onMounted(async () => {
 
         ////////////////////////////////////////////
 
-        await getPostID('count', '50')
+        await getPostID('time', 200)
         console.log("--->", PostIDGroup.value)
     }
 });
@@ -58,7 +60,7 @@ onMounted(async () => {
 
 <style scoped>
 #container {
-    width: 60%;
+    width: 45%;
     height: 100%;
     margin: auto;
     overflow: scroll;

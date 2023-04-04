@@ -147,7 +147,7 @@
 
     </div>
 
-    <CropperForm v-if="showCropper" title="set avatar:" btnConfirmText="set avatar" :maxCropW="800" :maxCropH="600" @cropReady="cropReady" @cropCancel="cropCancel" />
+    <CropperForm v-if="showCropper" title="set avatar:" btnConfirmText="set avatar" :maxCropW="512" :minCropW="128" :maxCropH="512" :minCropH="128" @cropReady="cropReady" @cropCancel="cropCancel" />
     <Loader v-if="showPageLoader" id="page-loader" />
 </template>
 

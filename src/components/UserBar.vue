@@ -11,9 +11,7 @@
 <script setup lang="ts">
 
 import { useOverlayMeta, renderOverlay } from '@unoverlays/vue'
-import { useCookies } from "vue3-cookies";
-import { Domain, URL_CMS } from "@/share/ip";
-import { loginUser, loginToken, loginAuth, selfInfo, getAvatar, selfAvatar, putUser, fillSelf } from "@/share/share"
+import { loginUser, selfInfo, getAvatar, selfAvatar, putUser, fillSelf } from "@/share/share"
 import UserBarModal from "@/components/UserBarModal.vue"
 
 // flag for single modal
@@ -79,7 +77,7 @@ watchEffect(async () => { })
     color: rgb(33, 31, 31);
     width: 40%;
     height: 100%;
-    border-radius: 20%;
+    border-radius: 10%;
     object-fit: contain;
 }
 
@@ -90,7 +88,7 @@ watchEffect(async () => { })
 .name-area {
     float: left;
     color: black;
-    font-size: x-small;
+    font-size: small;
     margin-top: 1%;
     margin-left: 10%;
     text-align: left;
