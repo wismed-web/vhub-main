@@ -1,6 +1,6 @@
 <template>
     <div class="post">
-        <div class="post-title">
+        <div class="title">
             <img :src="avatar" alt="avatar" class="img-area">
             <div class="owner">
                 <p id="owner-name"> {{ OwnerName }} </p>
@@ -8,9 +8,19 @@
             </div>
             <span id="topic"> {{ Topic }} </span>
         </div>
-        <hr>
+        <hr id="hr-title">
         <div class="post-content">
             <p> {{ Content }} </p>
+        </div>
+        <hr id="hr-icons">
+        <div id="icons">
+            <a id="bookmark" @click="ToggleBookmark()">
+                <font-awesome-icon icon="bookmark" />
+            </a>
+            <a id="thumb" @click="ToggleThumb()">
+                <font-awesome-icon icon="thumbs-up" />
+                {{ nThumbsUp }}
+            </a>
         </div>
     </div>
 </template>
@@ -31,6 +41,7 @@ const avatar = ref("")
 const OwnerName = ref("")
 const Topic = ref("")
 const Content = ref("")
+const nThumbsUp = ref(0)
 
 onMounted(async () => { })
 
@@ -50,6 +61,14 @@ watchEffect(async () => {
     Content.value = PostContent.value.content_text
 })
 
+const ToggleThumb = async () => {
+    alert("thumb")
+}
+
+const ToggleBookmark = async () => {
+    alert("bookmark")
+}
+
 // UI
 const PostHeight = computed(() => { "auto" })
 
@@ -63,7 +82,7 @@ const PostHeight = computed(() => { "auto" })
     margin-bottom: 0.5%;
 }
 
-.post-title {
+.title {
     height: 4em;
     font-size: small;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
@@ -104,5 +123,34 @@ const PostHeight = computed(() => { "auto" })
     padding: 0% 2% 0% 2%;
     margin: auto;
     vertical-align: middle;
+}
+
+#hr-icons {
+    border-top: 0.5px #8c8b8b;
+    width: 20%;
+    margin-left: 80%;
+}
+
+#icons {
+    height: 1.5em;
+}
+
+#thumb {
+    float: right;
+    margin-right: 2%;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+#thumb:hover {
+    cursor: pointer;
+}
+
+#bookmark {
+    float: right;
+    margin-right: 2%;
+}
+
+#bookmark:hover {
+    cursor: pointer;
 }
 </style>
