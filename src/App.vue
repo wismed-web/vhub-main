@@ -1,11 +1,13 @@
 <template>
     <header v-if="display">
         <MainTitle />
-        <UserBar />
+        <UserBlock />
     </header>
 
-    <main v-if="display" id="container">
-        <Post v-for="id in PostIDGroup" :id="id" :title="id" />
+    <main v-if="display">
+        <div id="container">
+            <Post v-for="id in PostIDGroup" :id="id" :title="id" />
+        </div>
         <BtnCompose />
         <BtnRefresh />
     </main>
@@ -21,7 +23,7 @@ import { loginUser, loginAuth, loginToken, fillSelf, getPostID, PostIDGroup } fr
 import MainTitle from "./components/MainTitle.vue";
 import BtnCompose from "@/components/BtnCompose.vue";
 import BtnRefresh from "@/components/BtnRefresh.vue";
-import UserBar from "./components/UserBar.vue";
+import UserBlock from "./components/UserBlock.vue";
 import Post from "./components/Post.vue";
 
 const { cookies } = useCookies();
@@ -51,21 +53,28 @@ onMounted(async () => {
 
         ////////////////////////////////////////////
 
-        await getPostID('time', 200)
+        await getPostID('cnt', 5)
         console.log("--->", PostIDGroup.value)
     }
 });
 
 </script>
 
-<style scoped>
-#container {
-    width: 45%;
+<style>
+html,
+body {
+    margin: 0;
     height: 100%;
+    overflow: hidden
+}
+
+#container {
+    width: 50%;
+    height: v-bind(HeightOfContent);
     margin: auto;
-    overflow: scroll;
-    scrollbar-width: none;
-    /* background-color: rgb(220, 220, 220); */
+    overflow: auto;
+    scrollbar-width: auto;
+    /* background-color: rgb(225, 100, 100); */
     display: flex;
     flex-direction: column;
     align-items: stretch;

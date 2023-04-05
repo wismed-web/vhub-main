@@ -2,15 +2,21 @@
     <a class="float" @click="MorePosts()">
         <font-awesome-icon icon="refresh" class="floating" />
     </a>
+    <Loader v-if="showPageLoader" id="page-loader" />
 </template>
 
 <script setup lang="ts">
 
 import { getPostID, PostIDGroup } from "@/share/share";
+import Loader from "./sub-components/Loader.vue";
+
+const showPageLoader = ref(false)
 
 const MorePosts = async () => {
-    await getPostID('time', 200)
+    showPageLoader.value = true
+    await getPostID('cnt', PostIDGroup.value.length + 3)
     console.log("--->", PostIDGroup.value)
+    showPageLoader.value = false
 };
 
 </script>
@@ -38,5 +44,13 @@ const MorePosts = async () => {
 .floating {
     margin-top: 22px;
     color: white;
+}
+
+/* loader */
+#page-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 </style>

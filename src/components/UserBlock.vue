@@ -1,7 +1,7 @@
 <template>
-    <div class="user-bar">
+    <div class="user-block">
         <img :src="selfAvatar" alt="avatar" class="img-area" @click="popupSelfModal()">
-        <div class="name-area">            
+        <div class="name-area">
             <p>{{ selfInfo.name }}</p>
             <p>@{{ loginUser }}</p>
         </div>
@@ -12,7 +12,7 @@
 
 import { useOverlayMeta, renderOverlay } from '@unoverlays/vue'
 import { loginUser, selfInfo, getAvatar, selfAvatar, putUser, fillSelf } from "@/share/share"
-import UserBarModal from "@/components/UserBarModal.vue"
+import UserBlockModal from "@/components/UserBlockModal.vue"
 
 // flag for single modal
 const showingModal = ref(false)
@@ -32,7 +32,7 @@ const popupSelfModal = async () => {
     await fillSelf()
 
     try {
-        switch (String(await renderOverlay(UserBarModal, { props: { title: 'userModal' }, }))) {
+        switch (String(await renderOverlay(UserBlockModal, { props: { title: 'userModal' }, }))) {
             case 'confirm':
                 await putUser(loginUser.value, selfInfo.value)
                 break
@@ -60,16 +60,15 @@ watchEffect(async () => { })
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.user-bar {
+.user-block {
     position: fixed;
     width: 160px;
     height: 60px;
     top: 1%;
     right: 1%;
-    /* background-color: #eee; */
     color: #fff;
     text-align: center;
-    /* box-shadow: 2px 2px 3px #999; */
+    box-shadow: 2px 2px 3px #999;
 }
 
 .img-area {

@@ -241,8 +241,8 @@ let bottomRow1 = '10px'
     transform: translate(-50%, -50%);
     width: 50%;
     height: 50%;
-    background-color: rgb(220, 220, 220);
-    opacity: 0.95;
+    background-color: rgb(200, 200, 200);
+    opacity: 0.99;
     border-radius: 10px;
     display: flex;
     align-items: stretch;
@@ -371,7 +371,6 @@ let bottomRow1 = '10px'
 }
 
 /* loader */
-
 #page-loader {
     position: absolute;
     top: 45%;

@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class="title"> For You ... </div>
+    <div id="whole-title">
+        <p class="title"> For You ... </p>
         <hr class="sep" />
     </div>
 </template>
@@ -12,18 +12,17 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .title {
-    font-size: medium;
+    font-size: large;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-weight: bold;
     font-style: italic;
-    margin-left: 0.5%;
-    margin-top: 0.8%;
+    padding-left: 1%;
+    padding-top: 0.5%;
+    padding-bottom: -0.5%;
 }
 
 .sep {
     float: left;
-    margin-top: 0.5%;
-    margin-bottom: 1%;    
-    width: 89%;
+    width: 90%;
 }
 </style>
