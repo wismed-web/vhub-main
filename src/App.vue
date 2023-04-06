@@ -8,6 +8,7 @@
         <div id="container">
             <Post v-for="id in PostIDGroup" :id="id" :title="id" />
         </div>
+        <BtnUserTable />
         <BtnCompose />
         <BtnRefresh />
     </main>
@@ -23,6 +24,7 @@ import { loginUser, loginAuth, loginToken, fillSelf, getPostID, PostIDGroup } fr
 import MainTitle from "./components/MainTitle.vue";
 import BtnCompose from "@/components/BtnCompose.vue";
 import BtnRefresh from "@/components/BtnRefresh.vue";
+import BtnUserTable from "./components/BtnUserTable.vue";
 import UserBlock from "./components/UserBlock.vue";
 import Post from "./components/Post.vue";
 
@@ -53,7 +55,7 @@ onMounted(async () => {
 
         ////////////////////////////////////////////
 
-        await getPostID('cnt', 5)
+        await getPostID('count', 5)
         console.log("--->", PostIDGroup.value)
     }
 });

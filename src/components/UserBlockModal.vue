@@ -17,7 +17,7 @@
 
             <span class="lbl-val-span-1">
                 <label class="lbl-c1" for="val-gender">Gender:</label>
-                <select class="val-box" id="val-gender" v-model="selfInfo.gender">
+                <select class="val-box" id="val-gender" v-model="SelfInfo.gender">
                     <option>Male</option>
                     <option>Female</option>
                 </select>
@@ -25,30 +25,30 @@
 
             <span class="lbl-val-span-1">
                 <label class="lbl-c1" for="val-country">Country:</label>
-                <CountrySelect id="val-country" class="val-box" v-model="selfInfo.country" :country="selfInfo.country" topCountry="CN" />
+                <CountrySelect id="val-country" class="val-box" v-model="SelfInfo.country" :country="SelfInfo.country" topCountry="CN" />
             </span>
 
             <span class="lbl-val-span-1">
                 <label class="lbl-c1" for="val-city">Region:</label>
-                <RegionSelect id="val-city" class="val-box" v-model="selfInfo.city" :country="selfInfo.country" :region="selfInfo.city" />
+                <RegionSelect id="val-city" class="val-box" v-model="SelfInfo.city" :country="SelfInfo.country" :region="SelfInfo.city" />
             </span>
 
             <span class="lbl-val-span-1" id="lbl-val-addr">
                 <label class="lbl-c1" for="val-addr">Address:</label>
                 <br>
-                <input type="text" id="val-addr" class="val-box" v-model="selfInfo.addr" />
+                <input type="text" id="val-addr" class="val-box" v-model="SelfInfo.addr" />
             </span>
 
             <span class="lbl-val-span-1">
                 <label class="lbl-c1" for="val-id-type">ID&nbsp;Type:</label>
                 <br>
-                <input type="text" id="val-id-type" class="val-box" v-model="selfInfo.personalidtype" />
+                <input type="text" id="val-id-type" class="val-box" v-model="SelfInfo.personalidtype" />
             </span>
 
             <span class="lbl-val-span-1">
                 <label class="lbl-c1" for="val-id">ID&nbsp;Number:</label>
                 <br>
-                <input type="text" id="val-id" class="val-box" v-model="selfInfo.personalid" />
+                <input type="text" id="val-id" class="val-box" v-model="SelfInfo.personalid" />
             </span>
 
         </div>
@@ -58,54 +58,54 @@
             <span class="lbl-val-span-2">
                 <label class="lbl-c2" for="val-name">Name:</label>
                 <br>
-                <input type="text" id="val-name" class="val-box" v-model="selfInfo.name" />
+                <input type="text" id="val-name" class="val-box" v-model="SelfInfo.name" />
             </span>
 
             <span class="lbl-val-span-2">
                 <label class="lbl-c2" for="val-phone">Phone:</label>
                 <br>
-                <input type="text" id="val-phone" class="val-box" v-model="selfInfo.phone" />
+                <input type="text" id="val-phone" class="val-box" v-model="SelfInfo.phone" />
             </span>
 
             <span class="lbl-val-span-2">
                 <label class="lbl-c2" for="val-email">Email:</label>
                 <br>
-                <input type="text" id="val-email" class="val-box" v-model="selfInfo.email" disabled />
+                <input type="text" id="val-email" class="val-box" v-model="SelfInfo.email" disabled />
             </span>
 
             <span class="lbl-val-span-2">
                 <label class="lbl-c2" for="val-employer">Employer:</label>
                 <br>
-                <input type="text" id="val-employer" class="val-box" v-model="selfInfo.employer" />
+                <input type="text" id="val-employer" class="val-box" v-model="SelfInfo.employer" />
             </span>
 
             <span class="lbl-val-span-2">
                 <label class="lbl-c2" for="val-title">Title:</label>
                 <br>
-                <input type="text" id="val-title" class="val-box" v-model="selfInfo.title" />
+                <input type="text" id="val-title" class="val-box" v-model="SelfInfo.title" />
             </span>
 
             <span class="lbl-val-span-2">
                 <label class="lbl-c2" for="val-position">Position:</label>
                 <br>
-                <input type="text" id="val-position" class="val-box" v-model="selfInfo.position" />
+                <input type="text" id="val-position" class="val-box" v-model="SelfInfo.position" />
             </span>
 
             <span class="lbl-val-span-2">
                 <label class="lbl-c2" for="val-bio">Bio:</label>
                 <br>
-                <input type="text" id="val-bio" class="val-box" v-model="selfInfo.bio" />
+                <input type="text" id="val-bio" class="val-box" v-model="SelfInfo.bio" />
             </span>
 
         </div>
 
         <div id="container-right">
 
-            <img id="img-area" :src="selfAvatar" alt="avatar" @click="popupSetAvatar()">
+            <img id="img-area" :src="SelfAvatar" alt="avatar" @click="popupSetAvatar()">
 
             <span class="lbl-val-span-3">
                 <label class="lbl-c3" for="val-role">V-HUB&nbsp;Role:</label>
-                <select id="val-role" class="val-box" v-model="selfInfo.role">
+                <select id="val-role" class="val-box" v-model="SelfInfo.role">
                     <option value="user">user</option>
                     <option value="admin">admin</option>
                     <option value="system">system</option>
@@ -114,7 +114,7 @@
 
             <span class="lbl-val-span-3">
                 <label class="lbl-c3" for="val-official">Official&nbsp;Account:</label>
-                <select id="val-official" class="val-box" v-model="selfInfo.official">
+                <select id="val-official" class="val-box" v-model="SelfInfo.official">
                     <option :value="true">True</option>
                     <option :value="false">False</option>
                 </select>
@@ -122,7 +122,7 @@
 
             <span class="lbl-val-span-3">
                 <label class="lbl-c3" for="val-certified">Certified:</label>
-                <select id="val-certified" class="val-box" v-model="selfInfo.certified">
+                <select id="val-certified" class="val-box" v-model="SelfInfo.certified">
                     <option :value="true">True</option>
                     <option :value="false">False</option>
                 </select>
@@ -137,7 +137,7 @@
             <span class="lbl-val-span-3">
                 <label class="lbl-c3" for="val-tags">Tags:</label>
                 <br>
-                <input type="text" id="val-tags" class="val-box" v-model="selfInfo.tags" />
+                <input type="text" id="val-tags" class="val-box" v-model="SelfInfo.tags" />
             </span>
 
         </div>
@@ -156,7 +156,7 @@
 import Datepicker from "vue3-datepicker"
 import { CountrySelect, RegionSelect } from "vue3-country-region-select";
 import Loader from "@/components/sub-components/Loader.vue"
-import { loginUser, selfInfo, selfAvatar, setAvatar, getAvatar } from "@/share/share"
+import { loginUser, SelfInfo, SelfAvatar, setAvatar, getAvatar } from "@/share/share"
 import { useOverlayMeta } from '@unoverlays/vue'
 import CropperForm from "@/components/sub-components/CropperForm.vue";
 
@@ -165,7 +165,7 @@ const showCropper = ref(false);
 const showPageLoader = ref(false);
 
 // set dob as default timepicker value
-const dob = ref(new Date(selfInfo.value.dob))
+const dob = ref(new Date(SelfInfo.value.dob))
 
 const popupSetAvatar = async () => {
     showProfile.value = false
@@ -203,10 +203,10 @@ const cropCancel = async () => {
     showProfile.value = true
 }
 
-watchEffect(async () => { selfInfo.value.dob = dob.value.toDateString() })
+watchEffect(async () => { SelfInfo.value.dob = dob.value.toDateString() })
 
 const memLvl = computed(() => {
-    switch (selfInfo.value.level) {
+    switch (SelfInfo.value.level) {
         case 0:
             return "Unsubscribed"
         case 1:
@@ -219,8 +219,8 @@ const memLvl = computed(() => {
             return "Unsubscribed"
     }
 })
-const dateReg = computed(() => (new Date(selfInfo.value.regtime)).toLocaleDateString("en-US"))
-const dateExp = computed(() => (new Date(selfInfo.value.expire)).toLocaleDateString("en-US"))
+const dateReg = computed(() => (new Date(SelfInfo.value.regtime)).toLocaleDateString("en-US"))
+const dateExp = computed(() => (new Date(SelfInfo.value.expire)).toLocaleDateString("en-US"))
 
 ///////////////////////////////////////////////////////
 
@@ -264,7 +264,7 @@ let bottomRow1 = '10px'
 }
 
 #container-right {
-    margin-top: 2%;
+    margin-top: 0.5%;
     margin-left: 1%;
 }
 

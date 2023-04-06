@@ -4,9 +4,9 @@ import { fetchNoBody, fetchBodyForm, mEmpty } from "@/share/fetch";
 export const loginUser = ref("");
 export const loginToken = ref(""); // without 'Bearer '
 export const loginAuth = ref(""); // with 'Bearer '
-export const selfInfo = ref();
-export const selfAvatar = ref("");
-export const Mode = ref("normal"); // 'normal' or 'admin'
+export const SelfInfo = ref();
+export const SelfAvatar = ref("");
+export const ModalOn = ref(false);
 export const PostIDGroup = ref();
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -44,8 +44,8 @@ export const fillSelf = async () => {
     loginUser.value = rt[0];
 
     // *** login user profile ***
-    selfInfo.value = await self()
-    console.log(selfInfo.value)
+    SelfInfo.value = await self()
+    console.log(SelfInfo.value)
 
     return true;
 };
@@ -195,7 +195,7 @@ export const getAvatar = async () => {
     if (!await fetchOK(rt)) {
         return false
     }
-    selfAvatar.value = rt[0].src;
+    SelfAvatar.value = rt[0].src;
     return true
 }
 
@@ -261,6 +261,12 @@ export const getPostID = async (by: string, value: number) => {
     if (!await fetchOK(rt)) {
         return false
     }
+
+    if (rt[0].length == 0) {
+        alert("No Posts Available")
+        return true
+    }
+
     PostIDGroup.value = [...new Set(rt[0].concat(PostIDGroup.value))];
     PostIDGroup.value = PostIDGroup.value.filter((element: any) => element !== undefined)
     return true

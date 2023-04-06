@@ -15,10 +15,12 @@ import {
     faBookmark,
     faPen,
     faRefresh,
+    faUser,
+    faTable,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-library.add(faPhone, faPlus, faThumbsUp, faCheck, faSearch, faBookmark, faPen, faRefresh);
+library.add(faPhone, faPlus, faThumbsUp, faCheck, faSearch, faBookmark, faPen, faRefresh, faUser, faTable);
 
 // createApp(App).mount('#app')
 createApp(App).component("font-awesome-icon", FontAwesomeIcon).use(vue3Spinner).use(vueCountryRegionSelect).mount("#app");

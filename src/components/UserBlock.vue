@@ -1,9 +1,10 @@
 <template>
     <div class="user-block">
-        <img :src="selfAvatar" alt="avatar" class="img-area" @click="popupSelfModal()">
+        <img :src="SelfAvatar" alt="avatar" class="img-area" @click="popupSelfModal()">
         <div class="name-area">
-            <p>{{ selfInfo.name }}</p>
-            <p>@{{ loginUser }}</p>
+            {{ SelfInfo.name }}
+            <br v-if="SelfInfo.name.length > 0">
+            @{{ loginUser }}
         </div>
     </div>
 </template>
@@ -11,11 +12,8 @@
 <script setup lang="ts">
 
 import { useOverlayMeta, renderOverlay } from '@unoverlays/vue'
-import { loginUser, selfInfo, getAvatar, selfAvatar, putUser, fillSelf } from "@/share/share"
+import { loginUser, SelfInfo, getAvatar, SelfAvatar, putUser, fillSelf, ModalOn } from "@/share/share"
 import UserBlockModal from "@/components/UserBlockModal.vue"
-
-// flag for single modal
-const showingModal = ref(false)
 
 const popupSelfModal = async () => {
 
@@ -24,17 +22,17 @@ const popupSelfModal = async () => {
     // cookies.set("name", ``, "1d", "/", "." + Domain, false, "Lax");
     // location.replace(`${URL_CMS}`)
 
-    if (showingModal.value) {
+    if (ModalOn.value) {
         return
     }
 
-    showingModal.value = true
+    ModalOn.value = true
     await fillSelf()
 
     try {
         switch (String(await renderOverlay(UserBlockModal, { props: { title: 'userModal' }, }))) {
             case 'confirm':
-                await putUser(loginUser.value, selfInfo.value)
+                await putUser(loginUser.value, SelfInfo.value)
                 break
         }
     } catch (e) {
@@ -45,13 +43,12 @@ const popupSelfModal = async () => {
     }
 
     await fillSelf()
-    showingModal.value = false
+    ModalOn.value = false
 };
 
 onMounted(async () => {
     await new Promise((f) => setTimeout(f, 200));
     await getAvatar();
-    // console.log(selfAvatar.value)
 })
 
 watchEffect(async () => { })
@@ -88,8 +85,8 @@ watchEffect(async () => { })
     float: left;
     color: black;
     font-size: small;
-    margin-top: 1%;
-    margin-left: 10%;
+    margin-top: 7%;
+    margin-left: 5%;
     text-align: left;
 }
 </style>

@@ -1,20 +1,17 @@
 <template>
-    <a class="float" @click="ToCMS()" v-if="!ModalOn">
-        <font-awesome-icon icon="pen" class="floating" />
+    <a class="float" @click="DisplayTable()" v-if="!ModalOn && display">
+        <font-awesome-icon icon="table" class="floating" />
     </a>
 </template>
 
 <script setup lang="ts">
 
-import { URL_CMS } from "@/share/ip";
-import { ModalOn } from "@/share/share";
+import { ModalOn, SelfInfo } from '@/share/share';
 
-const ToCMS = async () => {
+const display = computed(() => SelfInfo.value.role == 'admin' || SelfInfo.value.role == 'system')
 
-    // *** 'kind', now in cookie ***
-    // cookies.set("kind", `${selKind.value}`, "1d", "/", "." + Domain, false, "Lax");
-    // cookies.set("name", ``, "1d", "/", "." + Domain, false, "Lax");
-    location.replace(`${URL_CMS}`)
+const DisplayTable = async () => {
+    alert('show user table')
 };
 </script>
 
@@ -24,7 +21,7 @@ const ToCMS = async () => {
     position: fixed;
     width: 60px;
     height: 60px;
-    bottom: 120px;
+    bottom: 200px;
     right: 40px;
     background-color: #8bcef2;
     color: #fff;
