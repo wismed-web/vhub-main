@@ -1,11 +1,17 @@
 <template>
-    <div id="whole-title">
-        <p class="title"> For You ... </p>
-        <hr class="sep" />
-    </div>
+    <p class="title"> {{ Titles[idx] }} </p>
 </template>
 
 <script setup lang="ts">
+
+import { Mode } from '@/share/share';
+
+const Titles = [
+    "For You ... ",
+    "Sharing Your Medical Thoughts and Experience ... ",
+];
+
+const idx = computed(() => Mode.value == 'view' ? 0 : 1)
 
 </script>
 
@@ -17,12 +23,7 @@
     font-weight: bold;
     font-style: italic;
     padding-left: 1%;
-    padding-top: 0.5%;
-    padding-bottom: -0.5%;
-}
-
-.sep {
-    float: left;
-    width: 90%;
+    padding-bottom: 0.5%;
+    border-bottom: 2px solid gray;
 }
 </style>

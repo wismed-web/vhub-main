@@ -65,6 +65,7 @@ watchEffect(async () => { })
     right: 1%;
     color: #fff;
     text-align: center;
+    background-color: white;
     box-shadow: 2px 2px 3px #999;
 }
 

@@ -1,13 +1,16 @@
 import { URL_SIGN } from "@/share/ip"
-import { fetchNoBody, fetchBodyForm, mEmpty } from "@/share/fetch";
+import { fetchNoBody, fetchBodyForm, fetchBodyObject, mEmpty } from "@/share/fetch";
 
 export const loginUser = ref("");
 export const loginToken = ref(""); // without 'Bearer '
 export const loginAuth = ref(""); // with 'Bearer '
 export const SelfInfo = ref();
 export const SelfAvatar = ref("");
+export const Mode = ref("view") // view / input / users
 export const ModalOn = ref(false);
 export const PostIDGroup = ref();
+export const jsonHTML = ref("");
+export const jsonTEXT = ref("");
 
 //////////////////////////////////////////////////////////////////////////////////////
 
@@ -286,4 +289,34 @@ export const getPost = async (id: string) => {
         return null
     }
     return rt[0]
+}
+
+export const getTemplate = async () => {
+    const rt = (await fetchNoBody(
+        `api/submit/template`,
+        "GET",
+        mEmpty,
+        loginAuth.value
+    )) as any[];
+    if (!await fetchOK(rt)) {
+        return null
+    }
+    return rt[0];
+}
+
+export const postSubmit = async (post: any, followee: string) => {
+    const mQuery = new Map<string, any>([
+        ["followee", followee],
+    ]);
+    const rt = (await fetchBodyObject(
+        `api/submit/upload`,
+        "POST",
+        mQuery,
+        post,
+        loginAuth.value
+    )) as any[];
+    if (!await fetchOK(rt)) {
+        return null
+    }
+    return rt[0];
 }

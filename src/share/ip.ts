@@ -3,38 +3,29 @@ export const Domain = "v-hub.net" // '.net' for aws cloud product; '.link' for a
 
 export const URL_API = `http://api.${Domain}/`;   // "127.0.0.1:1323"
 export const URL_SIGN = `http://${Domain}/`;      // "127.0.0.1:8080"
-export const URL_VIEW = `http://main.${Domain}/`; // "127.0.0.1:8081"
-export const URL_CMS = `http://cms.${Domain}/`;   // "127.0.0.1:8082"
-
+export const URL_MAIN = `http://main.${Domain}/`; // "127.0.0.1:8081"
 
 // *** example for nginx/sites config for local running with domain ***
 //
 
 // server {
-//     server_name api.data-dictionary.test;
+//     server_name api.v-hub.test;
 //     location / {
 //             proxy_pass http://localhost:1323;
 //     }
 // }
 
 // server {
-//     server_name data-dictionary.test;
+//     server_name v-hub.test;
 //     location / {
 //             proxy_pass http://localhost:8080;
 //     }
 // }
 
 // server {
-//     server_name view.data-dictionary.test;
+//     server_name main.v-hub.test;
 //     location / {
 //             proxy_pass http://localhost:8081;
-//     }
-// }
-
-// server {
-//     server_name cms.data-dictionary.test;
-//     location / {
-//             proxy_pass http://localhost:8082;
 //     }
 // }
 

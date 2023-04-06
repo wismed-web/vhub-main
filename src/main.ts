@@ -9,18 +9,39 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import {
     faPhone,
     faPlus,
+    faMinus,
+    faCirclePlus,
+    faCircleMinus,
     faThumbsUp,
     faCheck,
     faSearch,
     faBookmark,
     faPen,
+    faChevronUp,
+    faChevronDown,
+    faRightFromBracket,
     faRefresh,
-    faUser,
     faTable,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-library.add(faPhone, faPlus, faThumbsUp, faCheck, faSearch, faBookmark, faPen, faRefresh, faUser, faTable);
+library.add(
+    faPhone,
+    faPlus,
+    faMinus,
+    faCirclePlus,
+    faCircleMinus,
+    faThumbsUp,
+    faCheck,
+    faSearch,
+    faBookmark,
+    faPen,
+    faChevronUp,
+    faChevronDown,
+    faRightFromBracket,
+    faRefresh,
+    faTable,
+);
 
 // createApp(App).mount('#app')
 createApp(App).component("font-awesome-icon", FontAwesomeIcon).use(vue3Spinner).use(vueCountryRegionSelect).mount("#app");

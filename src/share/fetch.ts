@@ -32,8 +32,8 @@ export const fetchBodyForm = async (
 
     try {
         const headers = {
-            Accept: "application/json",
-            Authorization: auth,
+            'Accept': "application/json",
+            'Authorization': auth,
         };
         const resp = await fetch(url, {
             method: method,
@@ -84,8 +84,9 @@ export const fetchBodyJsonStr = async (
 
     try {
         const headers = {
-            Accept: "application/json",
-            Authorization: auth,
+            'Accept': "application/json",
+            'Authorization': auth,
+            'Content-Type': "application/json",
         };
         const resp = await fetch(url, {
             method: method,
@@ -138,8 +139,9 @@ export const fetchBodyObject = async (
 
     try {
         const headers = {
-            Accept: "application/json",
-            Authorization: auth,
+            'Accept': "application/json",
+            'Authorization': auth,
+            'Content-Type': "application/json",
         };
         const resp = await fetch(url, {
             method: method,
@@ -183,8 +185,8 @@ export const fetchNoBody = async (
 
     try {
         const headers = {
-            Accept: "application/json",
-            Authorization: auth,
+            'Accept': "application/json",
+            'Authorization': auth,
         };
         const resp = await fetch(url, {
             method: method,

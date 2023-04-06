@@ -1,21 +1,13 @@
 <template>
-    <a class="float" @click="ToCMS()" v-if="!ModalOn">
-        <font-awesome-icon icon="pen" class="floating" />
+    <a class="float" @click="Mode = 'view'" v-if="!ModalOn">
+        <font-awesome-icon icon="right-from-bracket" class="floating" />
     </a>
 </template>
 
 <script setup lang="ts">
 
-import { URL_CMS } from "@/share/ip";
-import { ModalOn } from "@/share/share";
+import { Mode, ModalOn } from '@/share/share';
 
-const ToCMS = async () => {
-
-    // *** 'kind', now in cookie ***
-    // cookies.set("kind", `${selKind.value}`, "1d", "/", "." + Domain, false, "Lax");
-    // cookies.set("name", ``, "1d", "/", "." + Domain, false, "Lax");
-    location.replace(`${URL_CMS}`)
-};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -24,7 +16,7 @@ const ToCMS = async () => {
     position: fixed;
     width: 60px;
     height: 60px;
-    bottom: 120px;
+    bottom: 40px;
     right: 40px;
     background-color: #8bcef2;
     color: #fff;

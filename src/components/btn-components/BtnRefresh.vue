@@ -8,7 +8,7 @@
 <script setup lang="ts">
 
 import { getPostID, PostIDGroup, ModalOn } from "@/share/share";
-import Loader from "./sub-components/Loader.vue";
+import Loader from "../sub-components/Loader.vue";
 
 const showPageLoader = ref(false)
 
