@@ -136,7 +136,6 @@
 
             <span class="lbl-val-span-3">
                 <label class="lbl-c3" for="val-tags">Tags:</label>
-                <br>
                 <input type="text" id="val-tags" class="val-box" v-model="SelfInfo.tags" />
             </span>
 
@@ -324,8 +323,8 @@ let bottomRow1 = '10px'
 #val-country,
 #val-city {
     float: right;
-    width: 45%;
-    margin-right: 25%;
+    width: 40%;
+    margin-right: 30%;
     margin-top: 0%;
 }
 
@@ -343,8 +342,8 @@ let bottomRow1 = '10px'
 }
 
 #val-tags {
-    width: 70%;
-    margin-top: 3%;
+    width: 65%;
+    margin-top: 2%;
 }
 
 #val-joined,

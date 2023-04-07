@@ -6,6 +6,7 @@ import App from "@/App.vue";
 import vue3Spinner from 'vue3-spinner';
 import vueCountryRegionSelect from 'vue3-country-region-select'
 import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
     faPhone,
     faPlus,
@@ -22,8 +23,9 @@ import {
     faRightFromBracket,
     faRefresh,
     faTable,
+    faEye,
+    faHeart,
 } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 library.add(
     faPhone,
@@ -41,6 +43,8 @@ library.add(
     faRightFromBracket,
     faRefresh,
     faTable,
+    faEye,
+    faHeart,
 );
 
 // createApp(App).mount('#app')

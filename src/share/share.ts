@@ -320,3 +320,68 @@ export const postSubmit = async (post: any, followee: string) => {
     }
     return rt[0];
 }
+
+export const getInteractStatus = async (action: string, id: string) => {
+    const rt = (await fetchNoBody(
+        `api/interact/${action}/status/${id}`,
+        "GET",
+        mEmpty,
+        loginAuth.value
+    )) as any[];
+    if (!await fetchOK(rt)) {
+        return null
+    }
+    return rt[0];
+}
+
+export const patchInteractToggle = async (action: string, id: string) => {
+    const rt = (await fetchNoBody(
+        `api/interact/${action}/toggle/${id}`,
+        "PATCH",
+        mEmpty,
+        loginAuth.value
+    )) as any[];
+    if (!await fetchOK(rt)) {
+        return null
+    }
+    return rt[0];
+}
+
+export const patchInteractRecord = async (action: string, id: string) => {
+    const rt = (await fetchNoBody(
+        `api/interact/${action}/record/${id}`,
+        "PATCH",
+        mEmpty,
+        loginAuth.value
+    )) as any[];
+    if (!await fetchOK(rt)) {
+        return null
+    }
+    return rt[0];
+}
+
+export const patchBookmark = async (id: string) => {
+    const rt = (await fetchNoBody(
+        `api/bookmark/toggle/${id}`,
+        "PATCH",
+        mEmpty,
+        loginAuth.value
+    )) as any[];
+    if (!await fetchOK(rt)) {
+        return null
+    }
+    return rt[0];
+}
+
+export const getBookmarkStatus = async (id: string) => {
+    const rt = (await fetchNoBody(
+        `api/bookmark/status/${id}`,
+        "GET",
+        mEmpty,
+        loginAuth.value
+    )) as any[];
+    if (!await fetchOK(rt)) {
+        return null
+    }
+    return rt[0];
+}

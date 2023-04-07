@@ -10,16 +10,21 @@
         </div>
         <hr id="hr-title">
         <div class="post-content">
-            <p> {{ Content }} </p>
+            <p @click="DisplayContent()"> {{ Content }} </p>
         </div>
         <hr id="hr-icons">
         <div id="icons">
-            <a id="bookmark" @click="ToggleBookmark()">
+            <a id="eye">
+                <font-awesome-icon icon="eye" /> {{ nSeen }}
+            </a>
+            <a id="bookmark" @click="Bookmark()">
                 <font-awesome-icon icon="bookmark" />
             </a>
-            <a id="thumb" @click="ToggleThumb()">
-                <font-awesome-icon icon="thumbs-up" />
-                {{ nThumbsUp }}
+            <a id="heart" @click="HeartLike()">
+                <font-awesome-icon icon="heart" /> {{ nHeart }}
+            </a>
+            <a id="thumb" @click="ThumbsUp()">
+                <font-awesome-icon icon="thumbs-up" /> {{ nThumbsUp }}
             </a>
         </div>
     </div>
@@ -27,7 +32,7 @@
 
 <script setup lang="ts">
 
-import { getPost, getUserAvatar, getUserFieldValue } from "@/share/share";
+import { getPost, getUserAvatar, getUserFieldValue, patchInteractToggle, getInteractStatus, patchBookmark, getBookmarkStatus, patchInteractRecord } from "@/share/share";
 
 const props = defineProps({
     id: String,
@@ -41,7 +46,15 @@ const avatar = ref("")
 const OwnerName = ref("")
 const Topic = ref("")
 const Content = ref("")
+
+// icons 
 const nThumbsUp = ref(0)
+const DidThumbsUp = ref(false)
+const nHeart = ref(0)
+const DidHeartLike = ref(false)
+const DidBookmark = ref(false)
+const nSeen = ref(0)
+const DidSeen = ref(false)
 
 onMounted(async () => { })
 
@@ -59,18 +72,54 @@ watchEffect(async () => {
     PostContent.value = JSON.parse(Post.value.RawJSON)
     Topic.value = PostContent.value.topic
     Content.value = PostContent.value.content_text
+
+    //////////////////////////////////////////////
+
+    const statusThumbsUp = await getInteractStatus("ThumbsUp", props.id!)
+    nThumbsUp.value = statusThumbsUp.Count
+    DidThumbsUp.value = statusThumbsUp.Status
+
+    const statusHeartLike = await getInteractStatus("HeartLike", props.id!)
+    nHeart.value = statusHeartLike.Count
+    DidHeartLike.value = statusHeartLike.Status
+
+    const statusSeen = await getInteractStatus("Seen", props.id!)
+    nSeen.value = statusSeen.Count
+    DidSeen.value = statusSeen.Status
+
+    DidBookmark.value = await getBookmarkStatus(props.id!)
+
+    // console.log(statusBookmark)
 })
 
-const ToggleThumb = async () => {
-    alert("thumb")
+const DisplayContent = async () => {
+    const statusSeen = await patchInteractRecord("Seen", props.id!)
+    nSeen.value = statusSeen.Count
+    DidSeen.value = statusSeen.Status
 }
 
-const ToggleBookmark = async () => {
-    alert("bookmark")
+const ThumbsUp = async () => {
+    const statusThumbsUp = await patchInteractToggle("ThumbsUp", props.id!)
+    nThumbsUp.value = statusThumbsUp.Count
+    DidThumbsUp.value = statusThumbsUp.Status
+}
+
+const HeartLike = async () => {
+    const statusHeartLike = await patchInteractToggle("HeartLike", props.id!)
+    nHeart.value = statusHeartLike.Count
+    DidHeartLike.value = statusHeartLike.Status
+}
+
+const Bookmark = async () => {
+    DidBookmark.value = await patchBookmark(props.id!)
 }
 
 // UI
 const PostHeight = computed(() => { "auto" })
+const HeartLikeColor = computed(() => DidHeartLike.value ? "red" : "darkgrey")
+const ThumbsUpColor = computed(() => DidThumbsUp.value ? "blue" : "darkgrey")
+const BookmarkColor = computed(() => DidBookmark.value ? "yellowgreen" : "darkgrey")
+const EyeColor = computed(() => nSeen.value > 0 ? "black" : "darkgrey")
 
 </script>
 
@@ -125,6 +174,8 @@ const PostHeight = computed(() => { "auto" })
     vertical-align: middle;
 }
 
+/* ******************************** */
+
 #hr-icons {
     border-top: 0.5px #8c8b8b;
     width: 20%;
@@ -137,7 +188,8 @@ const PostHeight = computed(() => { "auto" })
 
 #thumb {
     float: right;
-    margin-right: 2%;
+    color: v-bind(ThumbsUpColor);
+    margin-right: 3%;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
@@ -145,12 +197,31 @@ const PostHeight = computed(() => { "auto" })
     cursor: pointer;
 }
 
+#heart {
+    float: right;
+    color: v-bind(HeartLikeColor);
+    margin-right: 3%;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+#heart:hover {
+    cursor: pointer;
+}
+
 #bookmark {
     float: right;
-    margin-right: 2%;
+    color: v-bind(BookmarkColor);
+    margin-right: 3%;
 }
 
 #bookmark:hover {
     cursor: pointer;
+}
+
+#eye {
+    float: right;
+    color: v-bind(EyeColor);
+    margin-right: 3%;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 </style>
