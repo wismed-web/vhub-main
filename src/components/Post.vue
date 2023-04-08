@@ -6,7 +6,7 @@
                 <p id="owner-name"> {{ OwnerName }} </p>
                 <p id="owner-id"> @{{ Owner }} </p>
             </div>
-            <span id="topic"> {{ Topic }} </span>
+            <span id="topic" :title="props.id!"> {{ Topic }} </span>
         </div>
         <hr id="hr-title">
         <div class="post-content">

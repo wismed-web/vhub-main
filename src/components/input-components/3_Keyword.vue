@@ -1,10 +1,10 @@
 <template>
-    <input class="kw" type="text" :placeholder="hint" :title="hint"  :disabled="ModalOn" />
+    <input class="kw" type="text" :placeholder="hint" :title="hint" v-model="PostKeywords" />
 </template>
 
 <script setup lang="ts">
 
-import { ModalOn } from '@/share/share';
+import { PostKeywords } from '@/share/share';
 
 const hint = ref("Keywords (separated by semicolon(;))")
 

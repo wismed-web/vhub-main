@@ -1,10 +1,10 @@
 <template>
-    <input class="title" type="text" :placeholder="hint" :title="hint" ref="titleInput" :disabled="ModalOn" />
+    <input class="title" type="text" :placeholder="hint" :title="hint" ref="titleInput" v-model="PostTitle" />
 </template>
 
 <script setup lang="ts">
 
-import { ModalOn } from '@/share/share';
+import { PostTitle } from '@/share/share';
 
 const hint = ref("Topic Name")
 const titleInput = ref();

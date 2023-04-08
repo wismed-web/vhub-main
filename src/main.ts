@@ -25,6 +25,9 @@ import {
     faTable,
     faEye,
     faHeart,
+    faUserEdit,
+    faDeleteLeft,
+    faStar
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -45,6 +48,9 @@ library.add(
     faTable,
     faEye,
     faHeart,
+    faUserEdit,
+    faDeleteLeft,
+    faStar,
 );
 
 // createApp(App).mount('#app')

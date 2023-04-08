@@ -1,10 +1,10 @@
 <template>
-    <input class="cat" type="text" :placeholder="hint" :title="hint"  :disabled="ModalOn" />
+    <input class="cat" type="text" :placeholder="hint" :title="hint" v-model="PostCategories" />
 </template>
 
 <script setup lang="ts">
 
-import { ModalOn } from '@/share/share';
+import { PostCategories } from '@/share/share';
 
 const hint = ref("Categories (separated by semicolon(;))")
 

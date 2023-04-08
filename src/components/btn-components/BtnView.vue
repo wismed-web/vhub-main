@@ -1,22 +1,28 @@
 <template>
-    <a class="float" @click="MorePosts()" v-if="!ModalOn">
+    <a class="float" id="pen" @click="Compose()">
+        <font-awesome-icon icon="pen" class="floating" />
+    </a>
+    <a class="float" id="refresh" @click="MorePosts()">
         <font-awesome-icon icon="refresh" class="floating" />
     </a>
-    <Loader v-if="showPageLoader" id="page-loader" />
+    <Loader v-if="showLoader" id="page-loader" />
 </template>
 
 <script setup lang="ts">
 
-import { getPostID, PostIDGroup, ModalOn } from "@/share/share";
+import { Mode, getPostID, PostIDGroup } from "@/share/share";
 import Loader from "../sub-components/Loader.vue";
 
-const showPageLoader = ref(false)
+const Compose = async () => {
+    Mode.value = 'input'
+}
 
+const showLoader = ref(false)
 const MorePosts = async () => {
-    showPageLoader.value = true
-    await getPostID('count', PostIDGroup.value !== undefined ? PostIDGroup.value.length + 3 : 3)
+    showLoader.value = true
+    await getPostID('time', 5)
     console.log("--->", PostIDGroup.value)
-    showPageLoader.value = false
+    showLoader.value = false
 };
 
 </script>
@@ -27,7 +33,7 @@ const MorePosts = async () => {
     position: fixed;
     width: 60px;
     height: 60px;
-    bottom: 40px;
+    bottom: 120px;
     right: 40px;
     background-color: #8bcef2;
     color: #fff;
@@ -46,11 +52,11 @@ const MorePosts = async () => {
     color: white;
 }
 
-/* loader */
-#page-loader {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+#pen {
+    bottom: 120px;
+}
+
+#refresh {
+    bottom: 40px;
 }
 </style>

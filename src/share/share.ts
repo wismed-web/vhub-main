@@ -9,8 +9,20 @@ export const SelfAvatar = ref("");
 export const Mode = ref("view") // view / input / users
 export const ModalOn = ref(false);
 export const PostIDGroup = ref();
-export const jsonHTML = ref("");
-export const jsonTEXT = ref("");
+
+export const PostTitle = ref("");
+export const PostCategories = ref("");
+export const PostKeywords = ref("");
+export const PostJsonHTML = ref("");
+export const PostJsonTEXT = ref("");
+
+export const ClearPost = async () => {
+    PostTitle.value = ""
+    PostCategories.value = ""
+    PostKeywords.value = ""
+    PostJsonHTML.value = ""
+    PostJsonTEXT.value = ""
+}
 
 //////////////////////////////////////////////////////////////////////////////////////
 

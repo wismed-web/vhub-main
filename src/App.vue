@@ -4,15 +4,14 @@
         <UserBlock />
     </header>
 
-    <main v-if="display">
+    <main v-if="display && !ModalOn">
 
         <div v-if="Mode == 'view'">
             <div id="container-post">
                 <Post v-for="id in PostIDGroup" :id="id" :title="id" />
             </div>
-            <BtnUserTable />
-            <BtnCompose />
-            <BtnRefresh />
+            <BtnAdmin />
+            <BtnView />
         </div>
 
         <div v-if="Mode == 'input'" id="container-input">
@@ -22,8 +21,8 @@
                 <InputKeyword />
             </span>
             <InputContent />
-            <BtnSubmit />
-            <BtnExit />
+
+            <BtnCompose />
         </div>
 
     </main>
@@ -35,14 +34,12 @@
 <script setup lang="ts">
 
 import { useCookies } from "vue3-cookies";
-import { loginUser, loginAuth, loginToken, fillSelf, Mode, getPostID, PostIDGroup } from "@/share/share";
+import { loginUser, loginAuth, loginToken, fillSelf, ModalOn, Mode, getPostID, PostIDGroup } from "@/share/share";
 import MainTitle from "./components/MainTitle.vue";
 import UserBlock from "./components/UserBlock.vue";
+import BtnView from "@/components/btn-components/BtnView.vue";
+import BtnAdmin from "./components/btn-components/BtnAdmin.vue";
 import BtnCompose from "@/components/btn-components/BtnCompose.vue";
-import BtnRefresh from "@/components/btn-components/BtnRefresh.vue";
-import BtnUserTable from "./components/btn-components/BtnUserTable.vue";
-import BtnSubmit from "@/components/btn-components/BtnSubmit.vue";
-import BtnExit from "@/components/btn-components/BtnExit.vue";
 import Post from "./components/Post.vue";
 import InputTitle from "@/components/input-components/1_Title.vue"
 import InputCategory from "@/components/input-components/2_Category.vue"
@@ -78,7 +75,7 @@ onMounted(async () => {
 
         ////////////////////////////////////////////
 
-        await getPostID('count', 5)
+        await getPostID('time', 15 * 4 * 24 * 2) // 2 days
         console.log("--->", PostIDGroup.value)
     }
 });
