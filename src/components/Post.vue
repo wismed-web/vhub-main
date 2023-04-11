@@ -6,7 +6,7 @@
                 <p id="owner-name"> {{ OwnerName }} </p>
                 <p id="owner-id"> @{{ Owner }} </p>
             </div>
-            <span id="topic" :title="props.id!"> {{ Topic }} </span>
+            <span id="topic" @click="TitleDbClick(props.id!)"> {{ Topic }} </span>
         </div>
         <hr id="hr-title">
         <div class="post-content">
@@ -32,6 +32,7 @@
 
 <script setup lang="ts">
 
+import { useNotification } from "@kyvg/vue3-notification";
 import { getPost, getUserAvatar, getUserFieldValue, patchInteractToggle, getInteractStatus, patchBookmark, getBookmarkStatus, patchInteractRecord } from "@/share/share";
 
 const props = defineProps({
@@ -46,6 +47,8 @@ const avatar = ref("")
 const OwnerName = ref("")
 const Topic = ref("")
 const Content = ref("")
+
+const notification = useNotification()
 
 // icons 
 const nThumbsUp = ref(0)
@@ -113,6 +116,30 @@ const HeartLike = async () => {
 const Bookmark = async () => {
     DidBookmark.value = await patchBookmark(props.id!)
 }
+
+// for simulate double click
+let t = 0;
+let got1st = false;
+const interval = 300;
+
+// double click effect only
+const TitleDbClick = (id: string) => {
+    if (got1st && Date.now() - t > interval) {
+        got1st = false;
+    }
+    if (!got1st) {
+        t = Date.now();
+        got1st = true;
+    } else {
+        if (Date.now() - t <= interval) {
+            notification.notify({
+                title: Topic.value,
+                text: id
+            })
+        }
+        got1st = false;
+    }
+};
 
 // UI
 const PostHeight = computed(() => { "auto" })

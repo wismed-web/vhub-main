@@ -24,10 +24,10 @@
 
             <BtnCompose />
         </div>
-
     </main>
 
     <footer v-if="display">
+        <notifications position="bottom right" :speed="2000" :duration="9000" :closeOnClick="false" />
     </footer>
 </template>
 

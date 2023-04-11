@@ -13,6 +13,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.3.0",
     "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@fortawesome/vue-fontawesome": "^3.0.3",
+    "@kyvg/vue3-notification": "^2.9.0",
     "@unoverlays/vue": "^0.4.0",
     "@vueup/vue-quill": "^1.1.1",
     "unplugin-auto-import": "^0.15.1",
