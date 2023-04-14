@@ -26,7 +26,7 @@
     <footer v-if="display">
     </footer>
 
-    <notifications position="bottom right" :speed="2000" :duration="7000" :closeOnClick="false" />
+    <notifications position="top center" :speed="2000" :duration="6000" :closeOnClick="false" />
 </template>
 
 <script setup lang="ts">

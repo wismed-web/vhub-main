@@ -28,7 +28,8 @@ import {
     faHeart,
     faUserEdit,
     faDeleteLeft,
-    faStar
+    faStar,
+    faBackward
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -52,6 +53,7 @@ library.add(
     faUserEdit,
     faDeleteLeft,
     faStar,
+    faBackward
 );
 
 // createApp(App).mount('#app')

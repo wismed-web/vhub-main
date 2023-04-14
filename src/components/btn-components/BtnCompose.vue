@@ -1,9 +1,9 @@
 <template>
-    <a class="float" id="check" @click="Submit()">
+    <a class="float" id="check" title="submit" @click="Submit()">
         <font-awesome-icon icon="check" class="floating" />
     </a>
-    <a class="float" id="right-from-bracket" @click="Exit()">
-        <font-awesome-icon icon="right-from-bracket" class="floating" />
+    <a class="float" id="backward" title="go back" @click="Exit()">
+        <font-awesome-icon icon="backward" class="floating" />
     </a>
 </template>
 
@@ -113,7 +113,7 @@ const Exit = async () => {
     bottom: 120px;
 }
 
-#right-from-bracket {
+#backward {
     bottom: 40px;
 }
 </style>
