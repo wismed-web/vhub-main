@@ -147,21 +147,24 @@
     </div>
 
     <CropperForm v-if="showCropper" title="set avatar:" btnConfirmText="set avatar" :maxCropW="512" :minCropW="128" :maxCropH="512" :minCropH="128" @cropReady="cropReady" @cropCancel="cropCancel" />
-    <Loader v-if="showPageLoader" id="page-loader" />
+    <Loader v-if="loading" id="page-loader" />
 </template>
 
 <script setup lang="ts">
 
 import Datepicker from "vue3-datepicker"
+import { useNotification } from "@kyvg/vue3-notification";
 import { CountrySelect, RegionSelect } from "vue3-country-region-select";
 import Loader from "@/components/sub-components/Loader.vue"
 import { loginUser, SelfInfo, SelfAvatar, setAvatar, getAvatar } from "@/share/share"
 import { useOverlayMeta } from '@unoverlays/vue'
 import CropperForm from "@/components/sub-components/CropperForm.vue";
 
+const notification = useNotification()
+
 const showProfile = ref(true);
 const showCropper = ref(false);
-const showPageLoader = ref(false);
+const loading = ref(false);
 
 // set dob as default timepicker value
 const dob = ref(new Date(SelfInfo.value.dob))
@@ -189,12 +192,36 @@ const { visible, confirm, cancel } = useOverlayMeta({
 ///////////////////////////////////////////////////////
 
 const cropReady = async (file: string, cropArea: any) => {
-    showPageLoader.value = true
-    await setAvatar(file, cropArea.left, cropArea.top, cropArea.width, cropArea.height)
-    showCropper.value = false
-    await getAvatar()
-    showProfile.value = true
-    showPageLoader.value = false
+
+    loading.value = true
+
+    {
+        const de = await setAvatar(file, cropArea.left, cropArea.top, cropArea.width, cropArea.height)
+        if (de.error != null) {
+            notification.notify({
+                title: "Error: Set Avatar",
+                text: de.error,
+                type: "error"
+            })
+            return
+        }
+        showCropper.value = false
+    }
+    {
+        const de = await getAvatar()
+        if (de.error != null) {
+            notification.notify({
+                title: "Error: Get Avatar",
+                text: de.error,
+                type: "error"
+            })
+            return
+        }
+        SelfAvatar.value = de.data
+        showProfile.value = true
+    }
+
+    loading.value = false
 }
 
 const cropCancel = async () => {

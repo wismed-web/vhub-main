@@ -9,27 +9,73 @@
 
 <script setup lang="ts">
 
+import { useNotification } from "@kyvg/vue3-notification";
 import { Mode, getTemplate, postSubmit, getPostID, PostIDGroup, PostTitle, PostCategories, PostKeywords, PostJsonHTML, PostJsonTEXT, ClearPost } from "@/share/share";
+
+const notification = useNotification()
 
 const Submit = async () => {
 
-    const template = await getTemplate()
-    // console.log("--->", template)
+    let template: { topic: string; type: string; category: string; keywords: string; content_html: string; content_text: string; }
 
-    template.topic = PostTitle.value
-    template.type = "Post"
-    template.category = PostCategories.value
-    template.keywords = PostKeywords.value
-    template.content_html = PostJsonHTML.value
-    template.content_text = PostJsonTEXT.value
+    {
+        const de = await getTemplate()
+        if (de.error != null) {
+            notification.notify({
+                title: "Error: Get Post Template",
+                text: de.error,
+                type: "error"
+            })
+            return
+        }
+        template = de.data
+        // console.log("--->", template)
 
-    const rt = await postSubmit(template, "")
-    if (rt != null) {
-        Mode.value = 'view'
-        await getPostID('time', 10)
-        ClearPost()
+        template.topic = PostTitle.value
+        template.type = "Post"
+        template.category = PostCategories.value
+        template.keywords = PostKeywords.value
+        template.content_html = PostJsonHTML.value
+        template.content_text = PostJsonTEXT.value
+    }
+    {
+        const de = await postSubmit(template, "")
+        if (de.error != null) {
+            notification.notify({
+                title: "Error: Submit Post",
+                text: de.error,
+                type: "error"
+            })
+            return
+        }
+    }
+
+    Mode.value = 'view'
+
+    {
+        const de = await getPostID('time', 15) // 15 minutes
+        if (de.error != null) {
+            notification.notify({
+                title: "Error: Get Post ID",
+                text: de.error,
+                type: "error"
+            })
+            return
+        }
+        if (de.data.length == 0) {
+            notification.notify({
+                title: "Note",
+                text: "no posts available",
+                type: "error"
+            })
+            return
+        }
+        PostIDGroup.value = [...new Set(de.data.concat(PostIDGroup.value))];
+        PostIDGroup.value = PostIDGroup.value.filter((element: any) => element !== undefined)
         console.log("--->", PostIDGroup.value)
     }
+
+    ClearPost()
 };
 
 const Exit = async () => {

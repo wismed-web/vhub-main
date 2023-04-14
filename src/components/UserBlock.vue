@@ -12,8 +12,11 @@
 <script setup lang="ts">
 
 import { useOverlayMeta, renderOverlay } from '@unoverlays/vue'
-import { loginUser, SelfInfo, getAvatar, SelfAvatar, putUser, fillSelf, ModalOn } from "@/share/share"
+import { useNotification } from "@kyvg/vue3-notification";
+import { loginUser, SelfInfo, getAvatar, SelfAvatar, putUser, getSelfName, getUserInfoList, ModalOn } from "@/share/share"
 import UserBlockModal from "@/components/UserBlockModal.vue"
+
+const notification = useNotification()
 
 const popupSelfModal = async () => {
 
@@ -27,12 +30,33 @@ const popupSelfModal = async () => {
     }
 
     ModalOn.value = true
-    await fillSelf()
+
+    // prepare UI
+    {
+        const de = await getUserInfoList(loginUser.value, "")
+        if (de.error != null) {
+            notification.notify({
+                title: "Error: Cannot Get Self Info",
+                text: de.error,
+                type: "error"
+            })
+            return
+        }
+        SelfInfo.value = de.data[0]
+    }
 
     try {
         switch (String(await renderOverlay(UserBlockModal, { props: { title: 'userModal' }, }))) {
             case 'confirm':
-                await putUser(loginUser.value, SelfInfo.value)
+                const de = await putUser(loginUser.value, SelfInfo.value)
+                if (de.error != null) {
+                    notification.notify({
+                        title: "Error: Update User",
+                        text: de.error,
+                        type: "error"
+                    })
+                    return
+                }
                 break
         }
     } catch (e) {
@@ -42,13 +66,35 @@ const popupSelfModal = async () => {
         }
     }
 
-    await fillSelf()
+    // update UI
+    {
+        const de = await getUserInfoList(loginUser.value, "")
+        if (de.error != null) {
+            notification.notify({
+                title: "Error: Cannot Get Self Info",
+                text: de.error,
+                type: "error"
+            })
+            return
+        }
+        SelfInfo.value = de.data[0]
+    }
+
     ModalOn.value = false
 };
 
 onMounted(async () => {
-    await new Promise((f) => setTimeout(f, 200));
-    await getAvatar();
+    // await new Promise((f) => setTimeout(f, 200));
+    const de = await getAvatar();
+    if (de.error != null) {
+        notification.notify({
+            title: "Error: Get Self Avatar",
+            text: de.error,
+            type: "error"
+        })
+        return
+    }
+    SelfAvatar.value = de.data
 })
 
 watchEffect(async () => { })

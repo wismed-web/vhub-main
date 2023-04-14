@@ -5,24 +5,47 @@
     <a class="float" id="refresh" @click="MorePosts()">
         <font-awesome-icon icon="refresh" class="floating" />
     </a>
-    <Loader v-if="showLoader" id="page-loader" />
+    <Loader v-if="loading" id="page-loader" />
 </template>
 
 <script setup lang="ts">
 
+import { useNotification } from "@kyvg/vue3-notification";
 import { Mode, getPostID, PostIDGroup } from "@/share/share";
 import Loader from "../sub-components/Loader.vue";
 
-const Compose = async () => {
-    Mode.value = 'input'
-}
+const notification = useNotification()
 
-const showLoader = ref(false)
+const Compose = async () => { Mode.value = 'input' }
+
+const loading = ref(false)
 const MorePosts = async () => {
-    showLoader.value = true
-    await getPostID('time', 5)
-    console.log("--->", PostIDGroup.value)
-    showLoader.value = false
+    loading.value = true
+    {
+        const de = await getPostID('time', 15) // 15 minutes
+        if (de.error != null) {
+            notification.notify({
+                title: "Error: Get Post ID",
+                text: de.error,
+                type: "error"
+            })
+            loading.value = false
+            return
+        }
+        if (de.data.length == 0) {
+            notification.notify({
+                title: "Note",
+                text: "no posts available",
+                type: "warn"
+            })
+            loading.value = false
+            return
+        }
+        PostIDGroup.value = [...new Set(de.data.concat(PostIDGroup.value))];
+        PostIDGroup.value = PostIDGroup.value.filter((element: any) => element !== undefined)
+        console.log("--->", PostIDGroup.value)
+    }
+    loading.value = false
 };
 
 </script>

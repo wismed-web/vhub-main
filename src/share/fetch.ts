@@ -1,8 +1,20 @@
 import { URL_API } from "@/share/ip";
 
-const ip = URL_API;
+const ip = URL_API + "/";
 
 export const mEmpty = new Map<string, any>();
+
+export const fetchErr = async (rt: any, onExpired: any) => {
+    if (rt.error !== undefined && rt.error != null && rt.error.length > 0) {
+        return rt.error
+    }
+    const val = rt as any[];
+    const err = val[1] != 200 ? val[0] : null
+    if (err != null && (err as string).includes("invalid or expired jwt")) { // this message refers to API server
+        onExpired()
+    }
+    return err
+}
 
 export const fetchBodyForm = async (
     path: string,
@@ -55,7 +67,9 @@ export const fetchBodyForm = async (
             resolve([json, resp.status]);
         });
     } catch (e) {
-        alert(e + "\nnetwork error: " + url);
+        return {
+            'error': e + "\nnetwork error: " + url
+        }
     }
 };
 
@@ -108,7 +122,9 @@ export const fetchBodyJsonStr = async (
             resolve([json, resp.status]);
         });
     } catch (e) {
-        alert(e + "\nnetwork error: " + url);
+        return {
+            'error': e + "\nnetwork error: " + url
+        }
     }
 };
 
@@ -163,7 +179,9 @@ export const fetchBodyObject = async (
             resolve([json, resp.status]);
         });
     } catch (e) {
-        alert(e + "\nnetwork error: " + url);
+        return {
+            'error': e + "\nnetwork error: " + url
+        }
     }
 };
 
@@ -207,7 +225,9 @@ export const fetchNoBody = async (
             resolve([json, resp.status]);
         });
     } catch (e) {
-        alert(e + "\nnetwork error: " + url);
+        return {
+            'error': e + "\nnetwork error: " + url
+        }
     }
 };
 

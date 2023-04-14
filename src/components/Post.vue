@@ -63,13 +63,42 @@ onMounted(async () => { })
 
 watchEffect(async () => {
 
-    Post.value = await getPost(props.id!)
-    Owner.value = Post.value.Owner
-    avatar.value = (await getUserAvatar(Owner.value)).src
-
-    OwnerName.value = (await getUserFieldValue(Owner.value)).Name
-    if (OwnerName.value.length == 0) {
-        OwnerName.value = "USER"
+    {
+        const de = await getPost(props.id!)
+        if (de.error != null) {
+            notification.notify({
+                title: "Error: Get Post",
+                text: de.error,
+                type: "error"
+            })
+            return
+        }
+        Post.value = de.data
+        Owner.value = Post.value.Owner
+    }
+    {
+        const de = await getUserAvatar(Owner.value)
+        if (de.error != null) {
+            notification.notify({
+                title: "Error: Get User Avatar",
+                text: de.error,
+                type: "error"
+            })
+            return
+        }
+        avatar.value = de.data
+    }
+    {
+        const de = await getUserFieldValue(Owner.value)
+        if (de.error != null) {
+            notification.notify({
+                title: "Error: Get User Name",
+                text: de.error,
+                type: "error"
+            })
+            return
+        }
+        OwnerName.value = de.data.Name.length > 0 ? de.data.Name : "USER"
     }
 
     PostContent.value = JSON.parse(Post.value.RawJSON)
@@ -78,43 +107,110 @@ watchEffect(async () => {
 
     //////////////////////////////////////////////
 
-    const statusThumbsUp = await getInteractStatus("ThumbsUp", props.id!)
-    nThumbsUp.value = statusThumbsUp.Count
-    DidThumbsUp.value = statusThumbsUp.Status
-
-    const statusHeartLike = await getInteractStatus("HeartLike", props.id!)
-    nHeart.value = statusHeartLike.Count
-    DidHeartLike.value = statusHeartLike.Status
-
-    const statusSeen = await getInteractStatus("Seen", props.id!)
-    nSeen.value = statusSeen.Count
-    DidSeen.value = statusSeen.Status
-
-    DidBookmark.value = await getBookmarkStatus(props.id!)
-
-    // console.log(statusBookmark)
+    {
+        const de = await getInteractStatus("ThumbsUp", props.id!)
+        if (de.error != null) {
+            notification.notify({
+                title: "Error: Get ThumbsUp Status",
+                text: de.error,
+                type: "error"
+            })
+            return
+        }
+        nThumbsUp.value = de.data.Count
+        DidThumbsUp.value = de.data.Status
+    }
+    {
+        const de = await getInteractStatus("HeartLike", props.id!)
+        if (de.error != null) {
+            notification.notify({
+                title: "Error: Get HeartLike Status",
+                text: de.error,
+                type: "error"
+            })
+            return
+        }
+        nHeart.value = de.data.Count
+        DidHeartLike.value = de.data.Status
+    }
+    {
+        const de = await getInteractStatus("Seen", props.id!)
+        if (de.error != null) {
+            notification.notify({
+                title: "Error: Get Seen Status",
+                text: de.error,
+                type: "error"
+            })
+            return
+        }
+        nSeen.value = de.data.Count
+        DidSeen.value = de.data.Status
+    }
+    {
+        const de = await getBookmarkStatus(props.id!)
+        if (de.error != null) {
+            notification.notify({
+                title: "Error: Get Bookmark Status",
+                text: de.error,
+                type: "error"
+            })
+            return
+        }
+        DidBookmark.value = de.data
+    }
 })
 
 const DisplayContent = async () => {
-    const statusSeen = await patchInteractRecord("Seen", props.id!)
-    nSeen.value = statusSeen.Count
-    DidSeen.value = statusSeen.Status
+    const de = await patchInteractRecord("Seen", props.id!)
+    if (de.error != null) {
+        notification.notify({
+            title: "Error: Update Seen Status",
+            text: de.error,
+            type: "error"
+        })
+        return
+    }
+    nSeen.value = de.data.Count
+    DidSeen.value = de.data.Status
+
+    // Open Detail ...
+
 }
 
 const ThumbsUp = async () => {
-    const statusThumbsUp = await patchInteractToggle("ThumbsUp", props.id!)
-    nThumbsUp.value = statusThumbsUp.Count
-    DidThumbsUp.value = statusThumbsUp.Status
+    const de = await patchInteractToggle("ThumbsUp", props.id!)
+    if (de.error != null) {
+        notification.notify({
+            title: "Error: Update ThumbsUp Status",
+            text: de.error,
+            type: "error"
+        })
+        return
+    }
+    nThumbsUp.value = de.data.Count
+    DidThumbsUp.value = de.data.Status
 }
 
 const HeartLike = async () => {
-    const statusHeartLike = await patchInteractToggle("HeartLike", props.id!)
-    nHeart.value = statusHeartLike.Count
-    DidHeartLike.value = statusHeartLike.Status
+    const de = await patchInteractToggle("HeartLike", props.id!)
+    if (de.error != null) {
+        notification.notify({
+            title: "Error: Update HeartLike Status",
+            text: de.error,
+            type: "error"
+        })
+        return
+    }
+    nHeart.value = de.data.Count
+    DidHeartLike.value = de.data.Status
 }
 
 const Bookmark = async () => {
-    DidBookmark.value = await patchBookmark(props.id!)
+    const de = await patchBookmark(props.id!)
+    if (de.error != null) {
+        return
+    }
+    DidBookmark.value = de.data
 }
 
 // for simulate double click

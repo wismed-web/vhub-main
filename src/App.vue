@@ -5,7 +5,6 @@
     </header>
 
     <main v-if="display && !ModalOn">
-
         <div v-if="Mode == 'view'">
             <div id="container-post">
                 <Post v-for="id in PostIDGroup" :id="id" :title="id" />
@@ -13,7 +12,6 @@
             <BtnAdmin />
             <BtnView />
         </div>
-
         <div v-if="Mode == 'input'" id="container-input">
             <InputTitle />
             <span>
@@ -21,20 +19,21 @@
                 <InputKeyword />
             </span>
             <InputContent />
-
             <BtnCompose />
         </div>
     </main>
 
     <footer v-if="display">
-        <notifications position="bottom right" :speed="2000" :duration="9000" :closeOnClick="false" />
     </footer>
+
+    <notifications position="bottom right" :speed="2000" :duration="7000" :closeOnClick="false" />
 </template>
 
 <script setup lang="ts">
 
 import { useCookies } from "vue3-cookies";
-import { loginUser, loginAuth, loginToken, fillSelf, ModalOn, Mode, getPostID, PostIDGroup } from "@/share/share";
+import { useNotification } from "@kyvg/vue3-notification";
+import { loginUser, loginAuth, loginToken, loginAsAdmin, getSelfName, getUserInfoList, ModalOn, Mode, getPostID, PostIDGroup, SelfInfo } from "@/share/share";
 import MainTitle from "./components/MainTitle.vue";
 import UserBlock from "./components/UserBlock.vue";
 import BtnView from "@/components/btn-components/BtnView.vue";
@@ -47,6 +46,8 @@ import InputKeyword from "@/components/input-components/3_Keyword.vue"
 import InputContent from "@/components/input-components/4_Content.vue"
 
 const { cookies } = useCookies();
+const notification = useNotification()
+
 const HeightOfContent = ref((window.innerHeight * 0.9).toString() + "px");
 const display = ref(false);
 
@@ -62,21 +63,69 @@ onMounted(async () => {
 
     if (loginAuth.value.length < 128) {
 
-        alert("invalid auth");
+        notification.notify({
+            title: "Error",
+            text: "Invalid Auth Info",
+            type: "error"
+        })
         display.value = false;
 
     } else {
 
-        await fillSelf(); // fill loginUser, already 'ping' back-end api, in this, read 'loginAuth.value'
-        await new Promise((f) => setTimeout(f, 500));
-        if (loginUser.value.length > 0) {
-            display.value = true;
+        {
+            const de = await getSelfName();
+            if (de.error != null) {
+                notification.notify({
+                    title: "Error: Cannot Get Self User Name",
+                    text: de.error,
+                    type: "error"
+                })
+                display.value = false;
+                return
+            }
+            loginUser.value = de.data
+        }
+        {
+            const de = await getUserInfoList(loginUser.value, "")
+            if (de.error != null) {
+                notification.notify({
+                    title: "Error: Cannot Get Self Info",
+                    text: de.error,
+                    type: "error"
+                })
+                display.value = false;
+                return
+            }
+            SelfInfo.value = de.data[0]
+            loginAsAdmin.value = de.data[0].role == 'admin' ? true : false
         }
 
-        ////////////////////////////////////////////
+        // await new Promise((f) => setTimeout(f, 500));
 
-        await getPostID('time', 15 * 4 * 24 * 2) // 2 days
-        console.log("--->", PostIDGroup.value)
+        display.value = true;
+
+        {
+            const de = await getPostID('time', 15 * 4 * 24 * 2) // 2 days
+            if (de.error != null) {
+                notification.notify({
+                    title: "Error: Get Post ID",
+                    text: de.error,
+                    type: "error"
+                })
+                return
+            }
+            if (de.data.length == 0) {
+                notification.notify({
+                    title: "Note",
+                    text: "no posts available",
+                    type: "warn"
+                })
+                return
+            }
+            PostIDGroup.value = [...new Set(de.data.concat(PostIDGroup.value))];
+            PostIDGroup.value = PostIDGroup.value.filter((element: any) => element !== undefined)
+            console.log("--->", PostIDGroup.value)
+        }
     }
 });
 
