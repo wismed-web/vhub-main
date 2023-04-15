@@ -1,5 +1,5 @@
 <template>
-    <div class="post">
+    <div v-if="display" class="post">
         <div class="title">
             <img :src="avatar" alt="avatar" class="img-area">
             <div class="owner">
@@ -48,6 +48,8 @@ const OwnerName = ref("")
 const Topic = ref("")
 const Content = ref("")
 
+const display = ref(true)
+
 const notification = useNotification()
 
 // icons 
@@ -71,6 +73,7 @@ watchEffect(async () => {
                 text: de.error,
                 type: "error"
             })
+            display.value = false // if Post content cannot be fetched, DO NOT show it !
             return
         }
         Post.value = de.data

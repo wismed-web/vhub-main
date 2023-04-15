@@ -101,7 +101,7 @@
 
         <div id="container-right">
 
-            <img id="img-area" :src="SelfAvatar" alt="avatar" @click="popupSetAvatar()">
+            <img id="img-area" :src="SelfAvatar" alt="avatar" @click="PopupSetAvatar()">
 
             <span class="lbl-val-span-3">
                 <label class="lbl-c3" for="val-role">V-HUB&nbsp;Role:</label>
@@ -169,7 +169,7 @@ const loading = ref(false);
 // set dob as default timepicker value
 const dob = ref(new Date(SelfInfo.value.dob))
 
-const popupSetAvatar = async () => {
+const PopupSetAvatar = async () => {
     showProfile.value = false
     showCropper.value = true
 };

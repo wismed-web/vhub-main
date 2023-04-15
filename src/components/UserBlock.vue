@@ -1,6 +1,6 @@
 <template>
     <div class="user-block">
-        <img :src="SelfAvatar" alt="avatar" class="img-area" @click="popupSelfModal()">
+        <img :src="SelfAvatar" alt="avatar" class="img-area" @click="PopupSelfModal()">
         <div class="name-area">
             {{ SelfInfo.name }}
             <br v-if="SelfInfo.name.length > 0">
@@ -18,7 +18,7 @@ import UserBlockModal from "@/components/UserBlockModal.vue"
 
 const notification = useNotification()
 
-const popupSelfModal = async () => {
+const PopupSelfModal = async () => {
 
     // *** 'kind', now in cookie ***
     // cookies.set("kind", `${selKind.value}`, "1d", "/", "." + Domain, false, "Lax");

@@ -1,24 +1,62 @@
 <template>
-    <a class="float" id="user-edit" @click="DisplayTable()" v-if="display">
+    <a class="float" id="user-edit" @click="DisplayUserTable()" v-if="display">
         <font-awesome-icon icon="user-edit" class="floating" />
     </a>
-    <a class="float" id="delete-left" @click="DisplayDelPost()" v-if="display">
+    <a class="float" id="delete-left" @click="DelPost()" v-if="display">
         <font-awesome-icon icon="delete-left" class="floating" />
     </a>
 </template>
 
 <script setup lang="ts">
 
-import { SelfInfo } from '@/share/share';
+import { SelfInfo, ModalOn, delErasePost, delRemovePost, PostIDGroup } from '@/share/share';
+import PostDelModal from '@/components/PostDelModal.vue';
+import { useOverlayMeta, renderOverlay } from '@unoverlays/vue'
+import { useNotification } from "@kyvg/vue3-notification";
 
 const display = computed(() => SelfInfo.value.role == 'admin' || SelfInfo.value.role == 'system')
 
-const DisplayTable = async () => {
+const notification = useNotification()
+
+const DisplayUserTable = async () => {
     alert('show user table')
 };
 
-const DisplayDelPost = async () => {
-    alert('show delete post')
+const DelPost = async () => {
+    if (ModalOn.value) {
+        return
+    }
+    ModalOn.value = true
+    try {
+
+        const id = String(await renderOverlay(PostDelModal, { props: { id: '' }, }))
+        const de = await delRemovePost(id)
+        if (de.error != null) {
+            notification.notify({
+                title: "Error: Remove Post",
+                text: de.error,
+                type: "error"
+            })
+            ModalOn.value = false
+            return
+        }
+
+        // remove current Post group        
+        PostIDGroup.value = PostIDGroup.value.filter((element: any) => element !== id)
+
+        notification.notify({
+            title: "",
+            text: `${id} is removed`,
+            type: "success"
+        })
+
+    } catch (e) {
+        switch (e) {
+            case 'cancel':
+                break
+        }
+    }
+    ModalOn.value = false
 }
 
 </script>
@@ -31,7 +69,7 @@ const DisplayDelPost = async () => {
     height: 60px;
     top: 100px;
     right: 40px;
-    background-color: #a5ebca;
+    background-color: #53bc8b;
     color: #fff;
     border-radius: 50px;
     text-align: center;
@@ -39,7 +77,7 @@ const DisplayDelPost = async () => {
 }
 
 .float:hover {
-    background-color: rgb(159, 241, 104);
+    background-color: rgb(129, 223, 67);
     cursor: pointer;
 }
 
@@ -54,6 +92,10 @@ const DisplayDelPost = async () => {
 
 #delete-left {
     top: 180px;
+    background-color: rgb(200, 50, 50);
 }
 
+#delete-left:hover {
+    background-color: rgb(255, 50, 50);
+}
 </style>

@@ -42,14 +42,14 @@ const MorePosts = async () => {
         const prevCnt = PostIDGroup.value.length
         PostIDGroup.value = [...new Set(de.data.concat(PostIDGroup.value))];
         PostIDGroup.value = PostIDGroup.value.filter((element: any) => element !== undefined)
-        // console.log("--->", PostIDGroup.value)
+        console.log("PostIDGroup: ", PostIDGroup.value)
 
         if (PostIDGroup.value.length == prevCnt) {
             if (de.data.length == 0) {
                 notification.notify({
-                    title: "Note",
-                    text: "no posts available",
-                    type: "warn"
+                    title: "",
+                    text: "no new posts available",
+                    type: "success"
                 })
                 loading.value = false
                 return

@@ -291,3 +291,21 @@ export const getBookmarkStatus = async (id: string) => {
         'error': err
     };
 }
+
+export const delErasePost = async (id: string) => {
+    const rt = await fetchNoBody(`api/manage/erase/${id}`, "DELETE", mEmpty, loginAuth.value)
+    const err = await fetchErr(rt, onExpired)
+    return {
+        'data': err == null ? (rt as any[])[0] : null,
+        'error': err
+    };
+}
+
+export const delRemovePost = async (id: string) => {
+    const rt = await fetchNoBody(`api/manage/delete/${id}`, "DELETE", mEmpty, loginAuth.value)
+    const err = await fetchErr(rt, onExpired)
+    return {
+        'data': err == null ? (rt as any[])[0] : null,
+        'error': err
+    };
+}
