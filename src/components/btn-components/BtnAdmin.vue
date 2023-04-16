@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 
-import { SelfInfo, ModalOn, delErasePost, delRemovePost, PostIDGroup } from '@/share/share';
+import { SelfInfo, ModalOn, delErasePost, delRemovePost, PostIDGroup, Mode } from '@/share/share';
 import PostDelModal from '@/components/PostDelModal.vue';
 import { useOverlayMeta, renderOverlay } from '@unoverlays/vue'
 import { useNotification } from "@kyvg/vue3-notification";
@@ -21,7 +21,7 @@ const displayPostDel = computed(() => display && PostIDGroup.value?.length > 0)
 const notification = useNotification()
 
 const DisplayUserTable = async () => {
-    alert('show user table')
+    Mode.value = 'users'
 };
 
 const DelPost = async () => {
@@ -32,25 +32,27 @@ const DelPost = async () => {
     try {
 
         const id = String(await renderOverlay(PostDelModal, { props: { id: '' }, }))
-        const de = await delRemovePost(id)
-        if (de.error != null) {
+        if (id.length > 0) {
+            const de = await delRemovePost(id)
+            if (de.error != null) {
+                notification.notify({
+                    title: "Error: Remove Post",
+                    text: de.error,
+                    type: "error"
+                })
+                ModalOn.value = false
+                return
+            }
+
+            // remove current Post group
+            PostIDGroup.value = PostIDGroup.value.filter((element: any) => element !== id)
+
             notification.notify({
-                title: "Error: Remove Post",
-                text: de.error,
-                type: "error"
+                title: "",
+                text: `${id} is removed`,
+                type: "success"
             })
-            ModalOn.value = false
-            return
         }
-
-        // remove current Post group        
-        PostIDGroup.value = PostIDGroup.value.filter((element: any) => element !== id)
-
-        notification.notify({
-            title: "",
-            text: `${id} is removed`,
-            type: "success"
-        })
 
     } catch (e) {
         switch (e) {

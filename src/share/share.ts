@@ -69,7 +69,7 @@ export const getUserInfoList = async (uname: string, fields: string) => {
 };
 
 export const getUserOnline = async () => {
-    const rt = await fetchNoBody(`api/admin/user/onlines`, "GET", mEmpty, loginAuth.value);
+    const rt = await fetchNoBody(`api/admin/user/online`, "GET", mEmpty, loginAuth.value);
     const err = await fetchErr(rt, onExpired)
     return {
         'data': err == null ? (rt as any[])[0] : null,
@@ -93,7 +93,7 @@ export const putUser = async (uname: string, data: any) => {
         ["Country", data.country],
         ["City", data.city],
         ["Addr", data.addr],
-        ["SysRole", data.admin ? "admin" : ""],
+        ["SysRole", data.admin],
         ["Active", data.active],
         ["Certified", data.certified],
         ["Official", data.official],

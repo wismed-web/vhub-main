@@ -23,6 +23,7 @@
     "vue3-cookies": "^1.0.6",
     "vue3-country-region-select": "^1.0.0",
     "vue3-datepicker": "^0.3.4",
+    "vue3-easy-data-table": "^1.5.42",
     "vue3-spinner": "^0.0.16"
   },
   "devDependencies": {

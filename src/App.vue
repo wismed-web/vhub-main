@@ -1,7 +1,7 @@
 <template>
     <header v-if="display">
         <MainTitle />
-        <UserBlock />
+        <SelfBlock />
     </header>
 
     <main v-if="display && !ModalOn">
@@ -21,6 +21,9 @@
             <InputContent />
             <BtnCompose />
         </div>
+        <div v-if="Mode == 'users'">
+            <UserList />
+        </div>
     </main>
 
     <footer v-if="display">
@@ -35,7 +38,7 @@ import { useCookies } from "vue3-cookies";
 import { useNotification } from "@kyvg/vue3-notification";
 import { loginUser, loginAuth, loginToken, loginAsAdmin, getSelfName, getUserInfoList, ModalOn, Mode, getPostID, PostIDGroup, SelfInfo } from "@/share/share";
 import MainTitle from "./components/MainTitle.vue";
-import UserBlock from "./components/UserBlock.vue";
+import SelfBlock from "./components/SelfBlock.vue";
 import BtnView from "@/components/btn-components/BtnView.vue";
 import BtnAdmin from "./components/btn-components/BtnAdmin.vue";
 import BtnCompose from "@/components/btn-components/BtnCompose.vue";
@@ -44,6 +47,7 @@ import InputTitle from "@/components/input-components/1_Title.vue"
 import InputCategory from "@/components/input-components/2_Category.vue"
 import InputKeyword from "@/components/input-components/3_Keyword.vue"
 import InputContent from "@/components/input-components/4_Content.vue"
+import UserList from "./components/UserList.vue";
 
 const { cookies } = useCookies();
 const notification = useNotification()
@@ -97,7 +101,7 @@ onMounted(async () => {
                 return
             }
             SelfInfo.value = de.data[0]
-            loginAsAdmin.value = de.data[0].role == 'admin' ? true : false
+            loginAsAdmin.value = de.data[0].role == 'admin' || de.data[0].role == 'system' ? true : false
         }
 
         // await new Promise((f) => setTimeout(f, 500));

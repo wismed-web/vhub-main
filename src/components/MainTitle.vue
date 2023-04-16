@@ -7,11 +7,22 @@
 import { Mode } from '@/share/share';
 
 const Titles = [
-    "For You ... ",
-    "Sharing Your Medical Thoughts and Experience ... ",
+    "For You",
+    "Sharing Your Medical Thoughts and Experience",
+    "User List"
 ];
 
-const idx = computed(() => Mode.value == 'view' ? 0 : 1)
+const idx = computed(() => {
+    switch (Mode.value) {
+        case 'view':
+            return 0
+        case 'input':
+            return 1
+        case 'users':
+            return 2
+    }
+    return 0
+})
 
 </script>
 

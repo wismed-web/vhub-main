@@ -13,8 +13,8 @@
 
 import { useOverlayMeta, renderOverlay } from '@unoverlays/vue'
 import { useNotification } from "@kyvg/vue3-notification";
-import { loginUser, SelfInfo, getAvatar, SelfAvatar, putUser, getSelfName, getUserInfoList, ModalOn } from "@/share/share"
-import UserBlockModal from "@/components/UserBlockModal.vue"
+import { loginUser, SelfInfo, getAvatar, SelfAvatar, putUser, getUserInfoList, ModalOn } from "@/share/share"
+import SelfBlockModal from "@/components/SelfBlockModal.vue"
 
 const notification = useNotification()
 
@@ -46,7 +46,7 @@ const PopupSelfModal = async () => {
     }
 
     try {
-        switch (String(await renderOverlay(UserBlockModal, { props: { title: 'userModal' }, }))) {
+        switch (String(await renderOverlay(SelfBlockModal, { props: { title: 'userModal' }, }))) {
             case 'confirm':
                 const de = await putUser(loginUser.value, SelfInfo.value)
                 if (de.error != null) {

@@ -1,6 +1,6 @@
 <template>
     <div id="modal">
-        <input type="text" id="post-id" placeholder="Input Eras Post ID" v-model="EraseID">
+        <input type="text" id="post-id" placeholder="Input Erase Post ID" v-model="EraseID">
         <button id="btn-confirm" @click="confirm(EraseID)">confirm</button>
         <button id="btn-cancel" @click="cancel('cancel')">cancel</button>
     </div>
@@ -58,7 +58,7 @@ let bottomRow1 = '10px'
     padding-top: 1%;
     padding-bottom: 1%;
     padding-left: 2%;
-    background-color: rgb(255, 90, 90);
+    background-color: rgb(170, 170, 170);
 }
 
 /* button */
