@@ -39,9 +39,12 @@ const MorePosts = async () => {
             return
         }
 
-        const prevCnt = PostIDGroup.value.length
+        // console.log("de.data: ", de.data)
+
+        const prevCnt = PostIDGroup.value?.length
         PostIDGroup.value = [...new Set(de.data.concat(PostIDGroup.value))];
         PostIDGroup.value = PostIDGroup.value.filter((element: any) => element !== undefined)
+        
         console.log("PostIDGroup: ", PostIDGroup.value)
 
         if (PostIDGroup.value.length == prevCnt) {
@@ -102,7 +105,7 @@ const Exit = async () => {
     height: 60px;
     bottom: 120px;
     right: 40px;
-    background-color: #8bcef2;
+    background-color: #79c8f3;
     color: #fff;
     border-radius: 50px;
     text-align: center;
@@ -110,7 +113,7 @@ const Exit = async () => {
 }
 
 .float:hover {
-    background-color: rgb(101, 149, 243);
+    background-color: rgb(144, 238, 244);
     cursor: pointer;
 }
 
@@ -129,5 +132,13 @@ const Exit = async () => {
 
 #right-from-bracket {
     bottom: 40px;
+}
+
+/* loader */
+#page-loader {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 </style>

@@ -1,8 +1,8 @@
 <template>
-    <a class="float" id="user-edit" @click="DisplayUserTable()" v-if="display">
+    <a class="float" id="user-edit" @click="DisplayUserTable()" v-if="displayUserTable">
         <font-awesome-icon icon="user-edit" class="floating" />
     </a>
-    <a class="float" id="delete-left" @click="DelPost()" v-if="display">
+    <a class="float" id="delete-left" @click="DelPost()" v-if="displayPostDel">
         <font-awesome-icon icon="delete-left" class="floating" />
     </a>
 </template>
@@ -15,6 +15,8 @@ import { useOverlayMeta, renderOverlay } from '@unoverlays/vue'
 import { useNotification } from "@kyvg/vue3-notification";
 
 const display = computed(() => SelfInfo.value.role == 'admin' || SelfInfo.value.role == 'system')
+const displayUserTable = computed(() => display)
+const displayPostDel = computed(() => display && PostIDGroup.value?.length > 0)
 
 const notification = useNotification()
 

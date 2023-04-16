@@ -64,7 +64,7 @@ const Submit = async () => {
         }
         if (de.data.length == 0) {
             notification.notify({
-                title: "Note",
+                title: "",
                 text: "no posts available",
                 type: "error"
             })
@@ -79,6 +79,7 @@ const Submit = async () => {
 };
 
 const Exit = async () => {
+    ClearPost()
     Mode.value = 'view'
 }
 
@@ -100,7 +101,7 @@ const Exit = async () => {
 }
 
 .float:hover {
-    background-color: rgb(101, 149, 243);
+    background-color: rgb(144, 238, 244);
     cursor: pointer;
 }
 

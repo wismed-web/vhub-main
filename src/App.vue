@@ -116,7 +116,7 @@ onMounted(async () => {
             }
             if (de.data.length == 0) {
                 notification.notify({
-                    title: "Note",
+                    title: "",
                     text: "no posts available",
                     type: "warn"
                 })

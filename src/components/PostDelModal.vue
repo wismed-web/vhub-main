@@ -1,6 +1,6 @@
 <template>
     <div id="modal">
-        <input type="text" id="post-id" placeholder="Input the Post ID for Erasing:" v-model="EraseID">
+        <input type="text" id="post-id" placeholder="Input Eras Post ID" v-model="EraseID">
         <button id="btn-confirm" @click="confirm(EraseID)">confirm</button>
         <button id="btn-cancel" @click="cancel('cancel')">cancel</button>
     </div>
