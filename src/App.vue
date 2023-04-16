@@ -23,6 +23,7 @@
         </div>
         <div v-if="Mode == 'users'">
             <UserList />
+            <BtnUserList />
         </div>
     </main>
 
@@ -48,6 +49,7 @@ import InputCategory from "@/components/input-components/2_Category.vue"
 import InputKeyword from "@/components/input-components/3_Keyword.vue"
 import InputContent from "@/components/input-components/4_Content.vue"
 import UserList from "./components/UserList.vue";
+import BtnUserList from "./components/btn-components/BtnUserList.vue";
 
 const { cookies } = useCookies();
 const notification = useNotification()
