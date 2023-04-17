@@ -1,6 +1,6 @@
 <template>
     <!-- essential, minimal, full, and ""  -->
-    <QuillEditor theme="snow" style="min-height:300px;" toolbar="full" :placeholder="hint" :title="hint" @ready="onReady" @textChange="textChange" />
+    <QuillEditor theme="snow" style="min-height:300px; max-height: fit-content;" scrollingContainer="overflow-y: auto" toolbar="full" :placeholder="hint" :title="hint" @ready="onReady" @textChange="textChange" />
 </template>
 
 <script setup lang="ts">

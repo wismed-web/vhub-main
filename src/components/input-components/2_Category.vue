@@ -1,12 +1,13 @@
 <template>
-    <input class="cat" type="text" :placeholder="hint" :title="hint" v-model="PostCategories" />
+    <label for="category" id="lbl-category">Categories:</label>
+    <input id="category" type="text" :placeholder="hint" :title="hint" v-model="PostCategories" />
 </template>
 
 <script setup lang="ts">
 
 import { PostCategories } from '@/share/share';
 
-const hint = ref("Categories (separated by semicolon(;))")
+const hint = ref("separated by semicolon(;)")
 
 onMounted(async () => { });
 watchEffect(() => { });
@@ -15,14 +16,19 @@ watchEffect(() => { });
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.cat {
+#category {
     position: relative;
-    float: left;
-    width: 48%;
-    font-weight: bold;
+    width: 82%;
+    font-weight: normal;
     text-align: left;
-    margin-top: 1%;
+    margin: 1% 0% 5% 3%;
+    padding-left: 1%;    
+}
+
+#lbl-category {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-style: italic;
     margin-bottom: 1%;
-    padding-left: 1%;
 }
 </style>

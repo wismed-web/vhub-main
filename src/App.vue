@@ -5,6 +5,7 @@
     </header>
 
     <main v-if="display && !ModalOn">
+
         <div v-if="Mode == 'view'">
             <div id="container-post">
                 <Post v-for="id in PostIDGroup" :id="id" :title="id" />
@@ -12,19 +13,24 @@
             <BtnAdmin />
             <BtnView />
         </div>
+
         <div v-if="Mode == 'input'" id="container-input">
-            <InputTitle />
-            <span>
-                <InputCategory />
+            <div id="container-input-left">
+                <InputTitle />
                 <InputKeyword />
-            </span>
-            <InputContent />
+                <InputCategory />
+            </div>
+            <div id="container-input-right">
+                <InputContent />
+            </div>
             <BtnCompose />
         </div>
+
         <div v-if="Mode == 'users'">
             <UserList />
             <BtnUserList />
         </div>
+
     </main>
 
     <footer v-if="display">
@@ -55,6 +61,7 @@ const { cookies } = useCookies();
 const notification = useNotification()
 
 const HeightOfContent = ref((window.innerHeight * 0.9).toString() + "px");
+const HeightOfInput = ref((window.innerHeight * 0.84).toString() + "px");
 const display = ref(false);
 
 onMounted(async () => {
@@ -145,6 +152,8 @@ body {
     overflow: hidden
 }
 
+/* ///////////////////////////////// */
+
 #container-post {
     width: 50%;
     height: v-bind(HeightOfContent);
@@ -161,19 +170,40 @@ body {
     display: none;
 }
 
+/* ///////////////////////////////// */
+
+/* INPUT */
+
 #container-input {
-    width: 60%;
+    width: 98%;
     height: 100%;
     margin: auto;
-    overflow: scroll;
-    scrollbar-width: none;
-    /* background-color: rgb(220, 220, 220); */
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: stretch;
 }
 
 #container-input::-webkit-scrollbar {
     display: none;
+}
+
+/* LEFT */
+
+#container-input-left {
+    width: 20%;
+    height: v-bind(HeightOfInput);
+    margin-top: 1%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    /* background-color: rgb(144, 200, 221); */
+}
+
+/* RIGHT */
+
+#container-input-right {
+    width: 80%;
+    height: v-bind(HeightOfInput);
+    margin-top: 1%;
 }
 </style>

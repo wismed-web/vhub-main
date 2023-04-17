@@ -1,5 +1,6 @@
 <template>
-    <input class="title" type="text" :placeholder="hint" :title="hint" ref="titleInput" v-model="PostTitle" />
+    <label for="title" id="lbl-title">Title:</label>
+    <input id="title" type="text" :placeholder="hint" :title="hint" ref="titleInput" v-model="PostTitle" />
 </template>
 
 <script setup lang="ts">
@@ -16,10 +17,20 @@ watchEffect(() => { });
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.title {
+#title {
     position: relative;
-    width: auto;
-    font-weight: bold;
-    text-align: center;
+    width: 82%;
+    font-weight: normal;
+    text-align: left;
+    margin: 1% 0% 5% 3%;
+    padding-left: 1%;
 }
+
+#lbl-title {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-style: italic;
+    margin-bottom: 1%;
+}
+
 </style>
