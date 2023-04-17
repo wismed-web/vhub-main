@@ -137,7 +137,7 @@ onMounted(async () => {
             }
             PostIDGroup.value = [...new Set(de.data.concat(PostIDGroup.value))];
             PostIDGroup.value = PostIDGroup.value.filter((element: any) => element !== undefined)
-            console.log("--->", PostIDGroup.value)
+            // console.log("--->", PostIDGroup.value)
         }
     }
 });

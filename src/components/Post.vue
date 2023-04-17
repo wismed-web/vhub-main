@@ -9,8 +9,10 @@
             <span id="topic" @click="TitleDbClick(props.id!)"> {{ Topic }} </span>
         </div>
         <hr id="hr-title">
-        <div class="post-content">
-            <p @click="DisplayContent()"> {{ Content }} </p>
+        <div class="post-content" @click="DisplayContent()">
+            <p> {{ Content }} </p>
+            <!-- v-for i from 1 to n -->
+            <img v-for="i in nImage" :src="getImgSrc(i)" alt="Post-Image" :width="200" :height="200">
         </div>
         <hr id="hr-icons">
         <div id="icons">
@@ -34,6 +36,7 @@
 
 import { useNotification } from "@kyvg/vue3-notification";
 import { getPost, getUserAvatar, getUserFieldValue, patchInteractToggle, getInteractStatus, patchBookmark, getBookmarkStatus, patchInteractRecord } from "@/share/share";
+import { ExtractImgSrc } from "@/share/util";
 
 const props = defineProps({
     id: String,
@@ -41,15 +44,25 @@ const props = defineProps({
 })
 
 const Post = ref()
-const PostContent = ref()
 const Owner = ref("")
 const avatar = ref("")
 const OwnerName = ref("")
+
+const PostContent = ref()
 const Topic = ref("")
+const PostType = ref("")
+const Keywords = ref("")
+const Categories = ref("")
 const Content = ref("")
+const ContentFmt = ref("")
+const nImage = ref(0)
+const imgSrcGrp: string[] = []
+const getImgSrc = (i: number) => {
+    console.log(i, imgSrcGrp[i - 1])
+    return imgSrcGrp[i - 1]
+}
 
 const display = ref(true)
-
 const notification = useNotification()
 
 // icons 
@@ -104,9 +117,24 @@ watchEffect(async () => {
         OwnerName.value = de.data.Name.length > 0 ? de.data.Name : "USER"
     }
 
+    // console.log(Post.value)
+
+    // refer to /api/definition
     PostContent.value = JSON.parse(Post.value.RawJSON)
+    // console.log(PostContent.value)
     Topic.value = PostContent.value.topic
+    PostType.value = PostContent.value.type
+    Keywords.value = PostContent.value.keywords
+    Categories.value = PostContent.value.category
     Content.value = PostContent.value.content_text
+    ContentFmt.value = PostContent.value.content_html
+
+    const srcGrp = await ExtractImgSrc(ContentFmt.value)
+    nImage.value = srcGrp.length
+    console.log("--->", nImage.value)
+    srcGrp.forEach((src) => {
+        imgSrcGrp.push(src)
+    })
 
     //////////////////////////////////////////////
 

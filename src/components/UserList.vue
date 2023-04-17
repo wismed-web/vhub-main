@@ -127,7 +127,7 @@ type ClickRowArgument = Item & {
 // click real action
 const PopupModal = async (item: ClickRowArgument) => {
 
-    console.log(item);
+    // console.log(item);
 
     if (ModalOn.value) {
         return

@@ -65,7 +65,7 @@ const loaded = (event) => {
 
 const selectChange = (event) => {
     selected.value = event.target.files[0]
-    console.log(selected.value.name)
+    // console.log(selected.value.name)
     const src = window.URL.createObjectURL(selected.value)
     if (selected.value.name.endsWith('.mp4')) {
         vSrc.value = src
