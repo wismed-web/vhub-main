@@ -2,7 +2,7 @@ export const ExtractImgSrc = async (html: string) => {
 
     // console.log(html)
 
-    const reImg = /<img\s+(\w+=".+"\s*)*src="data:image\/(png|jpg|jpeg|bmp)\;base64,[^"]+">/g
+    const reImg = /<img\s+(\w+=".+"\s*)*src="data:image\/(png|jpg|jpeg|bmp|gif)\;base64,[^"]+">/g
     const reSrc = /src="[^"]+"/g
     const rtSrcArray: string[] = []
     const imgArray = [...html.matchAll(reImg)]
