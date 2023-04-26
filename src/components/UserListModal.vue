@@ -35,7 +35,7 @@ const props = defineProps({
 
 // Define the events used in the component(optional)
 // This allows you to use hints in components
-defineEmits(['cancel', 'confirm', 'update:visible'])
+// defineEmits(['cancel', 'confirm', 'update:visible'])
 
 // Get Overlay information from useOverlayMeta
 const { visible, resolve, reject } = useOverlayMeta({

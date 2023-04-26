@@ -7,7 +7,7 @@
 
 import { PostTitle } from '@/share/share';
 
-const hint = ref("Topic Name")
+const hint = ref("topic name")
 const titleInput = ref();
 
 onMounted(async () => { titleInput.value.focus(); });

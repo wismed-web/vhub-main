@@ -1,5 +1,5 @@
 <template>
-    <div id="modal" v-if="showProfile">
+    <div id="modal" v-if="profile">
 
         <div id="container-left">
             <span class="lbl-val-span-1">
@@ -146,7 +146,7 @@
 
     </div>
 
-    <CropperForm v-if="showCropper" title="set avatar:" btnConfirmText="set avatar" :maxCropW="512" :minCropW="128" :maxCropH="512" :minCropH="128" @cropReady="cropReady" @cropCancel="cropCancel" />
+    <CropperForm v-if="cropper" title="set avatar:" btnConfirmText="set avatar" :maxCropW="512" :minCropW="128" :maxCropH="512" :minCropH="128" @cropReady="cropReady" @cropCancel="cropCancel" />
     <Loader v-if="loading" id="page-loader" />
 </template>
 
@@ -155,23 +155,23 @@
 import Datepicker from "vue3-datepicker"
 import { useNotification } from "@kyvg/vue3-notification";
 import { CountrySelect, RegionSelect } from "vue3-country-region-select";
-import Loader from "@/components/sub-components/Loader.vue"
 import { loginUser, SelfInfo, SelfAvatar, setAvatar, getAvatar } from "@/share/share"
 import { useOverlayMeta } from '@unoverlays/vue'
 import CropperForm from "@/components/sub-components/CropperForm.vue";
+import Loader from "@/components/sub-components/Loader.vue"
 
 const notification = useNotification()
 
-const showProfile = ref(true);
-const showCropper = ref(false);
+const profile = ref(true);
+const cropper = ref(false);
 const loading = ref(false);
 
 // set dob as default timepicker value
 const dob = ref(new Date(SelfInfo.value.dob))
 
 const PopupSetAvatar = async () => {
-    showProfile.value = false
-    showCropper.value = true
+    profile.value = false
+    cropper.value = true
 };
 
 const props = defineProps({
@@ -180,7 +180,7 @@ const props = defineProps({
 
 // Define the events used in the component(optional)
 // This allows you to use hints in components
-defineEmits(['cancel', 'confirm', 'update:visible'])
+// defineEmits(['cancel', 'confirm', 'update:visible'])
 
 // Get Overlay information from useOverlayMeta
 const { visible, resolve, reject } = useOverlayMeta({
@@ -205,7 +205,7 @@ const cropReady = async (file: string, cropArea: any) => {
             })
             return
         }
-        showCropper.value = false
+        cropper.value = false
     }
     {
         const de = await getAvatar()
@@ -218,15 +218,15 @@ const cropReady = async (file: string, cropArea: any) => {
             return
         }
         SelfAvatar.value = de.data
-        showProfile.value = true
+        profile.value = true
     }
 
     loading.value = false
 }
 
 const cropCancel = async () => {
-    showCropper.value = false
-    showProfile.value = true
+    cropper.value = false
+    profile.value = true
 }
 
 watchEffect(async () => { SelfInfo.value.dob = dob.value.toDateString() })

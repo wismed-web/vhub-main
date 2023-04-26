@@ -4,7 +4,7 @@
         <SelfBlock />
     </header>
 
-    <main v-if="display && !ModalOn">
+    <main v-if="display">
 
         <div v-if="Mode == 'view'">
             <div id="container-post">
@@ -19,9 +19,10 @@
                 <InputTitle />
                 <InputKeyword />
                 <InputCategory />
+                <UploadVideo />
             </div>
             <div id="container-input-right">
-                <InputContent />
+                <InputContent v-if="!ModalOn" />
             </div>
             <BtnCompose />
         </div>
@@ -53,7 +54,8 @@ import Post from "./components/Post.vue";
 import InputTitle from "@/components/input-components/1_Title.vue"
 import InputCategory from "@/components/input-components/2_Category.vue"
 import InputKeyword from "@/components/input-components/3_Keyword.vue"
-import InputContent from "@/components/input-components/4_Content.vue"
+import UploadVideo from "@/components/input-components/4_Video.vue"
+import InputContent from "@/components/input-components/5_Content.vue"
 import UserList from "./components/UserList.vue";
 import BtnUserList from "./components/btn-components/BtnUserList.vue";
 
