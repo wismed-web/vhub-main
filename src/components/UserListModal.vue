@@ -17,8 +17,8 @@
             <option :value="false">No</option>
         </select>
 
-        <button id="btn-confirm" @click="confirm({ role: valRole, active: valActive })">confirm</button>
-        <button id="btn-cancel" @click="cancel('cancel')">cancel</button>
+        <button id="btn-confirm" @click="resolve({ role: valRole, active: valActive })">confirm</button>
+        <button id="btn-cancel" @click="reject('cancel')">cancel</button>
 
     </div>
 </template>
@@ -38,7 +38,7 @@ const props = defineProps({
 defineEmits(['cancel', 'confirm', 'update:visible'])
 
 // Get Overlay information from useOverlayMeta
-const { confirm, cancel } = useOverlayMeta({
+const { visible, resolve, reject } = useOverlayMeta({
     // Animation duration to avoid premature destruction of components
     // Only use component in template and no need to define
     animation: 100

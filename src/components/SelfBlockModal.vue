@@ -141,8 +141,8 @@
 
         </div>
 
-        <button id="btn-confirm" @click="confirm('confirm')">confirm</button>
-        <button id="btn-cancel" @click="cancel('cancel')">cancel</button>
+        <button id="btn-confirm" @click="resolve('confirm')">confirm</button>
+        <button id="btn-cancel" @click="reject('cancel')">cancel</button>
 
     </div>
 
@@ -183,7 +183,7 @@ const props = defineProps({
 defineEmits(['cancel', 'confirm', 'update:visible'])
 
 // Get Overlay information from useOverlayMeta
-const { visible, confirm, cancel } = useOverlayMeta({
+const { visible, resolve, reject } = useOverlayMeta({
     // Animation duration to avoid premature destruction of components
     // Only use component in template and no need to define
     animation: 200

@@ -1,8 +1,8 @@
 <template>
     <div id="modal">
         <input type="text" id="post-id" placeholder="Input Erase Post ID" v-model="EraseID">
-        <button id="btn-confirm" @click="confirm(EraseID)">confirm</button>
-        <button id="btn-cancel" @click="cancel('cancel')">cancel</button>
+        <button id="btn-confirm" @click="resolve(EraseID)">confirm</button>
+        <button id="btn-cancel" @click="reject('cancel')">cancel</button>
     </div>
 </template>
 
@@ -21,7 +21,7 @@ const props = defineProps({
 defineEmits(['cancel', 'confirm', 'update:visible'])
 
 // Get Overlay information from useOverlayMeta
-const { visible, confirm, cancel } = useOverlayMeta({
+const { visible, resolve, reject } = useOverlayMeta({
     // Animation duration to avoid premature destruction of components
     // Only use component in template and no need to define
     animation: 200

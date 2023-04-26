@@ -1,8 +1,8 @@
 <template>
     <div id="modal">
         <span id="prefix">{{ props.text }}</span>
-        <button id="btn-confirm" @click="confirm('confirm')">confirm</button>
-        <button id="btn-cancel" @click="cancel('cancel')">cancel</button>
+        <button id="btn-confirm" @click="resolve('confirm')">confirm</button>
+        <button id="btn-cancel" @click="reject('cancel')">cancel</button>
     </div>
 </template>
 
@@ -18,10 +18,10 @@ const props = defineProps({
 
 // Define the events used in the component(optional)
 // This allows you to use hints in components
-defineEmits(['cancel', 'confirm', 'update:visible'])
+// defineEmits(['cancel', 'confirm', 'update:visible'])
 
 // Get Overlay information from useOverlayMeta
-const { confirm, cancel } = useOverlayMeta({
+const { visible, resolve, reject } = useOverlayMeta({
     // Animation duration to avoid premature destruction of components
     // Only use component in template and no need to define
     animation: 100
