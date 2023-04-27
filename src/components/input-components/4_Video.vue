@@ -5,7 +5,7 @@
             <font-awesome-icon icon="upload" />
         </button>
     </span>
-    <CropperForm v-if="cropper" title="upload video" btnConfirmText="upload video" :maxCropW="1024" :maxCropH="1024" @cropReady="cropReady" @cropCancel="cropCancel" />
+    <CropperForm v-if="cropper" title="upload video" btnOkText="upload" :maxCropW="1024" :maxCropH="1024" @cropReady="cropReady" @cropCancel="cropCancel" />
     <Loader v-if="loading" id="page-loader" />
 </template>
 
@@ -14,7 +14,8 @@
 import { useNotification } from "@kyvg/vue3-notification";
 import CropperForm from "@/components/sub-components/CropperForm.vue";
 import Loader from "@/components/sub-components/Loader.vue"
-import { ModalOn } from "@/share/share";
+import { ModalOn, uploadMedia } from "@/share/share";
+import { URL_API } from "@/share/ip";
 
 const notification = useNotification()
 
@@ -36,30 +37,20 @@ const cropReady = async (file: string, cropArea: any) => {
 
     loading.value = true
 
-    // {
-    //     const de = await setAvatar(file, cropArea.left, cropArea.top, cropArea.width, cropArea.height)
-    //     if (de.error != null) {
-    //         notification.notify({
-    //             title: "Error: Set Avatar",
-    //             text: de.error,
-    //             type: "error"
-    //         })
-    //         return
-    //     }
-    //     cropper.value = false
-    // }
-    // {
-    //     const de = await getAvatar()
-    //     if (de.error != null) {
-    //         notification.notify({
-    //             title: "Error: Get Avatar",
-    //             text: de.error,
-    //             type: "error"
-    //         })
-    //         return
-    //     }
-    //     SelfAvatar.value = de.data
-    // }
+    {
+        const de = await uploadMedia(file, cropArea.left, cropArea.top, cropArea.width, cropArea.height, "", "", "")
+        if (de.error != null) {
+            notification.notify({
+                title: "Error: Upload Media",
+                text: de.error,
+                type: "error"
+            })
+            return
+        }
+        cropper.value = false
+        ModalOn.value = false
+        url.value = URL_API + "/" + de.data
+    }
 
     loading.value = false
 }
@@ -91,5 +82,13 @@ const cropCancel = async () => {
 
 #btn-video {
     width: 8%;
+}
+
+/* loader */
+#page-loader {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 </style>

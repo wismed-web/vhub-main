@@ -2,6 +2,6 @@
     <DotLoader />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { DotLoader } from "vue3-spinner";
 </script>

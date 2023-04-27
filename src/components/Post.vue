@@ -12,7 +12,8 @@
         <div class="post-content" @click="DisplayContent()">
             <p> {{ Content }} </p>
             <!-- v-for i from 1 to n -->
-            <img v-for="i in nImage" :src="getImgSrc(i)" alt="Post-Image" :width="200" :height="200" class="img-area">
+            <img v-for="i in nImage" :src="getImgSrc(i)" alt="Post-Image" :width="200" :height="200" class="media-area">
+            <video v-for="i in nVideo" :src="getVideoSrc(i)" :width="200" :height="200" class="media-area" controls></video>
         </div>
         <hr id="hr-icons">
         <div id="icons">
@@ -36,7 +37,7 @@
 
 import { useNotification } from "@kyvg/vue3-notification";
 import { getPost, getUserAvatar, getUserFieldValue, patchInteractToggle, getInteractStatus, patchBookmark, getBookmarkStatus, patchInteractRecord } from "@/share/share";
-import { ExtractImgSrc } from "@/share/util";
+import { ExtractImgSrcBase64, ExtractIframeSrcUrl } from "@/share/util";
 
 const props = defineProps({
     id: String,
@@ -55,11 +56,16 @@ const Keywords = ref("")
 const Categories = ref("")
 const Content = ref("")
 const ContentFmt = ref("")
+
 const nImage = ref(0)
 const imgSrcGrp: string[] = []
 const getImgSrc = (i: number) => {
-    console.log(i, imgSrcGrp[i - 1])
     return imgSrcGrp[i - 1]
+}
+const nVideo = ref(0)
+const videoSrcGrp: string[] = []
+const getVideoSrc = (i: number) => {
+    return videoSrcGrp[i - 1]
 }
 
 const display = ref(true)
@@ -129,12 +135,17 @@ watchEffect(async () => {
     Content.value = PostContent.value.content_text
     ContentFmt.value = PostContent.value.content_html
 
-    const srcGrp = await ExtractImgSrc(ContentFmt.value)
-    nImage.value = srcGrp.length
-    console.log("--->", nImage.value)
-    srcGrp.forEach((src) => {
-        imgSrcGrp.push(src)
-    })
+    // console.log("Content:", ContentFmt.value)
+
+    const srcImgGrp = await ExtractImgSrcBase64(ContentFmt.value)
+    nImage.value = srcImgGrp.length
+    console.log("images: --->", nImage.value)
+    srcImgGrp.forEach((src) => { imgSrcGrp.push(src) })
+
+    const srcVideoGrp = await ExtractIframeSrcUrl(ContentFmt.value)
+    nVideo.value = srcVideoGrp.length
+    console.log("videos: --->", nVideo.value)
+    srcVideoGrp.forEach((src) => { videoSrcGrp.push(src) })
 
     //////////////////////////////////////////////
 
@@ -328,8 +339,8 @@ const EyeColor = computed(() => nSeen.value > 0 ? "black" : "darkgrey")
     vertical-align: middle;
 }
 
-.img-area {
-    border-radius: 5%;
+.media-area {
+    border-radius: 3%;
     object-fit: cover;
     margin-right: 1%;
 }

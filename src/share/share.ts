@@ -140,6 +140,23 @@ export const postFormfile = async (file: any, note: string, addym: boolean, grou
     };
 }
 
+export const uploadMedia = async (file: any, left: number, top: number, width: number, height: number, group0: string, group1: string, group2: string) => {
+    const mForm = new Map<string, any>([
+        ["file", file],
+        ["note", left > 0 && top > 0 && width > 0 && height > 0 ? `crop:${left},${top},${width},${height}` : ""],
+        ["addym", true],
+        ["group0", group0],
+        ["group1", group1],
+        ["group2", group2],
+    ]);
+    const rt = await fetchBodyForm(`/api/file/auth/upload-formfile`, `POST`, mEmpty, mForm, loginAuth.value);
+    const err = await fetchErr(rt, onExpired)
+    return {
+        'data': err == null ? (rt as any[])[0] : null,
+        'error': err
+    };
+}
+
 export const setAvatar = async (avatar: any, left: number, top: number, width: number, height: number) => {
     const mForm = new Map<string, any>([
         ["avatar", avatar],
