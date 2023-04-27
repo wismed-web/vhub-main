@@ -22,7 +22,7 @@
                 <UploadVideo />
             </div>
             <div id="container-input-right">
-                <InputContent v-if="!ModalOn" />
+                <InputContent :hidden="ModalOn" />
             </div>
             <BtnCompose />
         </div>

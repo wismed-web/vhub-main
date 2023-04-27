@@ -5,7 +5,7 @@
             <font-awesome-icon icon="upload" />
         </button>
     </span>
-    <CropperForm v-if="cropper" title="upload video" btnOkText="upload" :maxCropW="1024" :maxCropH="1024" @cropReady="cropReady" @cropCancel="cropCancel" />
+    <CropperForm v-if="cropper" title="get video url:" cropType="video" btnOkText="fetch url" :maxCropW="1024" :maxCropH="1024" @cropReady="cropReady" @cropCancel="cropCancel" />
     <Loader v-if="loading" id="page-loader" />
 </template>
 

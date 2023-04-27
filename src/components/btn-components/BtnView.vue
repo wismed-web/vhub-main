@@ -15,14 +15,17 @@
 
 import { useOverlayMeta, renderOverlay } from '@unoverlays/vue'
 import { useNotification } from "@kyvg/vue3-notification";
-import { Mode, ModalOn, getPostID, PostIDGroup, putLogout } from "@/share/share";
+import { Mode, ModalOn, getPostID, PostIDGroup, putLogout, ClearPost } from "@/share/share";
 import Loader from "@/components/sub-components/Loader.vue";
 import CCModal from "@/components/sub-components/CCModal.vue"
 import { URL_SIGN } from "@/share/ip";
 
 const notification = useNotification()
 
-const Compose = async () => { Mode.value = 'input' }
+const Compose = async () => {
+    Mode.value = 'input'
+    ClearPost()
+}
 
 const loading = ref(false)
 const MorePosts = async () => {
@@ -44,7 +47,7 @@ const MorePosts = async () => {
         const prevCnt = PostIDGroup.value?.length
         PostIDGroup.value = [...new Set(de.data.concat(PostIDGroup.value))];
         PostIDGroup.value = PostIDGroup.value.filter((element: any) => element !== undefined)
-        
+
         console.log("PostIDGroup: ", PostIDGroup.value)
 
         if (PostIDGroup.value.length == prevCnt) {

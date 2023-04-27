@@ -50,6 +50,7 @@ const Submit = async () => {
         }
     }
 
+    // jump to view mode from compose mode
     Mode.value = 'view'
 
     {
@@ -74,8 +75,6 @@ const Submit = async () => {
         PostIDGroup.value = PostIDGroup.value.filter((element: any) => element !== undefined)
         // console.log("--->", PostIDGroup.value)
     }
-
-    ClearPost()
 };
 
 const Exit = async () => {

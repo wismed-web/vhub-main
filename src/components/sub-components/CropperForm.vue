@@ -11,7 +11,7 @@
         <button id="btnCancel" class="btn" @click="cancel">cancel</button>
         <button class="btn" :disabled="!btnOkEnable" @click="confirm">{{ props.btnOkText }}</button>
         <button class="btn" onclick="document.getElementById('fileSelector').click()">open</button>
-        <input id="fileSelector" type='file' :hidden="true" accept="image/*, video/*" @change="selectChange" />
+        <input id="fileSelector" type='file' :hidden="true" :accept="inputFilter" @change="selectChange" />
 
     </div>
 </template>
@@ -23,6 +23,7 @@ import 'vue-advanced-cropper/dist/style.css';
 
 const props = defineProps({
     title: String,
+    cropType: String,
     maxCropW: Number,
     minCropW: Number,
     maxCropH: Number,
@@ -31,6 +32,17 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['cropCancel', 'cropReady'])
+
+const inputFilter = computed(() => {
+    switch (props.cropType) {
+        case "image":
+            return "image/*"
+        case "video":
+            return "video/*"
+        default:
+            return "image/*, video/*"
+    }
+})
 
 // https://github.com/advanced-cropper/vue-advanced-cropper
 const btnOkEnable = ref(false)
