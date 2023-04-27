@@ -17,6 +17,9 @@
         </div>
         <hr id="hr-icons">
         <div id="icons">
+            <a id="comment" @click="Comment()">
+                <font-awesome-icon icon="comment" /> {{ nComment }}
+            </a>
             <a id="eye">
                 <font-awesome-icon icon="eye" /> {{ nSeen }}
             </a>
@@ -29,6 +32,9 @@
             <a id="thumb" @click="ThumbsUp()">
                 <font-awesome-icon icon="thumbs-up" /> {{ nThumbsUp }}
             </a>
+        </div>
+        <div>
+            <!-- Comment Post -->
         </div>
     </div>
 </template>
@@ -79,6 +85,7 @@ const DidHeartLike = ref(false)
 const DidBookmark = ref(false)
 const nSeen = ref(0)
 const DidSeen = ref(false)
+const nComment = ref(0)
 
 onMounted(async () => { })
 
@@ -255,6 +262,10 @@ const Bookmark = async () => {
     DidBookmark.value = de.data
 }
 
+const Comment = async () => {
+    alert("TODO: comment")
+}
+
 // for simulate double click
 let t = 0;
 let got1st = false;
@@ -285,6 +296,7 @@ const HeartLikeColor = computed(() => DidHeartLike.value ? "red" : "darkgrey")
 const ThumbsUpColor = computed(() => DidThumbsUp.value ? "blue" : "darkgrey")
 const BookmarkColor = computed(() => DidBookmark.value ? "yellowgreen" : "darkgrey")
 const EyeColor = computed(() => nSeen.value > 0 ? "black" : "darkgrey")
+const CommentColor = computed(() => nComment.value > 0 ? "lightseagreen" : "darkgrey")
 
 </script>
 
@@ -392,6 +404,13 @@ const EyeColor = computed(() => nSeen.value > 0 ? "black" : "darkgrey")
 #eye {
     float: right;
     color: v-bind(EyeColor);
+    margin-right: 3%;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+#comment {
+    float: right;
+    color: v-bind(CommentColor);
     margin-right: 3%;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
