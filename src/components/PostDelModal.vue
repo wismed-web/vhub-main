@@ -46,7 +46,7 @@ let bottomRow1 = '10px'
     transform: translate(-50%, -50%);
     width: 20%;
     height: 8%;
-    background-color: rgb(200, 200, 200);
+    background-color: rgb(210, 220, 220);
     opacity: 0.99;
     display: flex;
     align-items: stretch;

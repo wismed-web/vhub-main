@@ -1,7 +1,7 @@
 <template>
     <div v-if="display" class="post">
         <div class="title">
-            <img :src="avatar" alt="avatar" class="img-area">
+            <img :src="avatar" alt="avatar" class="avatar-area">
             <div class="owner">
                 <p id="owner-name"> {{ OwnerName }} </p>
                 <p id="owner-id"> @{{ Owner }} </p>
@@ -12,7 +12,7 @@
         <div class="post-content" @click="DisplayContent()">
             <p> {{ Content }} </p>
             <!-- v-for i from 1 to n -->
-            <img v-for="i in nImage" :src="getImgSrc(i)" alt="Post-Image" :width="200" :height="200">
+            <img v-for="i in nImage" :src="getImgSrc(i)" alt="Post-Image" :width="200" :height="200" class="img-area">
         </div>
         <hr id="hr-icons">
         <div id="icons">
@@ -291,7 +291,7 @@ const EyeColor = computed(() => nSeen.value > 0 ? "black" : "darkgrey")
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
-.img-area {
+.avatar-area {
     float: left;
     color: rgb(33, 31, 31);
     width: 3.5em;
@@ -326,6 +326,12 @@ const EyeColor = computed(() => nSeen.value > 0 ? "black" : "darkgrey")
     padding: 0% 2% 0% 2%;
     margin: auto;
     vertical-align: middle;
+}
+
+.img-area {
+    border-radius: 5%;
+    object-fit: cover;
+    margin-right: 1%;
 }
 
 /* ******************************** */
