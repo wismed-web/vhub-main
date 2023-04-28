@@ -105,7 +105,7 @@
 
             <span class="lbl-val-span-3">
                 <label class="lbl-c3" for="val-role">V-HUB&nbsp;Role:</label>
-                <select id="val-role" class="val-box" v-model="SelfInfo.role">
+                <select id="val-role" class="val-box" v-model="SelfInfo.role" disabled>
                     <option value="user">user</option>
                     <option value="admin">admin</option>
                     <option value="system">system</option>
@@ -114,7 +114,7 @@
 
             <span class="lbl-val-span-3">
                 <label class="lbl-c3" for="val-official">Official&nbsp;Account:</label>
-                <select id="val-official" class="val-box" v-model="SelfInfo.official">
+                <select id="val-official" class="val-box" v-model="SelfInfo.official" disabled>
                     <option :value="true">True</option>
                     <option :value="false">False</option>
                 </select>
@@ -122,7 +122,7 @@
 
             <span class="lbl-val-span-3">
                 <label class="lbl-c3" for="val-certified">Certified:</label>
-                <select id="val-certified" class="val-box" v-model="SelfInfo.certified">
+                <select id="val-certified" class="val-box" v-model="SelfInfo.certified" disabled>
                     <option :value="true">True</option>
                     <option :value="false">False</option>
                 </select>

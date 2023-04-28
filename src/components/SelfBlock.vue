@@ -1,6 +1,6 @@
 <template>
     <div class="user-block">
-        <img :src="SelfAvatar" alt="avatar" class="img-area" @click="PopupSelfModal()">
+        <img :src="SelfAvatar" alt="avatar" class="avatar-area" @click="PopupSelfModal()">
         <div class="name-area">
             {{ SelfInfo.name }}
             <br v-if="SelfInfo.name.length > 0">
@@ -115,7 +115,7 @@ watchEffect(async () => { })
     box-shadow: 2px 2px 3px #999;
 }
 
-.img-area {
+.avatar-area {
     float: left;
     color: rgb(33, 31, 31);
     width: 40%;
@@ -124,7 +124,7 @@ watchEffect(async () => { })
     object-fit: contain;
 }
 
-.img-area:hover {
+.avatar-area:hover {
     cursor: pointer;
 }
 

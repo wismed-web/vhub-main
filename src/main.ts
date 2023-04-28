@@ -31,7 +31,8 @@ import {
     faStar,
     faBackward,
     faUpload,
-    faComment
+    faComment,
+    faReply
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -57,7 +58,8 @@ library.add(
     faStar,
     faBackward,
     faUpload,
-    faComment
+    faComment,
+    faReply
 );
 
 // createApp(App).mount('#app')

@@ -33,8 +33,9 @@
                 <font-awesome-icon icon="thumbs-up" /> {{ nThumbsUp }}
             </a>
         </div>
-        <div>
-            <!-- Comment Post -->
+        <hr id="hr-comment">
+        <div v-if="inputComment">
+            <CommentInput />
         </div>
     </div>
 </template>
@@ -44,6 +45,7 @@
 import { useNotification } from "@kyvg/vue3-notification";
 import { getPost, getUserAvatar, getUserFieldValue, patchInteractToggle, getInteractStatus, patchBookmark, getBookmarkStatus, patchInteractRecord } from "@/share/share";
 import { ExtractImgSrcBase64, ExtractIframeSrcUrl } from "@/share/util";
+import CommentInput from "./CommentInput.vue";
 
 const props = defineProps({
     id: String,
@@ -87,10 +89,12 @@ const nSeen = ref(0)
 const DidSeen = ref(false)
 const nComment = ref(0)
 
+// comment
+const inputComment = ref(false)
+
 onMounted(async () => { })
 
 watchEffect(async () => {
-
     {
         const de = await getPost(props.id!)
         if (de.error != null) {
@@ -263,7 +267,7 @@ const Bookmark = async () => {
 }
 
 const Comment = async () => {
-    alert("TODO: comment")
+    inputComment.value = !inputComment.value
 }
 
 // for simulate double click
@@ -358,6 +362,12 @@ const CommentColor = computed(() => nComment.value > 0 ? "lightseagreen" : "dark
 }
 
 /* ******************************** */
+
+#hr-comment {
+    border-top: 0.8px #8c8b8b;
+    width: 95%;
+    margin-left: 5%;
+}
 
 #hr-icons {
     border-top: 0.5px #8c8b8b;
