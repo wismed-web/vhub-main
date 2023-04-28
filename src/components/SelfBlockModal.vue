@@ -199,7 +199,7 @@ const cropReady = async (file: string, cropArea: any) => {
         const de = await setAvatar(file, cropArea.left, cropArea.top, cropArea.width, cropArea.height)
         if (de.error != null) {
             notification.notify({
-                title: "Error: Set Avatar",
+                title: "Set Avatar",
                 text: de.error,
                 type: "error"
             })
@@ -211,7 +211,7 @@ const cropReady = async (file: string, cropArea: any) => {
         const de = await getAvatar()
         if (de.error != null) {
             notification.notify({
-                title: "Error: Get Avatar",
+                title: "Get Avatar",
                 text: de.error,
                 type: "error"
             })

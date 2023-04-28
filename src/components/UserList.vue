@@ -43,7 +43,7 @@ const reloadTable = async () => {
         const de = await getUserInfoList('', '');
         if (de.error != null) {
             notification.notify({
-                title: "Error: User Info List",
+                title: "User Info List",
                 text: de.error,
                 type: "error"
             })
@@ -58,7 +58,7 @@ const reloadTable = async () => {
         const de = await getUserOnline();
         if (de.error != null) {
             notification.notify({
-                title: "Error: User Online List",
+                title: "User Online List",
                 text: de.error,
                 type: "error"
             })
@@ -148,7 +148,7 @@ const PopupModal = async (item: ClickRowArgument) => {
         const de = await putUser(item['user'], result)
         if (de.error != null) {
             notification.notify({
-                title: "Error: Update User",
+                title: "Update User",
                 text: de.error,
                 type: "error"
             })

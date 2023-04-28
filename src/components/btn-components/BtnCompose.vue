@@ -22,7 +22,7 @@ const Submit = async () => {
         const de = await getTemplate()
         if (de.error != null) {
             notification.notify({
-                title: "Error: Get Post Template",
+                title: "Get Post Template",
                 text: de.error,
                 type: "error"
             })
@@ -42,7 +42,7 @@ const Submit = async () => {
         const de = await postSubmit(template, "")
         if (de.error != null) {
             notification.notify({
-                title: "Error: Submit Post",
+                title: "Submit Post",
                 text: de.error,
                 type: "error"
             })
@@ -57,7 +57,7 @@ const Submit = async () => {
         const de = await getPostID('time', 15) // 15 minutes
         if (de.error != null) {
             notification.notify({
-                title: "Error: Get Post ID",
+                title: "Get Post ID",
                 text: de.error,
                 type: "error"
             })

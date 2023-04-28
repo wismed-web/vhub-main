@@ -11,12 +11,14 @@
 <script setup lang="ts">
 
 import { useNotification } from "@kyvg/vue3-notification"
-import { SelfAvatar, postSubmit, getTemplate } from '@/share/share'
+import { SelfAvatar, postSubmit, getTemplate, getComment } from '@/share/share'
 
 const props = defineProps({
     id: String,
     title: String,
 })
+
+const emit = defineEmits(['onUpdateComment']) // invoke Post method to update comment number etc.
 
 const notification = useNotification()
 const comment = ref("")
@@ -41,7 +43,7 @@ const reply = async () => {
         const de = await getTemplate()
         if (de.error != null) {
             notification.notify({
-                title: "Error: Get Post Template",
+                title: "Get Post Template",
                 text: de.error,
                 type: "error"
             })
@@ -60,7 +62,7 @@ const reply = async () => {
         const de = await postSubmit(template, props.id!)
         if (de.error != null) {
             notification.notify({
-                title: "Error: Submit Comment",
+                title: "Submit Comment",
                 text: de.error,
                 type: "error"
             })
@@ -72,6 +74,12 @@ const reply = async () => {
         text: "replied!",
         type: "success"
     })
+
+    // clear comment input
+    comment.value = ""
+
+    // update comment number
+    emit('onUpdateComment')
 }
 
 </script>

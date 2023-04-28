@@ -34,7 +34,7 @@ const MorePosts = async () => {
         const de = await getPostID('time', 15) // 15 minutes
         if (de.error != null) {
             notification.notify({
-                title: "Error: Get Post ID",
+                title: "Get Post ID",
                 text: de.error,
                 type: "error"
             })
@@ -81,7 +81,7 @@ const Exit = async () => {
             const de = await putLogout()
             if (de.error != null) {
                 notification.notify({
-                    title: "Error: Logout",
+                    title: "Logout",
                     text: de.error,
                     type: "error"
                 })

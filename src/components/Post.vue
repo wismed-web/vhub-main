@@ -17,7 +17,7 @@
         </div>
         <hr id="hr-icons">
         <div id="icons">
-            <a id="comment" @click="Comment()">
+            <a id="comment" @click="ToggleComment()">
                 <font-awesome-icon icon="comment" /> {{ nComment }}
             </a>
             <a id="eye">
@@ -35,7 +35,7 @@
         </div>
         <hr id="hr-comment">
         <div v-if="inputComment">
-            <CommentInput :id="props.id!" :title="props.title!" />
+            <CommentInput :id="props.id!" :title="props.title!" @onUpdateComment="UpdateComment" />
         </div>
     </div>
 </template>
@@ -43,13 +43,13 @@
 <script setup lang="ts">
 
 import { useNotification } from "@kyvg/vue3-notification";
-import { getPost, getUserAvatar, getUserFieldValue, patchInteractToggle, getInteractStatus, patchBookmark, getBookmarkStatus, patchInteractRecord } from "@/share/share";
+import { getPost, getUserAvatar, getUserFieldValue, patchInteractToggle, getInteractStatus, patchBookmark, getBookmarkStatus, patchInteractRecord, getComment } from "@/share/share";
 import { ExtractImgSrcBase64, ExtractIframeSrcUrl } from "@/share/util";
-import CommentInput from "./CommentInput.vue";
+import CommentInput from "@/components/post-components/CommentInput.vue";
 
 const props = defineProps({
     id: String,
-    title: String,
+    title: String
 })
 
 const Post = ref()
@@ -87,19 +87,21 @@ const DidHeartLike = ref(false)
 const DidBookmark = ref(false)
 const nSeen = ref(0)
 const DidSeen = ref(false)
-const nComment = ref(0)
 
 // comment
 const inputComment = ref(false)
+const nComment = ref(0) // child 'CommentInput' updates
 
-onMounted(async () => { })
+onMounted(async () => {
+    await UpdateComment()
+})
 
 watchEffect(async () => {
     {
         const de = await getPost(props.id!)
         if (de.error != null) {
             notification.notify({
-                title: "Error: Get Post",
+                title: "Get Post",
                 text: de.error,
                 type: "error"
             })
@@ -113,7 +115,7 @@ watchEffect(async () => {
         const de = await getUserAvatar(Owner.value)
         if (de.error != null) {
             notification.notify({
-                title: "Error: Get User Avatar",
+                title: "Get User Avatar",
                 text: de.error,
                 type: "error"
             })
@@ -125,7 +127,7 @@ watchEffect(async () => {
         const de = await getUserFieldValue(Owner.value)
         if (de.error != null) {
             notification.notify({
-                title: "Error: Get User Name",
+                title: "Get User Name",
                 text: de.error,
                 type: "error"
             })
@@ -164,7 +166,7 @@ watchEffect(async () => {
         const de = await getInteractStatus("ThumbsUp", props.id!)
         if (de.error != null) {
             notification.notify({
-                title: "Error: Get ThumbsUp Status",
+                title: "Get ThumbsUp Status",
                 text: de.error,
                 type: "error"
             })
@@ -177,7 +179,7 @@ watchEffect(async () => {
         const de = await getInteractStatus("HeartLike", props.id!)
         if (de.error != null) {
             notification.notify({
-                title: "Error: Get HeartLike Status",
+                title: "Get HeartLike Status",
                 text: de.error,
                 type: "error"
             })
@@ -190,7 +192,7 @@ watchEffect(async () => {
         const de = await getInteractStatus("Seen", props.id!)
         if (de.error != null) {
             notification.notify({
-                title: "Error: Get Seen Status",
+                title: "Get Seen Status",
                 text: de.error,
                 type: "error"
             })
@@ -203,7 +205,7 @@ watchEffect(async () => {
         const de = await getBookmarkStatus(props.id!)
         if (de.error != null) {
             notification.notify({
-                title: "Error: Get Bookmark Status",
+                title: "Get Bookmark Status",
                 text: de.error,
                 type: "error"
             })
@@ -217,7 +219,7 @@ const DisplayContent = async () => {
     const de = await patchInteractRecord("Seen", props.id!)
     if (de.error != null) {
         notification.notify({
-            title: "Error: Update Seen Status",
+            title: "Update Seen Status",
             text: de.error,
             type: "error"
         })
@@ -227,14 +229,13 @@ const DisplayContent = async () => {
     DidSeen.value = de.data.Status
 
     // Open Detail ...
-
 }
 
 const ThumbsUp = async () => {
     const de = await patchInteractToggle("ThumbsUp", props.id!)
     if (de.error != null) {
         notification.notify({
-            title: "Error: Update ThumbsUp Status",
+            title: "Update ThumbsUp Status",
             text: de.error,
             type: "error"
         })
@@ -248,7 +249,7 @@ const HeartLike = async () => {
     const de = await patchInteractToggle("HeartLike", props.id!)
     if (de.error != null) {
         notification.notify({
-            title: "Error: Update HeartLike Status",
+            title: "Update HeartLike Status",
             text: de.error,
             type: "error"
         })
@@ -266,11 +267,24 @@ const Bookmark = async () => {
     DidBookmark.value = de.data
 }
 
-const Comment = async () => {
+const ToggleComment = async () => {
     inputComment.value = !inputComment.value
 }
 
-// for simulate double click
+const UpdateComment = async () => {
+    const de = await getComment(props.id!)
+    if (de.error != null) {
+        notification.notify({
+            title: "getComment",
+            text: de.error,
+            type: "error"
+        })
+        return
+    }
+    nComment.value = de.data.length
+}
+
+// simulate double click
 let t = 0;
 let got1st = false;
 const interval = 300;
@@ -423,5 +437,9 @@ const CommentColor = computed(() => nComment.value > 0 ? "lightseagreen" : "dark
     color: v-bind(CommentColor);
     margin-right: 3%;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+#comment:hover {
+    cursor: pointer;
 }
 </style>

@@ -36,7 +36,7 @@ const DelPost = async () => {
             const de = await delRemovePost(id)
             if (de.error != null) {
                 notification.notify({
-                    title: "Error: Remove Post",
+                    title: "Remove Post",
                     text: de.error,
                     type: "error"
                 })

@@ -264,6 +264,15 @@ export const postSubmit = async (post: any, followee: string) => {
     };
 }
 
+export const getComment = async (followee: string) => {
+    const rt = await fetchNoBody(`api/reply/${followee}`, "GET", mEmpty, loginAuth.value)
+    const err = await fetchErr(rt, onExpired)
+    return {
+        'data': err == null ? (rt as any[])[0] : null,
+        'error': err
+    };
+}
+
 export const getInteractStatus = async (action: string, id: string) => {
     const rt = await fetchNoBody(`api/interact/${action}/status/${id}`, "GET", mEmpty, loginAuth.value)
     const err = await fetchErr(rt, onExpired)

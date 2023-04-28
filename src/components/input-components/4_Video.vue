@@ -41,7 +41,7 @@ const cropReady = async (file: string, cropArea: any) => {
         const de = await uploadMedia(file, cropArea.left, cropArea.top, cropArea.width, cropArea.height, "", "", "")
         if (de.error != null) {
             notification.notify({
-                title: "Error: Upload Media",
+                title: "Upload Media",
                 text: de.error,
                 type: "error"
             })

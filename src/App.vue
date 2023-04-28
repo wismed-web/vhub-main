@@ -91,7 +91,7 @@ onMounted(async () => {
             const de = await getSelfName();
             if (de.error != null) {
                 notification.notify({
-                    title: "Error: Cannot Get Self User Name",
+                    title: "Failed to get self user name",
                     text: de.error,
                     type: "error"
                 })
@@ -104,7 +104,7 @@ onMounted(async () => {
             const de = await getUserInfoList(loginUser.value, "")
             if (de.error != null) {
                 notification.notify({
-                    title: "Error: Cannot Get Self Info",
+                    title: "Failed to get self info",
                     text: de.error,
                     type: "error"
                 })
@@ -123,7 +123,7 @@ onMounted(async () => {
             const de = await getPostID('time', 15 * 4 * 24 * 2) // 2 days
             if (de.error != null) {
                 notification.notify({
-                    title: "Error: Get Post ID",
+                    title: "Get Post ID",
                     text: de.error,
                     type: "error"
                 })

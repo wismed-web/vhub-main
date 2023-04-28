@@ -36,7 +36,7 @@ const PopupSelfModal = async () => {
         const de = await getUserInfoList(loginUser.value, "")
         if (de.error != null) {
             notification.notify({
-                title: "Error: Cannot Get Self Info",
+                title: "Failed to get self info",
                 text: de.error,
                 type: "error"
             })
@@ -51,7 +51,7 @@ const PopupSelfModal = async () => {
                 const de = await putUser(loginUser.value, SelfInfo.value)
                 if (de.error != null) {
                     notification.notify({
-                        title: "Error: Update User",
+                        title: "Update User",
                         text: de.error,
                         type: "error"
                     })
@@ -71,7 +71,7 @@ const PopupSelfModal = async () => {
         const de = await getUserInfoList(loginUser.value, "")
         if (de.error != null) {
             notification.notify({
-                title: "Error: Cannot Get Self Info",
+                title: "Failed to get self info",
                 text: de.error,
                 type: "error"
             })
@@ -88,7 +88,7 @@ onMounted(async () => {
     const de = await getAvatar();
     if (de.error != null) {
         notification.notify({
-            title: "Error: Get Self Avatar",
+            title: "Failed to get self avatar",
             text: de.error,
             type: "error"
         })
