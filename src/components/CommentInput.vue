@@ -10,8 +10,15 @@
 
 <script setup lang="ts">
 
-import { SelfAvatar } from '@/share/share'
+import { useNotification } from "@kyvg/vue3-notification"
+import { SelfAvatar, postSubmit, getTemplate } from '@/share/share'
 
+const props = defineProps({
+    id: String,
+    title: String,
+})
+
+const notification = useNotification()
 const comment = ref("")
 const ta = ref<HTMLTextAreaElement>()
 
@@ -28,7 +35,43 @@ const resize = async () => {
 }
 
 const reply = async () => {
-    alert(comment.value)
+
+    let template: { topic: string; type: string; category: string; keywords: string; content_html: string; content_text: string; }
+    {
+        const de = await getTemplate()
+        if (de.error != null) {
+            notification.notify({
+                title: "Error: Get Post Template",
+                text: de.error,
+                type: "error"
+            })
+            return
+        }
+        template = de.data
+
+        template.topic = props.title!
+        template.type = "Comment"
+        template.category = ""
+        template.keywords = ""
+        template.content_html = ""
+        template.content_text = comment.value
+    }
+    {
+        const de = await postSubmit(template, props.id!)
+        if (de.error != null) {
+            notification.notify({
+                title: "Error: Submit Comment",
+                text: de.error,
+                type: "error"
+            })
+            return
+        }
+    }
+    notification.notify({
+        title: "",
+        text: "replied!",
+        type: "success"
+    })
 }
 
 </script>
@@ -58,6 +101,6 @@ const reply = async () => {
 
 #btn-reply {
     float: right;
-    margin: 1% 2% 1% 0%;
+    margin: 1% 2% 0% 0%;
 }
 </style>

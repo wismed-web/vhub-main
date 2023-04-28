@@ -35,7 +35,7 @@
         </div>
         <hr id="hr-comment">
         <div v-if="inputComment">
-            <CommentInput />
+            <CommentInput :id="props.id!" :title="props.title!" />
         </div>
     </div>
 </template>
