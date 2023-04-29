@@ -23,7 +23,7 @@
             <a id="heart" @click="HeartLike()"> <font-awesome-icon icon="heart" /> {{ nHeart }} </a>
             <a id="thumb" @click="ThumbsUp()"> <font-awesome-icon icon="thumbs-up" /> {{ nThumbsUp }} </a>
         </div>
-        <hr id="hr-reply-blk">
+        <hr v-if="blkReply" id="hr-reply-blk">
         <div v-if="blkReply">
             <ReplyInput :id="props.id!" :title="props.title!" @onUpdateReply="UpdateReply" />
             <Reply v-for="i in nReply" :id="Replies[i - 1]" />

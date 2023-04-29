@@ -29,6 +29,7 @@ headers.value = [
     { text: "ROLE", value: "role", sortable: true },
     { text: "ONLINE", value: "online", sortable: true },
     { text: "ACTIVE", value: "active", sortable: true },
+    { text: "JOINED", value: "joined", sortable: true }
 ];
 items.value = [
     // { user: "", email: "", role: "", online: "", active: "" },
@@ -82,6 +83,7 @@ const reloadTable = async () => {
             const email = user["email"];
             const active = user["active"];
             const role = user["role"];
+            const joined = (user["regtime"] as string).substring(0, 10); // only retrieve YYYY-MM-DD
 
             items.value.push({
                 user: uname,
@@ -89,6 +91,7 @@ const reloadTable = async () => {
                 role: role,
                 online: onlineUsers.includes(uname),
                 active: active,
+                joined: joined,
             });
         });
     }

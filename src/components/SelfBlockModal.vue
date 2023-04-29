@@ -128,11 +128,11 @@
                 </select>
             </span>
 
-            <span class="lbl-val-span-3"> Membership: <span id="val-level"> {{ memLvl }} </span> </span>
-
             <span class="lbl-val-span-3"> Joined Since: <span id="val-joined"> {{ dateReg }} </span> </span>
 
-            <span class="lbl-val-span-3"> Expire At: <span id="val-expire"> {{ dateExp }} </span> </span>
+            <span class="lbl-val-span-3"> Membership: <span id="val-level"> {{ memLvl }} </span> </span>
+
+            <span class="lbl-val-span-3"> Expire At: <span id="val-expire"> {{ dateExp }} </span> </span>            
 
             <span class="lbl-val-span-3">
                 <label class="lbl-c3" for="val-tags">Tags:</label>
