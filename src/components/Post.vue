@@ -17,25 +17,17 @@
         </div>
         <hr id="hr-icons">
         <div id="icons">
-            <a id="comment" @click="ToggleComment()">
-                <font-awesome-icon icon="comment" /> {{ nComment }}
-            </a>
-            <a id="eye">
-                <font-awesome-icon icon="eye" /> {{ nSeen }}
-            </a>
-            <a id="bookmark" @click="Bookmark()">
-                <font-awesome-icon icon="bookmark" />
-            </a>
-            <a id="heart" @click="HeartLike()">
-                <font-awesome-icon icon="heart" /> {{ nHeart }}
-            </a>
-            <a id="thumb" @click="ThumbsUp()">
-                <font-awesome-icon icon="thumbs-up" /> {{ nThumbsUp }}
-            </a>
+            <a id="reply" @click="ToggleReply()"> <font-awesome-icon icon="comment" /> {{ nReply }} </a>
+            <a id="eye"> <font-awesome-icon icon="eye" /> {{ nSeen }} </a>
+            <a id="bookmark" @click="Bookmark()"> <font-awesome-icon icon="bookmark" /> </a>
+            <a id="heart" @click="HeartLike()"> <font-awesome-icon icon="heart" /> {{ nHeart }} </a>
+            <a id="thumb" @click="ThumbsUp()"> <font-awesome-icon icon="thumbs-up" /> {{ nThumbsUp }} </a>
         </div>
-        <hr id="hr-comment">
-        <div v-if="inputComment">
-            <CommentInput :id="props.id!" :title="props.title!" @onUpdateComment="UpdateComment" />
+        <hr id="hr-reply-blk">
+        <div v-if="blkReply">
+            <ReplyInput :id="props.id!" :title="props.title!" @onUpdateReply="UpdateReply" />
+            <hr v-if="nReply > 0" id="hr-reply">
+            <Reply v-for="i in nReply" :id="Replies[i - 1]" />
         </div>
     </div>
 </template>
@@ -43,9 +35,10 @@
 <script setup lang="ts">
 
 import { useNotification } from "@kyvg/vue3-notification";
-import { getPost, getUserAvatar, getUserFieldValue, patchInteractToggle, getInteractStatus, patchBookmark, getBookmarkStatus, patchInteractRecord, getComment } from "@/share/share";
+import { getPost, getUserAvatar, getUserFieldValue, patchInteractToggle, getInteractStatus, patchBookmark, getBookmarkStatus, patchInteractRecord, getReply } from "@/share/share";
 import { ExtractImgSrcBase64, ExtractIframeSrcUrl } from "@/share/util";
-import CommentInput from "@/components/post-components/CommentInput.vue";
+import ReplyInput from "@/components/post-components/ReplyInput.vue";
+import Reply from "@/components/post-components/Reply.vue";
 
 const props = defineProps({
     id: String,
@@ -88,12 +81,13 @@ const DidBookmark = ref(false)
 const nSeen = ref(0)
 const DidSeen = ref(false)
 
-// comment
-const inputComment = ref(false)
-const nComment = ref(0) // child 'CommentInput' updates
+// replies
+const blkReply = ref(false)
+const Replies = ref([])
+const nReply = ref(0) // child 'ReplyInput' updates this number
 
 onMounted(async () => {
-    await UpdateComment()
+    await UpdateReply()
 })
 
 watchEffect(async () => {
@@ -152,12 +146,12 @@ watchEffect(async () => {
 
     const srcImgGrp = await ExtractImgSrcBase64(ContentFmt.value)
     nImage.value = srcImgGrp.length
-    console.log("images: --->", nImage.value)
+    // console.log("images: --->", nImage.value)
     srcImgGrp.forEach((src) => { imgSrcGrp.push(src) })
 
     const srcVideoGrp = await ExtractIframeSrcUrl(ContentFmt.value)
     nVideo.value = srcVideoGrp.length
-    console.log("videos: --->", nVideo.value)
+    // console.log("videos: --->", nVideo.value)
     srcVideoGrp.forEach((src) => { videoSrcGrp.push(src) })
 
     //////////////////////////////////////////////
@@ -267,21 +261,23 @@ const Bookmark = async () => {
     DidBookmark.value = de.data
 }
 
-const ToggleComment = async () => {
-    inputComment.value = !inputComment.value
+const ToggleReply = async () => {
+    blkReply.value = !blkReply.value
 }
 
-const UpdateComment = async () => {
-    const de = await getComment(props.id!)
+// 'ReplyInput' also invoke this
+const UpdateReply = async () => {
+    const de = await getReply(props.id!)
     if (de.error != null) {
         notification.notify({
-            title: "getComment",
+            title: "getReply",
             text: de.error,
             type: "error"
         })
         return
     }
-    nComment.value = de.data.length
+    Replies.value = de.data
+    nReply.value = Replies.value.length
 }
 
 // simulate double click
@@ -314,7 +310,7 @@ const HeartLikeColor = computed(() => DidHeartLike.value ? "red" : "darkgrey")
 const ThumbsUpColor = computed(() => DidThumbsUp.value ? "blue" : "darkgrey")
 const BookmarkColor = computed(() => DidBookmark.value ? "yellowgreen" : "darkgrey")
 const EyeColor = computed(() => nSeen.value > 0 ? "black" : "darkgrey")
-const CommentColor = computed(() => nComment.value > 0 ? "lightseagreen" : "darkgrey")
+const ReplyColor = computed(() => nReply.value > 0 ? "lightseagreen" : "darkgrey")
 
 </script>
 
@@ -377,10 +373,16 @@ const CommentColor = computed(() => nComment.value > 0 ? "lightseagreen" : "dark
 
 /* ******************************** */
 
-#hr-comment {
+#hr-reply-blk {
     border-top: 0.8px #8c8b8b;
     width: 95%;
     margin-left: 5%;
+}
+
+#hr-reply {
+    border-top: 0.8px #8c8b8b;
+    width: 90%;
+    margin-left: 10%;
 }
 
 #hr-icons {
@@ -432,14 +434,14 @@ const CommentColor = computed(() => nComment.value > 0 ? "lightseagreen" : "dark
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-#comment {
+#reply {
     float: right;
-    color: v-bind(CommentColor);
+    color: v-bind(ReplyColor);
     margin-right: 3%;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-#comment:hover {
+#reply:hover {
     cursor: pointer;
 }
 </style>

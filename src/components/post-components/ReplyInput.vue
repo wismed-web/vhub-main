@@ -1,27 +1,25 @@
 <template>
-    <div class="comment-input">
-        <button id="btn-reply" @click="reply">
-            <font-awesome-icon icon="reply" />
-        </button>
-        <textarea name="input" id="ta-comment" ref="ta" v-model="comment" placeholder="comment..." @input="resize"></textarea>
-        <img :src="SelfAvatar" alt="avatar" class="avatar-area">
-    </div>
+    <button id="btn-reply" @click="onReply">
+        <font-awesome-icon icon="reply" />
+    </button>
+    <textarea name="input" id="ta-reply" ref="ta" v-model="reply" placeholder="comment..." @input="resize"></textarea>
+    <img :src="SelfAvatar" alt="avatar" class="avatar-area">
 </template>
 
 <script setup lang="ts">
 
 import { useNotification } from "@kyvg/vue3-notification"
-import { SelfAvatar, postSubmit, getTemplate, getComment } from '@/share/share'
+import { SelfAvatar, postSubmit, getTemplate } from '@/share/share'
 
 const props = defineProps({
     id: String,
     title: String,
 })
 
-const emit = defineEmits(['onUpdateComment']) // invoke Post method to update comment number etc.
+const emit = defineEmits(['onUpdateReply']) // invoke Post method to update replies number etc.
 
 const notification = useNotification()
-const comment = ref("")
+const reply = ref("")
 const ta = ref<HTMLTextAreaElement>()
 
 onMounted(async () => {
@@ -36,7 +34,7 @@ const resize = async () => {
     ta.value!.style.height = ta.value!.scrollHeight + 'px'
 }
 
-const reply = async () => {
+const onReply = async () => {
 
     let template: { topic: string; type: string; category: string; keywords: string; content_html: string; content_text: string; }
     {
@@ -56,13 +54,13 @@ const reply = async () => {
         template.category = ""
         template.keywords = ""
         template.content_html = ""
-        template.content_text = comment.value
+        template.content_text = reply.value
     }
     {
-        const de = await postSubmit(template, props.id!)
+        const de = await postSubmit(template, props.id!) // followee is NOT empty, which means it is Reply
         if (de.error != null) {
             notification.notify({
-                title: "Submit Comment",
+                title: "Submit Reply",
                 text: de.error,
                 type: "error"
             })
@@ -75,11 +73,11 @@ const reply = async () => {
         type: "success"
     })
 
-    // clear comment input
-    comment.value = ""
+    // clear reply input
+    reply.value = ""
 
-    // update comment number
-    emit('onUpdateComment')
+    // update replies number
+    emit('onUpdateReply')
 }
 
 </script>
@@ -96,7 +94,7 @@ const reply = async () => {
     object-fit: cover;
 }
 
-#ta-comment {
+#ta-reply {
     float: right;
     width: 80%;
     resize: none;

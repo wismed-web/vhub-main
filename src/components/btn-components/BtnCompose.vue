@@ -39,7 +39,7 @@ const Submit = async () => {
         template.content_text = PostJsonTEXT.value
     }
     {
-        const de = await postSubmit(template, "")
+        const de = await postSubmit(template, "") // followee is empty, which means it is Post
         if (de.error != null) {
             notification.notify({
                 title: "Submit Post",

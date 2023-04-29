@@ -264,7 +264,7 @@ export const postSubmit = async (post: any, followee: string) => {
     };
 }
 
-export const getComment = async (followee: string) => {
+export const getReply = async (followee: string) => {
     const rt = await fetchNoBody(`api/reply/${followee}`, "GET", mEmpty, loginAuth.value)
     const err = await fetchErr(rt, onExpired)
     return {
