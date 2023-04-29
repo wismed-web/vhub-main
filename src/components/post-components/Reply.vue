@@ -1,9 +1,8 @@
 <template>
     <div v-if="display" class="reply">
+        <hr id="hr-reply">
         <img :src="avatar" alt="avatar" class="avatar-area">
-        <div class="reply-content">
-            <p> {{ Content }} </p>
-        </div>
+        <textarea name="input" id="ta-reply" ref="ta" v-model="Content" readonly></textarea>
         <hr id="hr-icons">
         <div id="icons">
             <a id="heart" @click="HeartLike()"> <font-awesome-icon icon="heart" /> {{ nHeart }} </a>
@@ -43,14 +42,15 @@ const DidThumbsUp = ref(false)
 const nHeart = ref(0)
 const DidHeartLike = ref(false)
 
-onMounted(async () => {
-    console.log("--->", props.id!)
-})
+const ta = ref<HTMLTextAreaElement>()
+const resize = async () => {
+    ta.value!.style.height = 'auto'
+    ta.value!.style.height = ta.value!.scrollHeight + 'px'
+}
+
+onMounted(async () => { })
 
 watchEffect(async () => {
-
-    console.log("--->", props.id!)
-
     {
         const de = await getPost(props.id!)
         if (de.error != null) {
@@ -103,6 +103,11 @@ watchEffect(async () => {
     ContentFmt.value = PostContent.value.content_html
 
     // console.log("Content:", ContentFmt.value)
+
+    //////////////////////////////////////////////
+
+    ta.value!.value = Content.value // [v-model] affects 'ta' after 'watchEffect', so we have to manually assign value here!
+    await resize()
 
     //////////////////////////////////////////////
 
@@ -179,21 +184,23 @@ const ThumbsUpColor = computed(() => DidThumbsUp.value ? "blue" : "darkgrey")
 
 .avatar-area {
     float: left;
-    color: rgb(33, 31, 31);
-    width: 3.5em;
+    width: 2em;
     height: auto;
-    margin-left: 1%;
+    margin-left: 5%;
     margin-top: 1%;
     border-radius: 50%;
     object-fit: cover;
 }
 
-.reply-content {
-    font-size: small;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    padding: 0% 2% 0% 2%;
-    margin: auto;
-    vertical-align: middle;
+#ta-reply {
+    float: right;
+    width: 85%;
+    resize: vertical;
+    overflow: hidden;
+    padding: 1% 0% 0% 1%;
+    margin: 1% 2% 1% 0%;
+    background-color: rgb(240, 240, 240);
+    border: none;
 }
 
 /* ******************************** */
@@ -206,8 +213,8 @@ const ThumbsUpColor = computed(() => DidThumbsUp.value ? "blue" : "darkgrey")
 
 #hr-icons {
     border-top: 0.5px #8c8b8b;
-    width: 20%;
-    margin-left: 80%;
+    width: 12%;
+    margin-left: 88%;
 }
 
 #icons {
@@ -217,7 +224,7 @@ const ThumbsUpColor = computed(() => DidThumbsUp.value ? "blue" : "darkgrey")
 #thumb {
     float: right;
     color: v-bind(ThumbsUpColor);
-    margin-right: 3%;
+    margin-right: 2%;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
@@ -228,7 +235,7 @@ const ThumbsUpColor = computed(() => DidThumbsUp.value ? "blue" : "darkgrey")
 #heart {
     float: right;
     color: v-bind(HeartLikeColor);
-    margin-right: 3%;
+    margin-right: 2%;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 

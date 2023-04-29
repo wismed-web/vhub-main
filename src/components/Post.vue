@@ -26,7 +26,6 @@
         <hr id="hr-reply-blk">
         <div v-if="blkReply">
             <ReplyInput :id="props.id!" :title="props.title!" @onUpdateReply="UpdateReply" />
-            <hr v-if="nReply > 0" id="hr-reply">
             <Reply v-for="i in nReply" :id="Replies[i - 1]" />
         </div>
     </div>
@@ -377,12 +376,6 @@ const ReplyColor = computed(() => nReply.value > 0 ? "lightseagreen" : "darkgrey
     border-top: 0.8px #8c8b8b;
     width: 95%;
     margin-left: 5%;
-}
-
-#hr-reply {
-    border-top: 0.8px #8c8b8b;
-    width: 90%;
-    margin-left: 10%;
 }
 
 #hr-icons {

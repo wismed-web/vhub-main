@@ -2,7 +2,7 @@
     <button id="btn-reply" @click="onReply">
         <font-awesome-icon icon="reply" />
     </button>
-    <textarea name="input" id="ta-reply" ref="ta" v-model="reply" placeholder="comment..." @input="resize"></textarea>
+    <textarea name="input" id="ta-reply" ref="ta" v-model="reply" placeholder="write your comment..." @input="resize"></textarea>
     <img :src="SelfAvatar" alt="avatar" class="avatar-area">
 </template>
 
@@ -21,10 +21,12 @@ const emit = defineEmits(['onUpdateReply']) // invoke Post method to update repl
 const notification = useNotification()
 const reply = ref("")
 const ta = ref<HTMLTextAreaElement>()
+let OriH: string // keep ta original height, then restore it after replying.
 
 onMounted(async () => {
     ta.value!.rows = 1
     await resize()
+    OriH = ta.value!.style.height
 })
 
 watchEffect(async () => { })
@@ -73,11 +75,16 @@ const onReply = async () => {
         type: "success"
     })
 
-    // clear reply input
-    reply.value = ""
+    {
+        // update replies number in Post component
+        emit('onUpdateReply')
 
-    // update replies number
-    emit('onUpdateReply')
+        // clear reply input
+        reply.value = ""
+
+        // reset text area    
+        ta.value!.style.height = OriH
+    }
 }
 
 </script>
