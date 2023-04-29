@@ -55,7 +55,7 @@ const PostType = ref("")
 const Keywords = ref("")
 const Categories = ref("")
 const Content = ref("")
-const ContentFmt = ref("")
+const ContentFmt = ref("") // for whole format preview
 
 const nImage = ref(0)
 const imgSrcGrp: string[] = []
@@ -222,6 +222,7 @@ const DisplayContent = async () => {
     DidSeen.value = de.data.Status
 
     // Open Detail ...
+    alert("Open Detail")
 }
 
 const ThumbsUp = async () => {
@@ -350,11 +351,15 @@ const ReplyColor = computed(() => nReply.value > 0 ? "lightseagreen" : "darkgrey
     margin-right: 2%;
     height: 3em;
     text-align: right;
+    font-size: small;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 #owner-name {
-    margin-bottom: -15%;
+    margin-bottom: -25%;
 }
+
+/* #owner-id {} */
 
 .post-content {
     font-size: small;

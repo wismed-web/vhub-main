@@ -1,8 +1,12 @@
 <template>
     <div v-if="display" class="reply">
         <hr id="hr-reply">
-        <img :src="avatar" alt="avatar" class="avatar-area">
+        <div class="owner">
+            <p id="owner-name"> {{ OwnerName }} </p>
+            <p id="owner-id"> @{{ Owner }} </p>
+        </div>
         <textarea name="input" id="ta-reply" ref="ta" v-model="Content" readonly></textarea>
+        <img :src="avatar" alt="avatar" class="avatar-area">
         <hr id="hr-icons">
         <div id="icons">
             <a id="heart" @click="HeartLike()"> <font-awesome-icon icon="heart" /> {{ nHeart }} </a>
@@ -194,13 +198,27 @@ const ThumbsUpColor = computed(() => DidThumbsUp.value ? "blue" : "darkgrey")
 
 #ta-reply {
     float: right;
-    width: 85%;
+    width: 78%;
     resize: vertical;
     overflow: hidden;
     padding: 1% 0% 0% 1%;
     margin: 1% 2% 1% 0%;
     background-color: rgb(240, 240, 240);
     border: none;
+}
+
+.owner {
+    float: right;
+    width: auto;
+    height: 1em;
+    margin-right: 2%;
+    text-align: right;
+    font-size: x-small;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+#owner-name {
+    margin-bottom: -25%;
 }
 
 /* ******************************** */
