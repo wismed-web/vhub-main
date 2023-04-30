@@ -7,11 +7,15 @@
     <main v-if="display">
 
         <div v-if="Mode == 'view'">
-            <div id="container-post">
-                <Post v-for="id in PostIDGroup" :id="id" :title="id" />
+            <div v-if="PostListOn" id="container-post">
+                <Post v-for="id in PostIDGroup" :id="id" :title="id" @onRenderPost="RenderPost" />
+                <BtnViewList />
+            </div>
+            <div v-else>
+                <div v-html="PostDetail"> </div>
+                <BtnViewDetail />
             </div>
             <BtnAdmin />
-            <BtnView />
         </div>
 
         <div v-if="Mode == 'input'" id="container-input">
@@ -44,10 +48,11 @@
 
 import { useCookies } from "vue3-cookies";
 import { useNotification } from "@kyvg/vue3-notification";
-import { loginUser, loginAuth, loginToken, loginAsAdmin, getSelfName, getUserInfoList, ModalOn, Mode, getPostID, PostIDGroup, SelfInfo } from "@/share/share";
+import { loginUser, loginAuth, loginToken, loginAsAdmin, getSelfName, getUserInfoList, ModalOn, Mode, getPostID, PostIDGroup, SelfInfo, PostListOn } from "@/share/share";
 import MainTitle from "./components/MainTitle.vue";
 import SelfBlock from "./components/SelfBlock.vue";
-import BtnView from "@/components/btn-components/BtnView.vue";
+import BtnViewList from "@/components/btn-components/BtnViewList.vue";
+import BtnViewDetail from "@/components/btn-components/BtnViewDetail.vue";
 import BtnAdmin from "./components/btn-components/BtnAdmin.vue";
 import BtnCompose from "@/components/btn-components/BtnCompose.vue";
 import Post from "./components/Post.vue";
@@ -143,6 +148,12 @@ onMounted(async () => {
         }
     }
 });
+
+const PostDetail = ref("")
+const RenderPost = async (html: string) => {
+    PostDetail.value = html
+    PostListOn.value = false
+}
 
 </script>
 

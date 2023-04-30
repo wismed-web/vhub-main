@@ -1,5 +1,5 @@
 <template>
-    <div v-if="display" class="post">
+    <div v-if="bPost" class="post">
         <div class="title">
             <img :src="avatar" alt="avatar" class="avatar-area">
             <div class="owner">
@@ -68,7 +68,8 @@ const getVideoSrc = (i: number) => {
     return videoSrcGrp[i - 1]
 }
 
-const display = ref(true)
+const bPost = ref(true)
+const emit = defineEmits(['onRenderPost']) // invoke RenderPost method to render Post format detail.
 const notification = useNotification()
 
 // icons 
@@ -98,7 +99,7 @@ watchEffect(async () => {
                 text: de.error,
                 type: "error"
             })
-            display.value = false // if Post content cannot be fetched, DO NOT show it !
+            bPost.value = false // if Post content cannot be fetched, DO NOT show it !
             return
         }
         Post.value = de.data
@@ -222,7 +223,7 @@ const DisplayContent = async () => {
     DidSeen.value = de.data.Status
 
     // Open Detail ...
-    alert("Open Detail")
+    emit("onRenderPost", ContentFmt.value)
 }
 
 const ThumbsUp = async () => {
@@ -359,12 +360,18 @@ const ReplyColor = computed(() => nReply.value > 0 ? "lightseagreen" : "darkgrey
     margin-bottom: -25%;
 }
 
+#hr-title {
+    border-top: 0.8px #4095ef;
+    width: 93%;
+    margin-left: 7%;
+}
+
 /* #owner-id {} */
 
 .post-content {
     font-size: small;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    padding: 0% 2% 0% 2%;
+    padding: 0% 9% 0% 9%;
     margin: auto;
     vertical-align: middle;
 }
