@@ -18,6 +18,11 @@ export const PostJsonHTML = ref("");
 export const PostJsonTEXT = ref("");
 export const PostListOn = ref(true);
 
+export const DetailTitle = ref("");
+export const DetailAuthor = ref("");
+export const DetailTime = ref("");
+export const DetailHTML = ref("");
+
 export const ClearPost = async () => {
     PostTitle.value = ""
     PostCategories.value = ""

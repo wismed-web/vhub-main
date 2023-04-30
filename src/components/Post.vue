@@ -44,10 +44,11 @@ const props = defineProps({
     title: String
 })
 
-const Post = ref()
+const PostEvent = ref()
 const Owner = ref("")
 const avatar = ref("")
 const OwnerName = ref("")
+const PostTime = ref("")
 
 const PostContent = ref()
 const Topic = ref("")
@@ -102,8 +103,9 @@ watchEffect(async () => {
             bPost.value = false // if Post content cannot be fetched, DO NOT show it !
             return
         }
-        Post.value = de.data
-        Owner.value = Post.value.Owner
+        PostEvent.value = de.data
+        Owner.value = PostEvent.value.Owner
+        PostTime.value = PostEvent.value.Tm
     }
     {
         const de = await getUserAvatar(Owner.value)
@@ -133,7 +135,7 @@ watchEffect(async () => {
     // console.log(Post.value)
 
     // refer to /api/definition
-    PostContent.value = JSON.parse(Post.value.RawJSON)
+    PostContent.value = JSON.parse(PostEvent.value.RawJSON)
     // console.log(PostContent.value)
     Topic.value = PostContent.value.topic
     PostType.value = PostContent.value.type
@@ -223,7 +225,7 @@ const DisplayContent = async () => {
     DidSeen.value = de.data.Status
 
     // Open Detail ...
-    emit("onRenderPost", ContentFmt.value)
+    emit("onRenderPost", Topic.value, OwnerName.value, PostTime.value, ContentFmt.value) // *** Trigger Display Detail Page Rendering ***
 }
 
 const ThumbsUp = async () => {
@@ -374,6 +376,10 @@ const ReplyColor = computed(() => nReply.value > 0 ? "lightseagreen" : "darkgrey
     padding: 0% 9% 0% 9%;
     margin: auto;
     vertical-align: middle;
+}
+
+.post-content:hover {
+    cursor: pointer;
 }
 
 .media-area {

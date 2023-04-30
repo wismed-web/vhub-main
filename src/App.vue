@@ -7,12 +7,12 @@
     <main v-if="display">
 
         <div v-if="Mode == 'view'">
-            <div v-if="PostListOn" id="container-post">
+            <div v-if="PostListOn" id="container-post-list">
                 <Post v-for="id in PostIDGroup" :id="id" :title="id" @onRenderPost="RenderPost" />
                 <BtnViewList />
             </div>
-            <div v-else>
-                <div v-html="PostDetail"> </div>
+            <div v-else id="container-post-detail">
+                <PostDetail />
                 <BtnViewDetail />
             </div>
             <BtnAdmin />
@@ -41,33 +41,34 @@
     <footer v-if="display">
     </footer>
 
-    <notifications position="top center" :speed="2000" :duration="6000" :closeOnClick="false" />
+    <notifications position="top center" :speed="2000" :duration="4000" :closeOnClick="false" />
 </template>
 
 <script setup lang="ts">
 
 import { useCookies } from "vue3-cookies";
 import { useNotification } from "@kyvg/vue3-notification";
-import { loginUser, loginAuth, loginToken, loginAsAdmin, getSelfName, getUserInfoList, ModalOn, Mode, getPostID, PostIDGroup, SelfInfo, PostListOn } from "@/share/share";
+import { loginUser, loginAuth, loginToken, loginAsAdmin, getSelfName, getUserInfoList, ModalOn, Mode, getPostID, PostIDGroup, SelfInfo, PostListOn, DetailHTML, DetailTitle, DetailAuthor, DetailTime } from "@/share/share";
 import MainTitle from "./components/MainTitle.vue";
 import SelfBlock from "./components/SelfBlock.vue";
-import BtnViewList from "@/components/btn-components/BtnViewList.vue";
-import BtnViewDetail from "@/components/btn-components/BtnViewDetail.vue";
-import BtnAdmin from "./components/btn-components/BtnAdmin.vue";
-import BtnCompose from "@/components/btn-components/BtnCompose.vue";
 import Post from "./components/Post.vue";
+import PostDetail from '@/components/PostDetail.vue'
 import InputTitle from "@/components/input-components/1_Title.vue"
 import InputCategory from "@/components/input-components/2_Category.vue"
 import InputKeyword from "@/components/input-components/3_Keyword.vue"
 import UploadVideo from "@/components/input-components/4_Video.vue"
 import InputContent from "@/components/input-components/5_Content.vue"
 import UserList from "./components/UserList.vue";
+import BtnViewList from "@/components/btn-components/BtnViewList.vue";
+import BtnViewDetail from "@/components/btn-components/BtnViewDetail.vue";
+import BtnAdmin from "./components/btn-components/BtnAdmin.vue";
+import BtnCompose from "@/components/btn-components/BtnCompose.vue";
 import BtnUserList from "./components/btn-components/BtnUserList.vue";
 
 const { cookies } = useCookies();
 const notification = useNotification()
 
-const HeightOfContent = ref((window.innerHeight * 0.9).toString() + "px");
+const HeightOfContent = ref((window.innerHeight * 0.91).toString() + "px");
 const HeightOfInput = ref((window.innerHeight * 0.84).toString() + "px");
 const display = ref(false);
 
@@ -149,9 +150,14 @@ onMounted(async () => {
     }
 });
 
-const PostDetail = ref("")
-const RenderPost = async (html: string) => {
-    PostDetail.value = html
+const RenderPost = async (title: string, author: string, time: string, html: string) => {
+    // assign detail value from Post clicking
+    DetailTitle.value = title
+    DetailAuthor.value = author
+    DetailTime.value = time
+    DetailHTML.value = html
+
+    // display detail page
     PostListOn.value = false
 }
 
@@ -167,7 +173,7 @@ body {
 
 /* ///////////////////////////////// */
 
-#container-post {
+#container-post-list {
     width: 50%;
     height: v-bind(HeightOfContent);
     margin: auto;
@@ -179,7 +185,25 @@ body {
     align-items: stretch;
 }
 
-#container-post::-webkit-scrollbar {
+#container-post-list::-webkit-scrollbar {
+    display: none;
+}
+
+#container-post-detail {
+    width: 50%;
+    height: v-bind(HeightOfContent);
+    margin: auto;
+    overflow: auto;
+    /* overflow-x: hidden; */
+    scrollbar-width: auto;
+    background-color: rgb(250, 250, 250);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    box-shadow: 4px 3px 4px #999;
+}
+
+#container-post-detail::-webkit-scrollbar {
     display: none;
 }
 
