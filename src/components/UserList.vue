@@ -11,7 +11,7 @@
 
 import { useOverlayMeta, renderOverlay } from '@unoverlays/vue'
 import { useNotification } from "@kyvg/vue3-notification";
-import { getUserInfoList, getUserOnline, putUser, ModalOn } from "@/share/share";
+import { getUserInfoList, getUserOnline, putUser, ModalOn, SelfInfo } from "@/share/share";
 import TextLine from "@/components/sub-components/TextLine.vue";
 import type { Header, Item } from "vue3-easy-data-table";
 import Vue3EasyDataTable from "vue3-easy-data-table";
@@ -82,7 +82,7 @@ const reloadTable = async () => {
             const uname = user["uname"];
             const email = user["email"];
             const active = user["active"];
-            const role = user["role"];
+            const role = (user["role"] as string).length == 0 ? 'user' : user["role"];
             const joined = (user["regtime"] as string).substring(0, 10); // only retrieve YYYY-MM-DD
 
             items.value.push({
@@ -133,6 +133,17 @@ const PopupModal = async (item: ClickRowArgument) => {
     // console.log(item);
 
     if (ModalOn.value) {
+        return
+    }
+
+    // user setting restrictions
+    //
+    if (SelfInfo.value.role != 'admin' && SelfInfo.value.role != 'system') {
+        notification.notify({
+            title: "",
+            text: "you are not authorized to set user",
+            type: "warn"
+        })
         return
     }
     if (item['online']) {
